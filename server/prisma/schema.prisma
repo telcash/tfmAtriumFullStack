@@ -9,3 +9,119 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           Int    @id @default(autoincrement())
+  role         Role @default(CLIENT)
+  firstName    String
+  lastName     String
+  email        String @unique
+  passwordHash String
+  mobile       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  addresses UsersOnAddresses[]
+  orders Order[]
+  carts Cart[]
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  street String
+  postalCode String
+  city String
+  country String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders Order[]
+  users UsersOnAddresses[]
+}
+
+model UsersOnAddresses {
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId Int
+  address Address @relation(fields: [addressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  addressId Int
+
+  @@id([userId, addressId])
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  address Address @relation(fields: [addressId], references: [id])
+  addressId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products ProductsOnOrders[]
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products ProductsOnCarts[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  price Float
+  image Float
+  stock Int
+  availability String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders ProductsOnOrders[]
+  carts ProductsOnCarts[]
+  categories ProductsOnCategories[]
+}
+
+model ProductsOnOrders {
+  product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId Int
+  order Order @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId Int
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([productId, orderId])
+}
+
+model ProductsOnCarts {
+  product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId Int
+  cart Cart @relation(fields: [cartId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  cartId Int
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([productId, cartId])
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  products ProductsOnCategories[]
+}
+
+model ProductsOnCategories {
+  product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId Int
+  category Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  categoryId Int
+
+  @@id([productId, categoryId])
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
