@@ -16,7 +16,7 @@ export class UsersService {
         }).catch(() => {
             throw new BadRequestException("Usuario no existe");
         })
-        const { password, ...result} = user
-        return result;
+        //const { password, ...result} = user
+        return user;
     }
 }

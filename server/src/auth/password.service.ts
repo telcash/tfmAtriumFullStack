@@ -9,4 +9,8 @@ export class PasswordService {
         return bcrypt.hash(password, salt);
     }
 
+    async isMatch(password: string, hash: string): Promise<boolean> {
+        return bcrypt.compare(password, hash)
+    }
+
 }
