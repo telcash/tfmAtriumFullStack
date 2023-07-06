@@ -6,7 +6,7 @@ export class UsersService {
     constructor(private prisma: PrismaService){}
 
 
-    
+
 
     async findUserByEmail(email: string): Promise<any> {
         const user = await this.prisma.user.findUniqueOrThrow({
@@ -16,7 +16,7 @@ export class UsersService {
         }).catch(() => {
             throw new BadRequestException("Usuario no existe");
         })
-        const { passwordHash, ...result} = user
+        const { password, ...result} = user
         return result;
     }
 }

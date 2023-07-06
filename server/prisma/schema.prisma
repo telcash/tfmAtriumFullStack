@@ -16,7 +16,7 @@ model User {
   firstName    String
   lastName     String
   email        String @unique
-  passwordHash String
+  password String @map("passwordHash")
   mobile       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
