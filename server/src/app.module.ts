@@ -20,7 +20,7 @@ import { AllExceptionsFilter } from './filters/all-exceptions.filter';
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
-    }
+    },
   ],
 })
 export class AppModule {}

@@ -31,7 +31,7 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_FILTER,
                 useClass: all_exceptions_filter_1.AllExceptionsFilter,
-            }
+            },
         ],
     })
 ], AppModule);
