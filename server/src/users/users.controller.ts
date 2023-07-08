@@ -27,18 +27,18 @@ export class UsersController {
 
     @UseGuards(JwtAuthGuard)
     @Patch('profile')
-    async updateUser(
+    async update(
         @Body() dto: UpdateUserDto,
         @Request() req
     ) {
-        return new UserEntity(await this.usersService.updateUser(req.user.email, dto));
+        return new UserEntity(await this.usersService.update(req.user.email, dto));
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete('profile')
-    async deleteUser(
+    async remove(
         @Request() req
     ) {
-        return new UserEntity(await this.usersService.deleteUser(req.user.id));
+        return new UserEntity(await this.usersService.remove(req.user.id));
     }
 }

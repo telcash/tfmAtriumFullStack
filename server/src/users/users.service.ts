@@ -23,7 +23,7 @@ export class UsersService {
         return user;
     }
 
-    async updateUser(email: string, dto: UpdateUserDto) {
+    async update(email: string, dto: UpdateUserDto) {
         const updatedUser = await this.prisma.user.update({
             data: dto,
             where: {
@@ -33,7 +33,7 @@ export class UsersService {
         return updatedUser;
     }
   
-    async deleteUser(email: string) {
+    async remove(email: string) {
         const deletedUser = await this.prisma.user.delete({
             where: {
                 email: email,
