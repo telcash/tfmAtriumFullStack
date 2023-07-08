@@ -15,7 +15,7 @@ const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
 const core_1 = require("@nestjs/core");
-const all_exceptions_filter_1 = require("./filters/all-exceptions.filter");
+const all_exceptions_filter_1 = require("./common/filters/all-exceptions.filter");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
