@@ -41,7 +41,6 @@ export class UsersService {
                 id: id,
             },
         });
-        console.log(user);
         return user;
     }
   

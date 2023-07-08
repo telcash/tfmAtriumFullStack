@@ -17,20 +17,26 @@ import {
       const { httpAdapter } = this.httpAdapterHost;
   
       const ctx = host.switchToHttp();
-  
+      
       const httpStatus =
         exception instanceof HttpException
           ? exception.getStatus()
           : HttpStatus.INTERNAL_SERVER_ERROR;
-  
+
       const message = 
         exception instanceof HttpException
           ? exception.message
           : "Internal Server Error";
-      
+
+      const response =
+        exception instanceof HttpException
+          ? exception.getResponse()
+          : {};
+
       const responseBody = {
         statusCode: httpStatus,
         message: message,
+        response: response,
         timestamp: new Date().toISOString(),
         path: httpAdapter.getRequestUrl(ctx.getRequest()),
         method: httpAdapter.getRequestMethod(ctx.getRequest()),
