@@ -19,4 +19,8 @@ export class UpdateUserDto {
     @MinLength(9)
     @MaxLength(15)
     mobile?: string;
+
+    @IsOptional()
+    @IsString()
+    refreshToken?: string;
 }
