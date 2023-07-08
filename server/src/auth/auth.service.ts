@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PasswordService } from './password.service';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -25,23 +26,19 @@ export class AuthService {
         return user;
     }
 
-    async validateUser(email: string, password: string): Promise<any> {
+    async validateUser(email: string, password: string): Promise<User | null> {
         const user = await this.usersService.findUserByEmail(email);
         if (user && await this.passwordService.isMatch(password, user.password)) {
-            const { password, ...result} = user;
-            return result;
+            return user;
         }
         return null;
     }
 
     async login(user: any) {
         const payload = {
-            id: user.id,
-            role: user.role,
-            firstName: user.firstName,
-            lastName: user.lastName,
             email: user.email,
-            mobile: user.mobile
+            role: user.role,
+            sub: user.id
         }
         return {
             access_token: this.jwtService.sign(payload),

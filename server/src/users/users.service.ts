@@ -6,19 +6,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
     constructor(private prisma: PrismaService){}
 
-    async getAllUsers(): Promise<any[]> {
-        const users = await this.prisma.user.findMany({
-            select: {
-                id: true,
-                role: true,
-                firstName: true,
-                lastName: true,
-                email: true,
-                mobile: true,
-                createdAt: true,
-                updatedAt: true,
-            }
-        });
+    async findAll(): Promise<any[]> {
+        const users = await this.prisma.user.findMany();
         return users;
     }
 
@@ -34,27 +23,25 @@ export class UsersService {
         return user;
     }
 
-    async updateUser(id: number, dto: UpdateUserDto) {
-        const user = await this.prisma.user.update({
+    async updateUser(email: string, dto: UpdateUserDto) {
+        const updatedUser = await this.prisma.user.update({
             data: dto,
             where: {
-                id: id,
+                email: email,
             },
         });
-        return user;
+        return updatedUser;
     }
   
-    async deleteUser(id: number) {
+    async deleteUser(email: string) {
         const deletedUser = await this.prisma.user.delete({
             where: {
-                id: id,
+                email: email,
             },
         })
         if(!deletedUser) {
             throw new BadRequestException("User not found");
         }
-        return {
-            message: 'User deleted'
-        };
+        return deletedUser;
     }
 }

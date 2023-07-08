@@ -8,8 +8,8 @@ export class AuthController {
     constructor(private authService: AuthService){}
 
     @Post('signup')
-    createUser(@Body() data: CreateUserDto){
-        return this.authService.createUser(data);
+    createUser(@Body() dto: CreateUserDto){
+        return this.authService.createUser(dto);
     }
 
     @UseGuards(LocalAuthGuard)

@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { UserEntity } from './models/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -13,30 +14,31 @@ export class UsersController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ADMIN)
     @Get()
-    getAllUsers() {
-        return this.usersService.getAllUsers();
+    async findAll() {
+        const users = await this.usersService.findAll();
+        return users.map((user) => new UserEntity(user));
     }
 
     @UseGuards(JwtAuthGuard)
     @Get('profile')
-    getUser(@Request() req) {
-        return req.user;
+    async findOne(@Request() req) {
+        return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 
     @UseGuards(JwtAuthGuard)
     @Patch('profile')
-    updateUser(
+    async updateUser(
         @Body() dto: UpdateUserDto,
         @Request() req
     ) {
-        return this.usersService.updateUser(req.user.id, dto);
+        return new UserEntity(await this.usersService.updateUser(req.user.email, dto));
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete('profile')
-    deleteUser(
+    async deleteUser(
         @Request() req
     ) {
-        return this.usersService.deleteUser(req.user.id);
+        return new UserEntity(await this.usersService.deleteUser(req.user.id));
     }
 }
