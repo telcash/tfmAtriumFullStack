@@ -16,6 +16,9 @@ export class UserEntity implements User {
     mobile: string;
 
     @Exclude()
+    refreshToken: string;
+
+    @Exclude()
     password: string;
 
     createdAt: Date;
