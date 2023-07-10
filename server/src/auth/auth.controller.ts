@@ -19,13 +19,13 @@ export class AuthController {
      * @returns {UserEntity} - Usuario creado
      */
     @Post('signup')
-    async signup(@Body() dto: CreateUserDto){
+    async signup(@Body() dto: CreateUserDto): Promise<UserEntity>{
         return new UserEntity(await this.authService.signup(dto));
     }
 
     /**
      * Endpoint para cierre se sesión
-     * Protegido por @Guard JwtAccessGuard
+     * Protegido por JwtAccessGuard
      * @param req
      */
     @UseGuards(JwtAccessGuard)
@@ -36,7 +36,7 @@ export class AuthController {
 
     /**
      * Endpoint para inicio de sesion de usuario
-     * Protegido por @Guard LocalAuthGuard
+     * Protegido por LocalAuthGuard
      * @param req 
      * @returns 
      */
@@ -48,7 +48,7 @@ export class AuthController {
 
     /**
      * Endpoint para actualización de tokens
-     * Protegido por @Guard JwtRefreshGuard
+     * Protegido por JwtRefreshGuard
      * @param req 
      * @returns 
      */

@@ -9,7 +9,7 @@ import { UserEntity } from './models/user.entity';
 
 /**
  * Controlador del modulo UsersModule
- * Endpoints protegidos por el @Guard JwtAccessGuard
+ * Endpoints protegidos por JwtAccessGuard
  */
 @Controller('users')
 @UseGuards(JwtAccessGuard)
@@ -18,13 +18,13 @@ export class UsersController {
 
     /**
      * Endpoint para obtener un listado de todos los usuarios
-     * Protegido por el @Guard RoleGuard
+     * Endpoint protegido por RoleGuard
      * @returns {UserEntity[]} - Listado de usuarios
      */
     @UseGuards(RoleGuard)
     @Roles(Role.ADMIN)
     @Get()
-    async findAll() {
+    async findAll(): Promise<UserEntity[]> {
         const users = await this.usersService.findAll();
         return users.map((user) => new UserEntity(user));
     }
@@ -35,7 +35,7 @@ export class UsersController {
      * @returns - Datos del usuario que hace la petición
      */
     @Get('profile')
-    async findOne(@Request() req) {
+    async findOne(@Request() req): Promise<UserEntity> {
         return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 
@@ -49,7 +49,7 @@ export class UsersController {
     async update(
         @Body() dto: UpdateUserDto,
         @Request() req
-    ) {
+    ): Promise<UserEntity> {
         return new UserEntity(await this.usersService.update(req.user.email, dto));
     }
 
@@ -59,9 +59,7 @@ export class UsersController {
      * @returns - Datos del usuario eliminado
      */
     @Delete('profile')
-    async remove(
-        @Request() req
-    ) {
+    async remove(@Request() req): Promise<UserEntity> {
         return new UserEntity(await this.usersService.remove(req.user.id));
     }
 }

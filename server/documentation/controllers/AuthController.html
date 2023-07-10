@@ -72,6 +72,13 @@
             </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Controlador del modulo AuthModule</p>
+
+            </p>
 
 
 
@@ -156,14 +163,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/auth/auth.controller.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/auth/auth.controller.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Endpoint para inicio de sesion de usuario
+Protegido por @Guard LocalAuthGuard</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -225,20 +235,23 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@UseGuards(JwtAuthGuard)<br />@Get(&#x27;logout&#x27;)<br /></code>
+                    <code>@UseGuards(JwtAccessGuard)<br />@Get(&#x27;logout&#x27;)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/auth/auth.controller.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/auth/auth.controller.ts:33</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Endpoint para cierre se sesión
+Protegido por @Guard JwtAccessGuard</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -306,14 +319,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/auth/auth.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/auth/auth.controller.ts:57</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Endpoint para actualización de tokens
+Protegido por @Guard JwtRefreshGuard</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -381,14 +397,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/auth/auth.controller.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/auth/auth.controller.ts:22</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Endpoint para registro/creacion de usuario</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -399,6 +417,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -413,6 +432,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Data transfer object para la creación de un usuario</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -424,7 +449,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario creado</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -439,30 +467,55 @@ import { CreateUserDto } from &#x27;./dto/create-user.dto&#x27;;
 import { AuthService } from &#x27;./auth.service&#x27;;
 import { LocalAuthGuard } from &#x27;./guards/local-auth.guard&#x27;;
 import { UserEntity } from &#x27;../users/models/user.entity&#x27;;
-import { JwtAuthGuard } from &#x27;./guards/jwt-auth.guard&#x27;;
+import { JwtAccessGuard } from &#x27;./guards/jwt-access.guard&#x27;;
 import { JwtRefreshGuard } from &#x27;./guards/jwt-refresh.guard&#x27;;
 
+/**
+ * Controlador del modulo AuthModule
+ */
 @Controller(&#x27;auth&#x27;)
 export class AuthController {
     constructor(private authService: AuthService){}
 
+    /**
+     * Endpoint para registro/creacion de usuario
+     * @param {CreateUserDto} dto - Data transfer object para la creación de un usuario 
+     * @returns {UserEntity} - Usuario creado
+     */
     @Post(&#x27;signup&#x27;)
     async signup(@Body() dto: CreateUserDto){
         return new UserEntity(await this.authService.signup(dto));
     }
 
-    @UseGuards(JwtAuthGuard)
+    /**
+     * Endpoint para cierre se sesión
+     * Protegido por @Guard JwtAccessGuard
+     * @param req
+     */
+    @UseGuards(JwtAccessGuard)
     @Get(&#x27;logout&#x27;)
     logout(@Request() req) {
         this.authService.logout(req.user.email);
     }
 
+    /**
+     * Endpoint para inicio de sesion de usuario
+     * Protegido por @Guard LocalAuthGuard
+     * @param req 
+     * @returns 
+     */
     @UseGuards(LocalAuthGuard)
     @Post(&#x27;login&#x27;)
     login(@Request() req) {
         return this.authService.login(req.user);
     }
 
+    /**
+     * Endpoint para actualización de tokens
+     * Protegido por @Guard JwtRefreshGuard
+     * @param req 
+     * @returns 
+     */
     @UseGuards(JwtRefreshGuard)
     @Get(&#x27;refresh&#x27;)
     refreshTokens(@Request() req) {

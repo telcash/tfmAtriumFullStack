@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from '@prisma/client';
 
 /**
  * Servicio que implementa las funciones de usuario
@@ -11,9 +12,9 @@ export class UsersService {
 
     /**
      * Encuentra todos los usuarios en la base de datos
-     * @returns - Listado de usuarios en la base de datos
+     * @returns {User[]} - Listado de usuarios en la base de datos
      */
-    async findAll(): Promise<any[]> {
+    async findAll(): Promise<User[]> {
         const users = await this.prisma.user.findMany();
         return users;
     }
@@ -23,7 +24,7 @@ export class UsersService {
      * @param {string} email - email del usuario a buscar
      * @returns - Usuario correspondiente
      */
-    async findUserByEmail(email: string): Promise<any> {
+    async findUserByEmail(email: string): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: email,
@@ -41,13 +42,16 @@ export class UsersService {
      * @param {UpdateUserDto} dto - Data transfer object con los datos a actualizar
      * @returns - Usuario actualizado
      */
-    async update(email: string, dto: UpdateUserDto) {
+    async update(email: string, dto: UpdateUserDto): Promise<User> {
         const updatedUser = await this.prisma.user.update({
             data: dto,
             where: {
                 email: email,
             },
         });
+        if(!updatedUser) {
+            throw new BadRequestException("User not found");
+        }
         return updatedUser;
     }
   
@@ -56,7 +60,7 @@ export class UsersService {
      * @param {string} email - email del usuario a eliminar 
      * @returns - Usuario eliminado
      */
-    async remove(email: string) {
+    async remove(email: string): Promise<User> {
         const deletedUser = await this.prisma.user.delete({
             where: {
                 email: email,

@@ -68,6 +68,15 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Estrategia que ejecuta el Guard JwtAccessGuard
+Usa la libreria passport-jwt
+Hereda de PassportStrategy</p>
+
+            </p>
 
 
 
@@ -111,10 +120,17 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/auth/strategies/jwt-access.strategy.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/auth/strategies/jwt-access.strategy.ts:11</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor que invoca al Constructor de PassportStrategy
+Verifica que existe un token válido en el request</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -146,14 +162,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/auth/strategies/jwt-access.strategy.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/auth/strategies/jwt-access.strategy.ts:29</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Implementacion de la funcion validate de la estrategia</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -164,6 +182,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -178,6 +197,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Payload del token validado</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -189,7 +214,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Payload del token validado</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -205,10 +233,17 @@
 import { PassportStrategy } from &quot;@nestjs/passport&quot;;
 import { ExtractJwt, Strategy } from &quot;passport-jwt&quot;;
 
-
-
+/**
+ * Estrategia que ejecuta el Guard JwtAccessGuard
+ * Usa la libreria passport-jwt
+ * Hereda de PassportStrategy
+ */
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, &#x27;jwt&#x27;) {
+    /**
+     * Constructor que invoca al Constructor de PassportStrategy
+     * Verifica que existe un token válido en el request
+     */
     constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -217,6 +252,11 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, &#x27;jwt&#x27
         })
     }
 
+    /**
+     * Implementacion de la funcion validate de la estrategia
+     * @param payload - Payload del token validado
+     * @returns - Payload del token validado
+     */
     async validate(payload: any) {
         return payload;
     }

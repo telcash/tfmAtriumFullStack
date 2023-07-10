@@ -6,6 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
+import { UserEntity } from 'src/users/models/user.entity';
 
 /**
  * Servicio que implementa las funciones de autorización y autenticación
@@ -25,7 +26,7 @@ export class AuthService {
      * @param {CreateUserDto} dto - Data transfer object del usuario a crear
      * @returns {User} - Usuario en la base de datos
      */
-    async signup(dto: CreateUserDto): Promise<any> {
+    async signup(dto: CreateUserDto): Promise<User> {
         // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
         const hashedPassword = await this.hashService.hashData(dto.password);
 

@@ -72,6 +72,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Data Transfer Object para creación (signup) de un usuario</p>
+
+            </p>
 
 
 
@@ -369,7 +376,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Role } from &quot;@prisma/client&quot;;
 import { IsEmail, IsNotEmpty, IsString, IsStrongPassword, MaxLength, MinLength } from &quot;class-validator&quot;;
 
-
+/**
+ * Data Transfer Object para creación (signup) de un usuario
+ */
 export class CreateUserDto {
     role: Role;
 

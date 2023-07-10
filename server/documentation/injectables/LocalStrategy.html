@@ -68,6 +68,15 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Estrategia que ejecuta el Guard LocalGuard
+Usa la libreria passport-local
+Hereda de PassportStrategy</p>
+
+            </p>
 
 
 
@@ -111,12 +120,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/auth/strategies/local.strategy.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/auth/strategies/local.strategy.ts:12</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Constructor que invoca al Constructor de PassportStrategy
+Establece el email como username</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -176,14 +188,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">src/auth/strategies/local.strategy.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/auth/strategies/local.strategy.ts:29</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Implementacion de la funcion validate de la estrategia</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -194,6 +208,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -208,6 +223,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario a validar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>password</td>
@@ -220,6 +241,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>password del usuario a validar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -231,7 +258,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario validado</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -248,15 +278,29 @@ import { PassportStrategy } from &quot;@nestjs/passport&quot;;
 import { Strategy } from &quot;passport-local&quot;;
 import { AuthService } from &quot;../auth.service&quot;;
 
-
+/**
+ * Estrategia que ejecuta el Guard LocalGuard
+ * Usa la libreria passport-local
+ * Hereda de PassportStrategy
+ */
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
+    /**
+     * Constructor que invoca al Constructor de PassportStrategy
+     * Establece el email como username
+     */
     constructor(private authService: AuthService) {
         super({
             usernameField: &#x27;email&#x27;
         })
     }
 
+    /**
+     * Implementacion de la funcion validate de la estrategia
+     * @param {string} email - email del usuario a validar
+     * @param {string} password - password del usuario a validar
+     * @returns - Usuario validado
+     */
     async validate(email: string, password: string): Promise&lt;any&gt; {
         const user &#x3D; await this.authService.validateUser(email, password);
         if(!user) {

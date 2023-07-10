@@ -68,6 +68,15 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Estrategia que ejecuta el Guard JwtRefreshGuard
+Usa la libreria passport-jwt
+Hereda de PassportStrategy</p>
+
+            </p>
 
 
 
@@ -111,10 +120,17 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/auth/strategies/jwt-refresh.strategy.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/auth/strategies/jwt-refresh.strategy.ts:12</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor que invoca al Constructor de PassportStrategy
+Verifica que existe un token válido en el request</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -146,14 +162,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/auth/strategies/jwt-refresh.strategy.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/auth/strategies/jwt-refresh.strategy.ts:32</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Implementacion de la funcion validate de la estrategia</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -164,6 +182,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,6 +196,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Request</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>payload</td>
@@ -189,6 +214,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Payload del token validado</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -200,7 +231,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Payload del token validado y el refreshToken</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -217,9 +251,17 @@ import { PassportStrategy } from &quot;@nestjs/passport&quot;;
 import { ExtractJwt, Strategy } from &quot;passport-jwt&quot;;
 
 
-
+/**
+ * Estrategia que ejecuta el Guard JwtRefreshGuard
+ * Usa la libreria passport-jwt
+ * Hereda de PassportStrategy
+ */
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, &#x27;jwt-refresh&#x27;) {
+    /**
+     * Constructor que invoca al Constructor de PassportStrategy
+     * Verifica que existe un token válido en el request
+     */
     constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -229,8 +271,16 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, &#x27;jwt-ref
         })
     }
 
+    /**
+     * Implementacion de la funcion validate de la estrategia
+     * @param req - Request 
+     * @param payload - Payload del token validado
+     * @returns - Payload del token validado y el refreshToken
+     */
     async validate(@Request() req, payload: any) {
+        // Extrae el token del request
         const refreshToken &#x3D; req.get(&#x27;Authorization&#x27;).replace(&#x27;Bearer&#x27;, &#x27;&#x27;).trim();
+        
         return { ...payload, refreshToken};
     }
 }</code></pre>

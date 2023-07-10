@@ -68,6 +68,14 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Guard que verifica que las credenciales de login sean válidas
+Usa la estrategia LocalStrategy</p>
+
+            </p>
 
 
 
@@ -82,6 +90,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@nestjs/common&quot;;
 import { AuthGuard } from &quot;@nestjs/passport&quot;;
 
+/**
+ * Guard que verifica que las credenciales de login sean válidas
+ * Usa la estrategia LocalStrategy
+ */
 @Injectable()
 export class LocalAuthGuard extends AuthGuard(&#x27;local&#x27;) {}</code></pre>
     </div>

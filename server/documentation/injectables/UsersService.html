@@ -68,6 +68,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Servicio que implementa las funciones de usuario</p>
+
+            </p>
 
 
 
@@ -123,7 +130,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/users/users.service.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/users/users.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -188,17 +195,27 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">src/users/users.service.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">src/users/users.service.ts:17</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Encuentra todos los usuarios en la base de datos</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any[]&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;User[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>Listado de usuarios en la base de datos</li>
+</ul>
 
                     </div>
                 </td>
@@ -227,14 +244,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/users/users.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/users/users.service.ts:27</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Encuentra en la base de datos al usuario correspondiente a un email</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -245,6 +264,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -259,6 +279,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario a buscar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -270,7 +296,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario correspondiente</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -298,14 +327,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/users/users.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">src/users/users.service.ts:60</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Elimina de la base de datos al usuario correspondiente a un email</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -316,6 +347,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -330,6 +362,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario a eliminar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -341,7 +379,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario eliminado</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -369,14 +410,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/users/users.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/users/users.service.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Actualiza en la base de datos al usuario correspondiente a un email</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -387,6 +430,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -401,6 +445,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario a actualizar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>dto</td>
@@ -413,6 +463,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Data transfer object con los datos a actualizar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -424,7 +480,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario actualizado</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -439,16 +498,29 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BadRequestException, Injectable } from &#x27;@nestjs/common&#x27;;
 import { PrismaService } from &#x27;src/prisma/prisma.service&#x27;;
 import { UpdateUserDto } from &#x27;./dto/update-user.dto&#x27;;
+import { User } from &#x27;@prisma/client&#x27;;
 
+/**
+ * Servicio que implementa las funciones de usuario
+ */
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService){}
 
-    async findAll(): Promise&lt;any[]&gt; {
+    /**
+     * Encuentra todos los usuarios en la base de datos
+     * @returns {User[]} - Listado de usuarios en la base de datos
+     */
+    async findAll(): Promise&lt;User[]&gt; {
         const users &#x3D; await this.prisma.user.findMany();
         return users;
     }
 
+    /**
+     * Encuentra en la base de datos al usuario correspondiente a un email
+     * @param {string} email - email del usuario a buscar
+     * @returns - Usuario correspondiente
+     */
     async findUserByEmail(email: string): Promise&lt;any&gt; {
         const user &#x3D; await this.prisma.user.findUnique({
             where: {
@@ -461,6 +533,12 @@ export class UsersService {
         return user;
     }
 
+    /**
+     * Actualiza en la base de datos al usuario correspondiente a un email
+     * @param {string} email - email del usuario a actualizar
+     * @param {UpdateUserDto} dto - Data transfer object con los datos a actualizar
+     * @returns - Usuario actualizado
+     */
     async update(email: string, dto: UpdateUserDto) {
         const updatedUser &#x3D; await this.prisma.user.update({
             data: dto,
@@ -471,6 +549,11 @@ export class UsersService {
         return updatedUser;
     }
   
+    /**
+     * Elimina de la base de datos al usuario correspondiente a un email
+     * @param {string} email - email del usuario a eliminar 
+     * @returns - Usuario eliminado
+     */
     async remove(email: string) {
         const deletedUser &#x3D; await this.prisma.user.delete({
             where: {

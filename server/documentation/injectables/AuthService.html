@@ -68,6 +68,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Servicio que implementa las funciones de autorización y autenticación</p>
+
+            </p>
 
 
 
@@ -135,7 +142,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/auth/auth.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/auth/auth.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -248,14 +255,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/auth/auth.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">src/auth/auth.service.ts:92</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Genera el accessToken y refreshToken para un usuario</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -266,6 +275,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -280,6 +290,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Usuario al que se le crearan los tokens</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -291,7 +307,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Tokens para el usuario</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -319,14 +338,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/auth/auth.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/auth/auth.service.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Realiza el login de un usuario autenticado</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -337,6 +358,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -351,6 +373,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Usuario autenticado</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -362,7 +390,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>accessToken y refreshToken del usuario</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -390,14 +421,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/auth/auth.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/auth/auth.service.ts:82</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Realiza el logout de un usuario autenticado</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -408,6 +441,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -422,6 +456,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -433,7 +473,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario con refreshToken null</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -461,14 +504,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/auth/auth.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/auth/auth.service.ts:144</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Genera nuevos tokens para un usuario dado un refreshToken</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -479,6 +524,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -493,6 +539,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>email del usuario</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>refreshToken</td>
@@ -505,6 +557,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>refreshToken del usuario</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -516,7 +574,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Tokens nuevos para el usuario</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -544,14 +605,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/auth/auth.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/auth/auth.service.ts:28</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Crea un usuario en la base de datos</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -562,6 +625,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -576,6 +640,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Data transfer object del usuario a crear</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -587,7 +657,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario en la base de datos</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -615,14 +688,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/auth/auth.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/auth/auth.service.ts:130</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Actualiza el refreshToken de un usuario en la base de datos</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -698,14 +773,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/auth/auth.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/auth/auth.service.ts:48</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Valida las credenciales de inicio de sesión de un usuario</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -716,6 +793,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -730,6 +808,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Credencial email del usuario que intenta iniciar sesión</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>password</td>
@@ -742,6 +826,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Credencial password del usuario que intenta iniciar sesión</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -753,7 +843,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Usuario si las credenciales son válidas, sino null</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -774,6 +867,9 @@ import { JwtService } from &#x27;@nestjs/jwt&#x27;;
 import { User } from &#x27;@prisma/client&#x27;;
 import { ConfigService } from &#x27;@nestjs/config&#x27;;
 
+/**
+ * Servicio que implementa las funciones de autorización y autenticación
+ */
 @Injectable()
 export class AuthService {
     constructor(
@@ -784,8 +880,16 @@ export class AuthService {
         private configService: ConfigService,
     ){}
 
+    /**
+     * Crea un usuario en la base de datos
+     * @param {CreateUserDto} dto - Data transfer object del usuario a crear
+     * @returns {User} - Usuario en la base de datos
+     */
     async signup(dto: CreateUserDto): Promise&lt;any&gt; {
+        // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
         const hashedPassword &#x3D; await this.hashService.hashData(dto.password);
+
+        // Insertamos usuario en la base de datos
         const user &#x3D; await this.prisma.user.create({
             data: {
                 ...dto,
@@ -795,30 +899,66 @@ export class AuthService {
         return user;
     }
 
+    /**
+     * Valida las credenciales de inicio de sesión de un usuario
+     * @param {string} email - Credencial email del usuario que intenta iniciar sesión
+     * @param {string} password - Credencial password del usuario que intenta iniciar sesión
+     * @returns {User | null} - Usuario si las credenciales son válidas, sino null
+     */
     async validateUser(email: string, password: string): Promise&lt;User | null&gt; {
+
+        // Buscamos en la base de datos el usuario registrado con el email
         const user &#x3D; await this.usersService.findUserByEmail(email);
+
+        // Si existe el usuario comparamos el password recibido con el password de la base de datos
         if (user &amp;&amp; await this.hashService.isMatch(password, user.password)) {
             return user;
         }
+
+        // Retorna null si las credenciales no son válidas
         return null;
     }
 
+    /**
+     * Realiza el login de un usuario autenticado
+     * @param user - Usuario autenticado
+     * @returns - accessToken y refreshToken del usuario
+     */
     async login(user: any) {
+        // Genera los tokens para el usuario autenticado
         const tokens &#x3D; await this.getTokens(user);
+
+        // Actualiza en la base de datos el refreshToken del usuario autenticado
         await this.updateRefreshToken(user.email, tokens.refreshToken);
+        
         return tokens;
     }
 
+    /**
+     * Realiza el logout de un usuario autenticado
+     * @param {string} email - email del usuario 
+     * @returns - Usuario con refreshToken null
+     */
     async logout(email: string) {
+        // Establece como null el refreshToken del usuario en la base de datos
         return this.usersService.update(email, { refreshToken: null });
     }
 
+    /**
+     * Genera el accessToken y refreshToken para un usuario
+     * @param user - Usuario al que se le crearan los tokens
+     * @returns - Tokens para el usuario
+     */
     async getTokens(user: any) {
+
+        // Establece el payload que tendrán los tokens generados
         const payload &#x3D; {
             sub: user.id,
             email: user.email,
             role: user.role,
         }
+
+        // Genera los tokens con el servicio jwtService
         const [accessToken, refreshToken] &#x3D; await Promise.all([
             this.jwtService.signAsync(
                 payload,
@@ -835,28 +975,53 @@ export class AuthService {
                 },
             ),
         ]);
+
         return {
             accessToken,
             refreshToken,
         }
     }
 
+    /**
+     * Actualiza el refreshToken de un usuario en la base de datos
+     * @param {string} email 
+     * @param {string} refreshToken 
+     */
     async updateRefreshToken(email: string, refreshToken: string) {
+        // Hash del refreshToken para guardar en la base de datos
         const hashedRefreshToken &#x3D; await this.hashService.hashData(refreshToken);
+        
+        // Se guarda el hash del refreshToken en la base de datos
         await this.usersService.update(email, { refreshToken: hashedRefreshToken});
     }
 
+    /**
+     * Genera nuevos tokens para un usuario dado un refreshToken
+     * @param {string} email - email del usuario
+     * @param {string} refreshToken - refreshToken del usuario
+     * @returns - Tokens nuevos para el usuario
+     */
     async refreshTokens(email: string, refreshToken: string) {
+        // Busca al usuario en la base de datos
         const user &#x3D; await this.usersService.findUserByEmail(email);
+        
+        // Si no encuentra al usuario o el usuario no tiene refreshToken negamos el acceso
         if(!user || !user.refreshToken) {
             throw new ForbiddenException(&#x27;Access Denied&#x27;);
         }
+
+        // Comprueba que el refreshToken recibido coincide con el refreshToken en la base de datos
         const refreshTokenMatches &#x3D; await this.hashService.isMatch(refreshToken, user.refreshToken);
         if (!refreshTokenMatches) {
             throw new ForbiddenException(&#x27;Access Denied&#x27;);
         }
+
+        // Genera nuevos tokens para el usuario
         const tokens &#x3D; await this.getTokens(user);
+
+        // Actualiza el nuevo refreshToken en la base de datos
         await this.updateRefreshToken(email, tokens.refreshToken);
+        
         return tokens;
     }
 }

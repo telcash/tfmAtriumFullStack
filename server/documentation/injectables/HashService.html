@@ -139,8 +139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/auth/services/hash.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">src/auth/services/hash.service.ts:15</a></div>
                 </td>
             </tr>
 
@@ -176,7 +176,7 @@
 
                                     <td>
                                         <ul>
-<li>Data a hashear</li>
+<li>Cadena de texto a hashear</li>
 </ul>
 
                                     </td>
@@ -192,7 +192,7 @@
                     </div>
                     <div class="io-description">
                         <ul>
-<li>Data hasheada</li>
+<li>Cadena de texto hasheada</li>
 </ul>
 
                     </div>
@@ -222,14 +222,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/auth/services/hash.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/auth/services/hash.service.ts:26</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Comprueba si una cadena de texto se corresponde con un hash</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -240,6 +242,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -254,6 +257,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Cadena de texto a comparar</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>hash</td>
@@ -266,6 +275,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Hash al que comparar cadena de texto</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,7 +292,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>true si la cadena de texto y el hash se corresponden</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -294,15 +312,14 @@ import * as bcrypt from &#x27;bcrypt&#x27;;
 
 /**
  * Servicio para el hashing de data. Utiliza la librería bcrypt
- * @module AuthModule
  */
 @Injectable()
 export class HashService {
 
     /**
      * Realiza el hashing de una cadena de texto
-     * @param {string} data - Data a hashear
-     * @returns {string} - Data hasheada
+     * @param {string} data - Cadena de texto a hashear
+     * @returns {string} - Cadena de texto hasheada
      */
     async hashData(data: string): Promise&lt;string&gt; {
         const salt &#x3D; await bcrypt.genSalt();
@@ -310,10 +327,10 @@ export class HashService {
     }
 
     /**
-     * 
-     * @param {string} data 
-     * @param {string} hash 
-     * @returns 
+     * Comprueba si una cadena de texto se corresponde con un hash
+     * @param {string} data - Cadena de texto a comparar
+     * @param {string} hash - Hash al que comparar cadena de texto
+     * @returns {string} - true si la cadena de texto y el hash se corresponden
      */
     async isMatch(data: string, hash: string): Promise&lt;boolean&gt; {
         return bcrypt.compare(data, hash)

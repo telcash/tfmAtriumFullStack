@@ -169,6 +169,13 @@
 
 
 
+        <p class="comment">
+            <h3>Description</h3>
+        </p>
+        <p class="comment">
+            <p>Modulo raiz de la app</p>
+
+        </p>
 
 
         <div class="container-fluid module">
@@ -226,6 +233,9 @@ import { UsersModule } from &#x27;./users/users.module&#x27;;
 import { APP_FILTER } from &#x27;@nestjs/core&#x27;;
 import { AllExceptionsFilter } from &#x27;./common/filters/all-exceptions.filter&#x27;;
 
+/**
+ * Modulo raiz de la app
+ */
 @Module({
   imports: [ 
     ConfigModule.forRoot({

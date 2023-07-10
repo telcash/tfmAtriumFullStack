@@ -145,6 +145,14 @@
 
 
 
+        <p class="comment">
+            <h3>Description</h3>
+        </p>
+        <p class="comment">
+            <p>Modulo encargado de la conexion a la base de datos
+Usa el ORM Prisma</p>
+
+        </p>
 
 
         <div class="container-fluid module">
@@ -179,6 +187,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Global, Module } from &#x27;@nestjs/common&#x27;;
 import { PrismaService } from &#x27;./prisma.service&#x27;;
 
+/**
+ * Modulo encargado de la conexion a la base de datos
+ * Usa el ORM Prisma
+ */
 @Global()
 @Module({
   providers: [PrismaService],

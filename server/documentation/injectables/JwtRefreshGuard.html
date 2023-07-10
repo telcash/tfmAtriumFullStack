@@ -72,7 +72,8 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Guard que verifica que el request tiene un refresh jwt válido</p>
+                <p>Guard que verifica que el request tiene un refresh jwt válido
+Usa la estrategia JwtRefreshStrategy</p>
 
             </p>
 
@@ -91,6 +92,7 @@ import { AuthGuard } from &quot;@nestjs/passport&quot;;
 
 /**
  * Guard que verifica que el request tiene un refresh jwt válido
+ * Usa la estrategia JwtRefreshStrategy
  */
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard(&#x27;jwt-refresh&#x27;) {}</code></pre>
