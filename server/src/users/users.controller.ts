@@ -5,7 +5,7 @@ import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/guards/role.guard';
-import { UserEntity } from './models/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 /**
  * Controlador del modulo UsersModule

@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { ProductsModule } from './products/products.module';
 
 /**
  * Modulo raiz de la app
@@ -15,7 +16,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
   imports: [ 
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule,
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule,
   ],
   controllers: [AppController],
   providers: [

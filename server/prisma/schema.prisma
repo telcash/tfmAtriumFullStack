@@ -69,10 +69,10 @@ model Product {
   id Int @id @default(autoincrement())
   name String
   description String
-  price Float
-  image Float
-  stock Int
-  availability String
+  price Float @default(0)
+  image String
+  stock Int @default(0)
+  availability Availability @default(STOCK)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders ProductsOnOrders[]
@@ -122,4 +122,10 @@ model ProductsOnCategories {
 enum Role {
   CLIENT
   ADMIN
+}
+
+enum Availability {
+  ALWAYS
+  NEVER
+  STOCK
 }
