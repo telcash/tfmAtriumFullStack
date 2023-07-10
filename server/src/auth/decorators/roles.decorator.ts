@@ -1,3 +1,8 @@
 import { SetMetadata } from "@nestjs/common";
 
-export const Roles = (role: string) => SetMetadata('role', role);
+/**
+ * Decorador para anotar los roles necesarios para acceder a un endpoitn
+ * @param {string} roles - Listado de roles
+ * @returns 
+ */
+export const Roles = (...roles: string[]) => SetMetadata('roles', roles);

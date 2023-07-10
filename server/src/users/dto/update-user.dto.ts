@@ -1,6 +1,9 @@
 import { Role } from "@prisma/client";
 import { IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
+/**
+ * Data Transfer Object para la actualización de datos de un usuario
+ */
 export class UpdateUserDto {
     @IsOptional()
     role?: Role;

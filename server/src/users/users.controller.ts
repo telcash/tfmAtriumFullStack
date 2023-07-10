@@ -1,17 +1,27 @@
-import { Body, Controller, Get, Request, Param, ParseIntPipe, Patch, UseGuards, Delete, SetMetadata } from '@nestjs/common';
+import { Body, Controller, Get, Request, Patch, UseGuards, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 import { UserEntity } from './models/user.entity';
 
+/**
+ * Controlador del modulo UsersModule
+ * Endpoints protegidos por el @Guard JwtAccessGuard
+ */
 @Controller('users')
+@UseGuards(JwtAccessGuard)
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    /**
+     * Endpoint para obtener un listado de todos los usuarios
+     * Protegido por el @Guard RoleGuard
+     * @returns {UserEntity[]} - Listado de usuarios
+     */
+    @UseGuards(RoleGuard)
     @Roles(Role.ADMIN)
     @Get()
     async findAll() {
@@ -19,13 +29,22 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
-    @UseGuards(JwtAuthGuard)
+    /**
+     * Endpoint para obtener los datos del usuario que hace la petición
+     * @param req
+     * @returns - Datos del usuario que hace la petición
+     */
     @Get('profile')
     async findOne(@Request() req) {
         return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 
-    @UseGuards(JwtAuthGuard)
+    /**
+     * Endpoint para editar los datos del usuario que hace la petición
+     * @param {UpdateUserDto} dto - Data transfer object con los datos a editar
+     * @param req 
+     * @returns - Datos actualizados del usuario que hace la petición
+     */
     @Patch('profile')
     async update(
         @Body() dto: UpdateUserDto,
@@ -34,7 +53,11 @@ export class UsersController {
         return new UserEntity(await this.usersService.update(req.user.email, dto));
     }
 
-    @UseGuards(JwtAuthGuard)
+    /**
+     * Endpoint para eliminar al usuario que hace la petición
+     * @param req 
+     * @returns - Datos del usuario eliminado
+     */
     @Delete('profile')
     async remove(
         @Request() req

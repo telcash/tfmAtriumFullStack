@@ -9,6 +9,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
+/**
+ * Modulo encargado de las funciones de Autenticación y Autorización
+ */
 @Module({
   imports: [
     UsersModule,

@@ -7,6 +7,9 @@ import {
   } from '@nestjs/common';
   import { HttpAdapterHost } from '@nestjs/core';
   
+  /**
+   * Filtro que captura todas la exceptions sin manejar
+   */
   @Catch()
   export class AllExceptionsFilter implements ExceptionFilter {
     constructor(private readonly httpAdapterHost: HttpAdapterHost) {}

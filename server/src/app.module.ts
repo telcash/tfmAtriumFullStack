@@ -8,6 +8,9 @@ import { UsersModule } from './users/users.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
+/**
+ * Modulo raiz de la app
+ */
 @Module({
   imports: [ 
     ConfigModule.forRoot({

@@ -1,7 +1,9 @@
 import { Role } from "@prisma/client";
 import { IsEmail, IsNotEmpty, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
 
-
+/**
+ * Data Transfer Object para creación (signup) de un usuario
+ */
 export class CreateUserDto {
     role: Role;
 
