@@ -34,7 +34,7 @@ import {
       const response =
         exception instanceof HttpException
           ? exception.getResponse()
-          : {};
+          : exception;
 
       const responseBody = {
         statusCode: httpStatus,

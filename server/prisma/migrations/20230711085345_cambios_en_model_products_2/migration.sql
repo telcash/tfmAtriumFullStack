@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE `Product` MODIFY `description` VARCHAR(191) NULL DEFAULT '',
+    MODIFY `price` DOUBLE NULL DEFAULT 0,
+    MODIFY `image` VARCHAR(191) NULL,
+    MODIFY `stock` INTEGER NULL DEFAULT 0,
+    MODIFY `availability` ENUM('ALWAYS', 'NEVER', 'STOCK') NULL DEFAULT 'STOCK';

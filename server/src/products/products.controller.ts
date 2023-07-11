@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -6,6 +6,9 @@ import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
+import { StorageService } from 'src/common/services/storage.service';
 
 @Controller('products')
 export class ProductsController {
@@ -13,10 +16,13 @@ export class ProductsController {
 
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
+  @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions),)
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
+  create(
+    @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
+    @Body() createProductDto: CreateProductDto){
+      return this.productsService.create(createProductDto, file);
+    }
 
   @Get()
   findAll() {
