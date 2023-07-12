@@ -20,7 +20,7 @@ model User {
   updatedAt DateTime @updatedAt
   addresses UsersOnAddresses[]
   orders Order[]
-  carts Cart[]
+  cart Cart?
 }
 
 model Address {
@@ -52,7 +52,7 @@ model Order {
   addressId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  products ProductsOnOrders[]
+  products OrderItem[]
 }
 
 model Cart {
@@ -62,7 +62,7 @@ model Cart {
   status String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  products ProductsOnCarts[]
+  products CartItem[]
 }
 
 model Product {
@@ -75,12 +75,12 @@ model Product {
   availability Availability? @default(STOCK)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  orders ProductsOnOrders[]
-  carts ProductsOnCarts[]
+  orders OrderItem[]
+  carts CartItem[]
   categories ProductsOnCategories[]
 }
 
-model ProductsOnOrders {
+model OrderItem {
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int
   order Order @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -90,9 +90,10 @@ model ProductsOnOrders {
   updatedAt DateTime @updatedAt
 
   @@id([productId, orderId])
+  @@map("ProductsOnOrders")
 }
 
-model ProductsOnCarts {
+model CartItem {
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int
   cart Cart @relation(fields: [cartId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -102,6 +103,7 @@ model ProductsOnCarts {
   updatedAt DateTime @updatedAt
 
   @@id([productId, cartId])
+  @@map("ProductsOnCarts")
 }
 
 model Category {

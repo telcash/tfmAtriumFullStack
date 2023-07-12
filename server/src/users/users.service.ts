@@ -28,6 +28,9 @@ export class UsersService {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: email,
+            },
+            include: {
+                cart: true,
             }
         });
         if(!user) {

@@ -9,6 +9,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ProductsModule } from './products/products.module';
 import { StorageService } from './common/services/storage.service';
+import { CartsModule } from './carts/carts.module';
 
 /**
  * Modulo raiz de la app
@@ -17,7 +18,7 @@ import { StorageService } from './common/services/storage.service';
   imports: [ 
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule,
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -26,8 +27,7 @@ import { StorageService } from './common/services/storage.service';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     }, */
-    StorageService
-    ,
+    StorageService,
   ],
 })
 export class AppModule {}

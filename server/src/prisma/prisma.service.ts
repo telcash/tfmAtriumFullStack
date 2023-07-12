@@ -13,14 +13,15 @@ export class PrismaService extends PrismaClient implements OnModuleInit{
     async onModuleInit() {
         await this.$connect();
     }
-
+    
     /**
      * En caso de un cierre imprevisto de la aplicación realiza la desconexión a la base de datos
      * @param app - Instancia de la aplicación
      */
     async enableShutdownHooks(app: INestApplication) {
-        this.$on('beforeExit', async () => {
+        process.on('beforeExit', async () => {
             await app.close();
         });
     }
+
 }
