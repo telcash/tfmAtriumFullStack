@@ -10,6 +10,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ProductsModule } from './products/products.module';
 import { StorageService } from './common/services/storage.service';
 import { CartsModule } from './carts/carts.module';
+import { CartItemsModule } from './cart-items/cart-items.module';
 
 /**
  * Modulo raiz de la app
@@ -18,7 +19,7 @@ import { CartsModule } from './carts/carts.module';
   imports: [ 
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule,
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule, CartItemsModule
   ],
   controllers: [AppController],
   providers: [

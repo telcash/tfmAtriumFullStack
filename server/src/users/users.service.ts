@@ -33,9 +33,9 @@ export class UsersService {
                 cart: true,
             }
         });
-        if(!user) {
+        /* if(!user) {
             throw new BadRequestException("User not found");
-        }
+        } */
         return user;
     }
 
