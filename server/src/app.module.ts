@@ -22,10 +22,10 @@ import { StorageService } from './common/services/storage.service';
   controllers: [AppController],
   providers: [
     AppService,
-    {
+   /*  {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
-    },
+    }, */
     StorageService
     ,
   ],

@@ -4,10 +4,10 @@ import { StorageService } from '../services/storage.service';
 @Injectable()
 export class ImageValidationPipe implements PipeTransform {
   constructor(private storageService: StorageService) {}
-  async transform(value: any, metadata: ArgumentMetadata) {
+  async transform(value: Express.Multer.File, metadata: ArgumentMetadata) {
     const errors: string[] = [];
     if (value) {
-      const fileMaxSize = 1000;
+      const fileMaxSize = 10000000;
       const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpeg'];
       const fileType =  await this.storageService.getFileTypeFromFile(value.path);
 
@@ -25,7 +25,7 @@ export class ImageValidationPipe implements PipeTransform {
     }
 
     if (errors.length > 0) {
-      this.storageService.deleteFile(value.path);
+      this.storageService.deleteFile(value.destination, value.filename);
       throw new BadRequestException(`Image validation failed: ${errors}`)
     }
 

@@ -6,7 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Validación de los datos en dto recibidos del cliente
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+  })
+  );
 
   // Filtrado de datos enviados como respuesta al cliente
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

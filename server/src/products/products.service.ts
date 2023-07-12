@@ -2,16 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { StorageService } from 'src/common/services/storage.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private storageService: StorageService) {}
 
   async create(createProductDto: CreateProductDto, file: Express.Multer.File) {
-    let fileName: string | null = null;
-    if (file) {
-      fileName = file.filename;
-    }
+    const fileName = file ? file.filename : null;
     const product = await this.prisma.product.create({
       data: {
         ...createProductDto,
@@ -35,9 +33,21 @@ export class ProductsService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: number, updateProductDto: UpdateProductDto, file: Express.Multer.File) {
+    let data = updateProductDto;
+    if (file) {
+      const oldImage = (await this.findOne(id)).image;
+      if (oldImage) {
+        this.storageService.deleteFile(this.storageService.imagesDestination, oldImage);
+      }
+      data = {
+        ...data,
+        image: file.filename,
+      }
+    }
+
     const updatedProduct = await this.prisma.product.update({
-      data: updateProductDto,
+      data: data,
       where: {
         id: id,
       },
@@ -51,6 +61,10 @@ export class ProductsService {
         id: id
       }
     });
+
+    if (deletedProduct && deletedProduct.image) {
+      this.storageService.deleteFile(this.storageService.imagesDestination, deletedProduct.image);
+    }
     return deletedProduct;
   }
 }
