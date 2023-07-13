@@ -5,6 +5,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UserEntity } from '../users/entities/user.entity';
 import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 /**
  * Controlador del modulo AuthModule
@@ -30,8 +31,8 @@ export class AuthController {
      */
     @UseGuards(JwtAccessGuard)
     @Get('logout')
-    logout(@Request() req) {
-        this.authService.logout(req.user.email);
+    async logout(@Request() req) {
+        await this.authService.logout(req.user.email);
     }
 
     /**
@@ -42,14 +43,14 @@ export class AuthController {
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    login(@Request() req) {
-        return this.authService.login(req.user);
+    async login(@Request() req) {
+        return await this.authService.login(req.user);
     }
 
     @UseGuards(JwtAccessGuard)
     @Patch('password')
-    updatePassword(@Body()) {
-        
+    async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
+        return await this.authService.updatePassword(updatePasswordDto);
     }
 
     /**
@@ -60,7 +61,7 @@ export class AuthController {
      */
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
-    refreshTokens(@Request() req) {
-        return this.authService.refreshTokens(req.user.email, req.user.refreshToken);
+    async refreshTokens(@Request() req) {
+        return await this.authService.refreshTokens(req.user.email, req.user.refreshToken);
     }
 }

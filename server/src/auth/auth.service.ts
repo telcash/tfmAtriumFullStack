@@ -5,6 +5,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 /**
  * Servicio que implementa las funciones de autorización y autenticación
@@ -72,6 +73,10 @@ export class AuthService {
         return tokens;
     }
 
+    async updatePassword(updatePasswordDto: UpdatePasswordDto) {
+        
+    }
+
     /**
      * Realiza el logout de un usuario autenticado
      * @param {string} email - email del usuario 
@@ -79,7 +84,7 @@ export class AuthService {
      */
     async logout(email: string) {
         // Establece como null el refreshToken del usuario en la base de datos
-        return this.usersService.update(email, { refreshToken: null });
+        return await this.usersService.update(email, { refreshToken: null });
     }
 
     /**
