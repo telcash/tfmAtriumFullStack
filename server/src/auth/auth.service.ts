@@ -1,6 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from './services/hash.service';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -13,7 +12,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
     constructor(
-        private prisma: PrismaService,
         private hashService: HashService,
         private usersService: UsersService,
         private jwtService: JwtService,
@@ -22,21 +20,21 @@ export class AuthService {
 
     /**
      * Crea un usuario en la base de datos
-     * @param {CreateUserDto} dto - Data transfer object del usuario a crear
+     * @param {CreateUserDto} createUserDto - Data transfer object del usuario a crear
      * @returns {User} - Usuario en la base de datos
      */
     async signup(createUserDto: CreateUserDto): Promise<User> {
         // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
         const hashedPassword = await this.hashService.hashData(createUserDto.password);
 
-        // Insertamos usuario en la base de datos
-        const user = await this.prisma.user.create({
-            data: {
-                ...createUserDto,
-                password: hashedPassword,
-            }
-        });
-        return user;
+        // Actualizamos los datos para la creación del usuario
+        createUserDto = {
+            ...createUserDto,
+            password: hashedPassword,
+        }
+
+        // Invocamos al servicio que crea el usuario
+        return this.usersService.create(createUserDto);
     }
 
     /**

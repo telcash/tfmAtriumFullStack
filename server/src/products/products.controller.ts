@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterc
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Role } from '@prisma/client';
+import { Product, Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
@@ -20,17 +20,17 @@ export class ProductsController {
   @Post()
   async create(
     @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
-    @Body() createProductDto: CreateProductDto){
+    @Body() createProductDto: CreateProductDto): Promise<Product>{
       return await this.productsService.create(createProductDto, file);
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<Product[]> {
     return await this.productsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<Product> {
     return await this.productsService.findOne(+id);
   }
 
@@ -41,14 +41,14 @@ export class ProductsController {
   async update(
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
-    @Body() updateProductDto: UpdateProductDto) {
+    @Body() updateProductDto: UpdateProductDto): Promise<Product> {
     return await this.productsService.update(+id, updateProductDto, file);
   }
 
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<Product> {
     return await this.productsService.remove(+id);
   }
 }

@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UserEntity } from '../users/entities/user.entity';
@@ -15,12 +15,12 @@ export class AuthController {
 
     /**
      * Endpoint para registro/creacion de usuario
-     * @param {CreateUserDto} dto - Data transfer object para la creación de un usuario 
+     * @param {CreateUserDto} createUserDto - Data transfer object para la creación de un usuario 
      * @returns {UserEntity} - Usuario creado
      */
     @Post('signup')
-    async signup(@Body() dto: CreateUserDto): Promise<UserEntity>{
-        return new UserEntity(await this.authService.signup(dto));
+    async signup(@Body() createUserDto: CreateUserDto): Promise<UserEntity>{
+        return new UserEntity(await this.authService.signup(createUserDto));
     }
 
     /**
@@ -44,6 +44,12 @@ export class AuthController {
     @Post('login')
     login(@Request() req) {
         return this.authService.login(req.user);
+    }
+
+    @UseGuards(JwtAccessGuard)
+    @Patch('password')
+    updatePassword(@Body()) {
+        
     }
 
     /**

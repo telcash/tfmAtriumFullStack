@@ -1,11 +1,13 @@
 import { Role } from "@prisma/client";
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
 
 /**
  * Data Transfer Object para creación (signup) de un usuario
  */
 export class CreateUserDto {
-    role: Role;
+    @IsOptional()
+    @IsEnum(Role)
+    role?: Role;
 
     @IsNotEmpty()
     @IsString()
@@ -39,4 +41,8 @@ export class CreateUserDto {
     @MinLength(9)
     @MaxLength(15)
     mobile: string;
+    
+    @IsOptional()
+    @IsString()
+    refreshToken?: string = null;
 }

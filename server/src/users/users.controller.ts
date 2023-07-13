@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Request, Patch, UseGuards, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -6,6 +6,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { UserEntity } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 
 /**
  * Controlador del modulo UsersModule
@@ -29,6 +30,13 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
+    @UseGuards(RoleGuard)
+    @Roles(Role.ADMIN)
+    @Post('admin')
+    async createAdmin(createUserDto: CreateUserDto): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.create(createUserDto));
+    }
+
     /**
      * Endpoint para obtener los datos del usuario que hace la petición
      * @param req
@@ -36,22 +44,18 @@ export class UsersController {
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
-        //return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
-        return await this.usersService.findUserByEmail(req.user.email)
+        return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 
     /**
      * Endpoint para editar los datos del usuario que hace la petición
-     * @param {UpdateUserDto} dto - Data transfer object con los datos a editar
+     * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a editar
      * @param req 
      * @returns - Datos actualizados del usuario que hace la petición
      */
     @Patch('profile')
-    async update(
-        @Body() dto: UpdateUserDto,
-        @Request() req
-    ): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.update(req.user.email, dto));
+    async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.update(req.user.email, updateUserDto));
     }
 
     /**

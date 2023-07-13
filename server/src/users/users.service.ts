@@ -1,22 +1,26 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
+import { UsersRepository } from './users.repository';
+import { CreateUserDto } from './dto/create-user.dto';
 
 /**
  * Servicio que implementa las funciones de usuario
  */
 @Injectable()
 export class UsersService {
-    constructor(private prisma: PrismaService){}
+    constructor(private userRepository: UsersRepository){}
+
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        return await this.userRepository.create(createUserDto);
+    }
 
     /**
      * Encuentra todos los usuarios en la base de datos
      * @returns {User[]} - Listado de usuarios en la base de datos
      */
     async findAll(): Promise<User[]> {
-        const users = await this.prisma.user.findMany();
-        return users;
+        return await this.userRepository.findAll();
     }
 
     /**
@@ -25,37 +29,17 @@ export class UsersService {
      * @returns - Usuario correspondiente
      */
     async findUserByEmail(email: string): Promise<User> {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email: email,
-            },
-            include: {
-                cart: true,
-            }
-        });
-        /* if(!user) {
-            throw new BadRequestException("User not found");
-        } */
-        return user;
+        return await this.userRepository.findUserByEmail(email);
     }
 
     /**
      * Actualiza en la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a actualizar
-     * @param {UpdateUserDto} dto - Data transfer object con los datos a actualizar
+     * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a actualizar
      * @returns - Usuario actualizado
      */
-    async update(email: string, dto: UpdateUserDto): Promise<User> {
-        const updatedUser = await this.prisma.user.update({
-            data: dto,
-            where: {
-                email: email,
-            },
-        });
-        if(!updatedUser) {
-            throw new BadRequestException("User not found");
-        }
-        return updatedUser;
+    async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+        return await this.userRepository.update(email, updateUserDto);
     }
   
     /**
@@ -64,14 +48,6 @@ export class UsersService {
      * @returns - Usuario eliminado
      */
     async remove(email: string): Promise<User> {
-        const deletedUser = await this.prisma.user.delete({
-            where: {
-                email: email,
-            },
-        })
-        if(!deletedUser) {
-            throw new BadRequestException("User not found");
-        }
-        return deletedUser;
+        return await this.userRepository.remove(email);
     }
 }

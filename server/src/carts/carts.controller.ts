@@ -3,7 +3,7 @@ import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
-import { Role } from '@prisma/client';
+import { Cart, Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 
@@ -13,29 +13,29 @@ export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
   @Post()
-  async create(@Request() req, @Body() createCartDto: CreateCartDto) {
+  async create(@Request() req, @Body() createCartDto: CreateCartDto): Promise<Cart> {
     return await this.cartsService.create(req.user.sub, createCartDto);
   }
 
   @UseGuards(RoleGuard)
   @Roles(Role.ADMIN)
   @Get()
-  findAll() {
+  findAll(): Promise<Cart[]> {
     return this.cartsService.findAll();
   }
 
   @Get('/mycart')
-  async findOne(@Request() req) {
+  async findOne(@Request() req): Promise<Cart> {
     return await this.cartsService.findOne(req.user.sub);
   }
 
   @Patch('/mycart')
-  async update(@Request() req, @Body() updateCartDto: UpdateCartDto) {
+  async update(@Request() req, @Body() updateCartDto: UpdateCartDto): Promise<Cart> {
     return await this.cartsService.update(req.user.sub, updateCartDto);
   }
 
   @Delete('/mycart')
-  async remove(@Request() req) {
+  async remove(@Request() req): Promise<Cart> {
     return await this.cartsService.remove(req.user.sub);
   }
 }

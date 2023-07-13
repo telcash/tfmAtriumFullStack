@@ -1,61 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { CartsRepository } from './carts.repository';
+import { Cart } from '@prisma/client';
 
 @Injectable()
 export class CartsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private cartsRepository: CartsRepository) {}
 
-  async create(userId: number, createCartDto: CreateCartDto) {
-    const cart = await this.prisma.cart.create({
-      data: {
-        ...createCartDto,
-        userId: userId,
-      },
-    });
-    return cart;
+  async create(userId: number, createCartDto: CreateCartDto): Promise<Cart> {
+    createCartDto = {
+      ...createCartDto,
+      userId: userId,
+    };
+    return await this.cartsRepository.create(createCartDto);
   }
 
-  async findAll() {
-    const carts = await this.prisma.cart.findMany({
-      include: {
-        user: true,
-        products: true,
-      }
-    });
-    return carts;
+  async findAll(): Promise<Cart[]> {
+    return await this.cartsRepository.findAll();
   }
 
-  async findOne(userId: number) {
-    const cart = await this.prisma.cart.findUnique({
-      where: {
-        userId: userId,
-      },
-      include: {
-        user: true,
-        products: true,
-      }
-    })
-    return cart;
+  async findOne(userId: number): Promise<Cart> {
+    return await this.cartsRepository.findOne(userId)
   }
 
-  async update(userId: number, updateCartDto: UpdateCartDto) {
-    const updatedCart = await this.prisma.cart.update({
-      data : updateCartDto,
-      where: {
-        userId: userId,
-      },
-    })
-    return updatedCart;
+  async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
+    return await this.cartsRepository.update(userId, updateCartDto);
   }
 
-  async remove(userId: number) {
-    const deletedCart = await this.prisma.cart.delete({
-      where: {
-        userId: userId,
-      }
-    })
-    return deletedCart;
+  async remove(userId: number): Promise<Cart> {
+    return await this.cartsRepository.remove(userId);
   }
 }
