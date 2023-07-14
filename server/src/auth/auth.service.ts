@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadGatewayException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from './services/hash.service';
 import { UsersService } from 'src/users/users.service';
@@ -6,6 +6,14 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+
+/**
+ * Definicion de type JwtTokens
+ */
+export type JwtTokens = {
+    accessToken: string,
+    refreshToken: string,
+}
 
 /**
  * Servicio que implementa las funciones de autorización y autenticación
@@ -26,7 +34,7 @@ export class AuthService {
      */
     async signup(createUserDto: CreateUserDto): Promise<User> {
         // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
-        const hashedPassword = await this.hashService.hashData(createUserDto.password);
+        const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
 
         // Actualizamos los datos para la creación del usuario
         createUserDto = {
@@ -47,7 +55,7 @@ export class AuthService {
     async validateUser(email: string, password: string): Promise<User> {
 
         // Buscamos en la base de datos el usuario registrado con el email
-        const user = await this.usersService.findUserByEmail(email);
+        const user: User = await this.usersService.findUserByEmail(email);
 
         if(!user) throw new NotFoundException(`The user ${email} was not found`)
 
@@ -65,9 +73,9 @@ export class AuthService {
      * @param user - Usuario autenticado
      * @returns - accessToken y refreshToken del usuario
      */
-    async login(user: User): Promise<{accessToken: string, refreshToken: string}> {
+    async login(user: User): Promise<JwtTokens> {
         // Genera los tokens para el usuario autenticado
-        const tokens = await this.getTokens(user);
+        const tokens: JwtTokens = await this.getTokens(user);
 
         // Actualiza en la base de datos el refreshToken del usuario autenticado
         await this.updateRefreshToken(user.email, tokens.refreshToken);
@@ -75,10 +83,20 @@ export class AuthService {
         return tokens;
     }
 
-    async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto) {
-        if ((updatePasswordDto.newPassword === updatePasswordDto.newPasswordVerification)
-             && (await this.validateUser(email, updatePasswordDto.oldPassword))) {
-              await this.usersService.update(email, { password: await this.hashService.hashData(updatePasswordDto.newPassword)});  
+    /**
+     * Realiza la actualización del password de un usuario
+     * @param email - Email del usuario que actualiza el password
+     * @param updatePasswordDto - DTO para la actualización del password
+     * @returns - Usuario con nuevo password
+     */
+    async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto): Promise<User> {
+        // Valida el usuario (verifica que el password viejo es correcto)
+        const user: User = await this.validateUser(email, updatePasswordDto.oldPassword);
+        
+        // Valida el DTO y retorna el usuario con el password actualizado
+        if ((updatePasswordDto.newPassword === updatePasswordDto.newPasswordVerification) && user) {
+            const hashedPassword: string = await this.hashService.hashData(updatePasswordDto.newPassword);
+            return await this.usersService.update(email, { password: hashedPassword});  
         }
     }
 
@@ -87,7 +105,7 @@ export class AuthService {
      * @param {string} email - email del usuario 
      * @returns - Usuario con refreshToken null
      */
-    async logout(email: string) {
+    async logout(email: string): Promise<User> {
         // Establece como null el refreshToken del usuario en la base de datos
         return await this.usersService.update(email, { refreshToken: null });
     }
@@ -97,7 +115,7 @@ export class AuthService {
      * @param user - Usuario al que se le crearan los tokens
      * @returns - Tokens para el usuario
      */
-    async getTokens(user: any) {
+    async getTokens(user: User): Promise<JwtTokens> {
 
         // Establece el payload que tendrán los tokens generados
         const payload = {
@@ -123,7 +141,6 @@ export class AuthService {
                 },
             ),
         ]);
-
         return {
             accessToken,
             refreshToken,
@@ -137,7 +154,7 @@ export class AuthService {
      */
     async updateRefreshToken(email: string, refreshToken: string) {
         // Hash del refreshToken para guardar en la base de datos
-        const hashedRefreshToken = await this.hashService.hashData(refreshToken);
+        const hashedRefreshToken: string = await this.hashService.hashData(refreshToken);
         
         // Se guarda el hash del refreshToken en la base de datos
         await this.usersService.update(email, { refreshToken: hashedRefreshToken});
@@ -149,9 +166,9 @@ export class AuthService {
      * @param {string} refreshToken - refreshToken del usuario
      * @returns - Tokens nuevos para el usuario
      */
-    async refreshTokens(email: string, refreshToken: string) {
+    async refreshTokens(email: string, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos
-        const user = await this.usersService.findUserByEmail(email);
+        const user: User = await this.usersService.findUserByEmail(email);
         
         // Si no encuentra al usuario o el usuario no tiene refreshToken negamos el acceso
         if(!user || !user.refreshToken) {
@@ -159,13 +176,13 @@ export class AuthService {
         }
 
         // Comprueba que el refreshToken recibido coincide con el refreshToken en la base de datos
-        const refreshTokenMatches = await this.hashService.isMatch(refreshToken, user.refreshToken);
+        const refreshTokenMatches: boolean = await this.hashService.isMatch(refreshToken, user.refreshToken);
         if (!refreshTokenMatches) {
             throw new ForbiddenException('Access Denied');
         }
 
         // Genera nuevos tokens para el usuario
-        const tokens = await this.getTokens(user);
+        const tokens: JwtTokens = await this.getTokens(user);
 
         // Actualiza el nuevo refreshToken en la base de datos
         await this.updateRefreshToken(email, tokens.refreshToken);

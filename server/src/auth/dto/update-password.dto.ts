@@ -1,6 +1,9 @@
 import { IsNotEmpty, IsString, IsStrongPassword, MaxLength } from "class-validator";
 
-
+/**
+ * Data transfer object para actualización de password de usuario
+ * Validado con class-validator
+ */
 export class UpdatePasswordDto {
     @IsNotEmpty()
     @IsString()

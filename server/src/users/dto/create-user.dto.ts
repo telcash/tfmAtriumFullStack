@@ -3,6 +3,7 @@ import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Ma
 
 /**
  * Data Transfer Object para creación (signup) de un usuario
+ * Validado con class-validator
  */
 export class CreateUserDto {
     @IsOptional()

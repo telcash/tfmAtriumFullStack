@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { AuthService } from './auth.service';
+import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UserEntity } from '../users/entities/user.entity';
 import { JwtAccessGuard } from './guards/jwt-access.guard';
@@ -31,8 +31,8 @@ export class AuthController {
      */
     @UseGuards(JwtAccessGuard)
     @Get('logout')
-    async logout(@Request() req) {
-        await this.authService.logout(req.user.email);
+    async logout(@Request() req): Promise<UserEntity> {
+        return new UserEntity(await this.authService.logout(req.user.email));
     }
 
     /**
@@ -49,7 +49,7 @@ export class AuthController {
 
     @UseGuards(JwtAccessGuard)
     @Patch('password')
-    async updatePassword(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto) {
+    async updatePassword(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
         return await this.authService.updatePassword(req.user.email, updatePasswordDto);
     }
 
@@ -61,7 +61,7 @@ export class AuthController {
      */
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
-    async refreshTokens(@Request() req) {
+    async refreshTokens(@Request() req): Promise<JwtTokens> {
         return await this.authService.refreshTokens(req.user.email, req.user.refreshToken);
     }
 }

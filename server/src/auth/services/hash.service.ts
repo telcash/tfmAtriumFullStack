@@ -13,7 +13,7 @@ export class HashService {
      * @returns {string} - Cadena de texto hasheada
      */
     async hashData(data: string): Promise<string> {
-        const salt = await bcrypt.genSalt();
+        const salt: string = await bcrypt.genSalt();
         return bcrypt.hash(data, salt);
     }
 

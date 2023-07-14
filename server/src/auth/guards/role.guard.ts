@@ -16,7 +16,7 @@ export class RoleGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
         
         // Extrae el listado roles exigidos en el decorador @Role del endpoint
-        const roles = this.reflector.get<string[]>('roles', context.getHandler());
+        const roles: string[] = this.reflector.get<string[]>('roles', context.getHandler());
         
         // Si no hay rol exigido el Guard da acceso
         if(!roles) {

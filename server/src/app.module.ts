@@ -29,10 +29,10 @@ import { PrismaExceptionFilter } from './prisma/filters/prisma.filter/prisma-exc
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    {
+    /* {
       provide: APP_FILTER,
       useClass: PrismaExceptionFilter,
-    },
+    }, */
     StorageService,
   ],
 })
