@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from './services/hash.service';
 import { UsersService } from 'src/users/users.service';
@@ -44,18 +44,20 @@ export class AuthService {
      * @param {string} password - Credencial password del usuario que intenta iniciar sesión
      * @returns {User | null} - Usuario si las credenciales son válidas, sino null
      */
-    async validateUser(email: string, password: string): Promise<User | null> {
+    async validateUser(email: string, password: string): Promise<User> {
 
         // Buscamos en la base de datos el usuario registrado con el email
         const user = await this.usersService.findUserByEmail(email);
 
+        if(!user) throw new NotFoundException(`The user ${email} was not found`)
+
         // Si existe el usuario comparamos el password recibido con el password de la base de datos
-        if (user && await this.hashService.isMatch(password, user.password)) {
-            return user;
+        if (! await this.hashService.isMatch(password, user.password)) {
+            throw new UnauthorizedException('Password invalid')
         }
 
-        // Retorna null si las credenciales no son válidas
-        return null;
+        // Retorna el usuario si las credenciales son válidas
+        return user;
     }
 
     /**
@@ -63,7 +65,7 @@ export class AuthService {
      * @param user - Usuario autenticado
      * @returns - accessToken y refreshToken del usuario
      */
-    async login(user: any) {
+    async login(user: User): Promise<{accessToken: string, refreshToken: string}> {
         // Genera los tokens para el usuario autenticado
         const tokens = await this.getTokens(user);
 
@@ -73,8 +75,11 @@ export class AuthService {
         return tokens;
     }
 
-    async updatePassword(updatePasswordDto: UpdatePasswordDto) {
-        
+    async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto) {
+        if ((updatePasswordDto.newPassword === updatePasswordDto.newPasswordVerification)
+             && (await this.validateUser(email, updatePasswordDto.oldPassword))) {
+              await this.usersService.update(email, { password: await this.hashService.hashData(updatePasswordDto.newPassword)});  
+        }
     }
 
     /**

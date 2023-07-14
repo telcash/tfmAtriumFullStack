@@ -12,7 +12,7 @@ export class UsersRepository {
     async create(createUserDto: CreateUserDto): Promise<User> {
         return await this.prisma.user.create({
             data: createUserDto
-        });
+        })
     }
 
     async findAll(): Promise<User[]> {

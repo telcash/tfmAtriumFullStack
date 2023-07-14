@@ -65,6 +65,6 @@ export class UsersController {
      */
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.remove(req.user.id));
+        return new UserEntity(await this.usersService.remove(req.user.email));
     }
 }

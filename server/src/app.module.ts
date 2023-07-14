@@ -11,6 +11,7 @@ import { ProductsModule } from './products/products.module';
 import { StorageService } from './common/services/storage.service';
 import { CartsModule } from './carts/carts.module';
 import { CartItemsModule } from './cart-items/cart-items.module';
+import { PrismaExceptionFilter } from './prisma/filters/prisma.filter/prisma-exception.filter';
 
 /**
  * Modulo raiz de la app
@@ -24,10 +25,14 @@ import { CartItemsModule } from './cart-items/cart-items.module';
   controllers: [AppController],
   providers: [
     AppService,
-   /*  {
+    {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
-    }, */
+    },
+    {
+      provide: APP_FILTER,
+      useClass: PrismaExceptionFilter,
+    },
     StorageService,
   ],
 })

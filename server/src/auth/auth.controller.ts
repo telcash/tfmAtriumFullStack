@@ -43,14 +43,14 @@ export class AuthController {
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Request() req) {
+    async login(@Request() req): Promise<{accessToken: string, refreshToken: string}> {
         return await this.authService.login(req.user);
     }
 
     @UseGuards(JwtAccessGuard)
     @Patch('password')
-    async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
-        return await this.authService.updatePassword(updatePasswordDto);
+    async updatePassword(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto) {
+        return await this.authService.updatePassword(req.user.email, updatePasswordDto);
     }
 
     /**
