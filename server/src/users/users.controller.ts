@@ -30,6 +30,12 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
+    /**
+     * Endpoint para la creación de un usuario
+     * Endpoint protegido por RoleGuard
+     * @param {CreateUserDto} createUserDto - DTO para crear al usuario 
+     * @returns {UserEntity} - Usuario creado
+     */
     @UseGuards(RoleGuard)
     @Roles(Role.ADMIN)
     @Post()
@@ -40,7 +46,7 @@ export class UsersController {
     /**
      * Endpoint para obtener los datos del usuario que hace la petición
      * @param req
-     * @returns - Datos del usuario que hace la petición
+     * @returns {UserEntity} - Datos del usuario que hace la petición
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
@@ -49,9 +55,9 @@ export class UsersController {
 
     /**
      * Endpoint para editar los datos del usuario que hace la petición
-     * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a editar
+     * @param {UpdateUserDto} updateUserDto - DTO con los datos a editar
      * @param req 
-     * @returns - Datos actualizados del usuario que hace la petición
+     * @returns {UserEntity} - Usuario actualizado
      */
     @Patch('profile')
     async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
@@ -61,7 +67,7 @@ export class UsersController {
     /**
      * Endpoint para eliminar al usuario que hace la petición
      * @param req 
-     * @returns - Datos del usuario eliminado
+     * @returns {UserEntity} - Usuario eliminado
      */
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {

@@ -6,7 +6,6 @@ import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
-import { User } from '@prisma/client';
 
 /**
  * Controlador del modulo AuthModule
@@ -16,9 +15,9 @@ export class AuthController {
     constructor(private authService: AuthService){}
 
     /**
-     * Endpoint para registro/creacion de usuario
-     * @param {CreateUserDto} createUserDto - Data transfer object para la creación de un usuario 
-     * @returns {CreateUserDto} - Usuario creado
+     * Endpoint para registro de usuario tipo CLIENT (signup)
+     * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
+     * @returns {UserEntity} - Usuario creado
      */
     @Post('signup')
     async signup(@Body() createUserDto: CreateUserDto): Promise<UserEntity>{
@@ -29,6 +28,7 @@ export class AuthController {
      * Endpoint para cierre se sesión
      * Protegido por JwtAccessGuard
      * @param req
+     * @returns {UserEntity} - Usuario que cierra sesión
      */
     @UseGuards(JwtAccessGuard)
     @Get('logout')
@@ -40,7 +40,7 @@ export class AuthController {
      * Endpoint para inicio de sesion de usuario
      * Protegido por LocalAuthGuard
      * @param req 
-     * @returns 
+     * @returns {JwtTokens} - accessToken y refreshToken
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
@@ -52,8 +52,8 @@ export class AuthController {
      * Endpoint para actualización de password de usuario
      * Protegido por JwtAccessGuard
      * @param req 
-     * @param updatePasswordDto - Dto para actualización de password.
-     * @returns 
+     * @param {UpdatePasswordDto} updatePasswordDto - Dto para actualización de password.
+     * @returns {UserEntity} - Usuario actualizado
      */
     @UseGuards(JwtAccessGuard)
     @Patch('password')
@@ -65,7 +65,7 @@ export class AuthController {
      * Endpoint para actualización de tokens
      * Protegido por JwtRefreshGuard
      * @param req 
-     * @returns 
+     * @returns {JwtTokens} - accessToken y refreshToken
      */
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')

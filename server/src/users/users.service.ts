@@ -11,6 +11,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UsersService {
     constructor(private userRepository: UsersRepository){}
 
+    /**
+     * Invoca al repositorio para crear un usuario en la base de datos
+     * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
+     * @returns {User} - Usuario creado
+     */
     async create(createUserDto: CreateUserDto): Promise<User> {
         return await this.userRepository.create(createUserDto);
     }
@@ -26,7 +31,7 @@ export class UsersService {
     /**
      * Encuentra en la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a buscar
-     * @returns - Usuario correspondiente
+     * @returns {User} - Usuario correspondiente
      */
     async findUserByEmail(email: string): Promise<User> {
         return await this.userRepository.findUserByEmail(email);
@@ -36,7 +41,7 @@ export class UsersService {
      * Actualiza en la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a actualizar
      * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a actualizar
-     * @returns - Usuario actualizado
+     * @returns {User} - Usuario actualizado
      */
     async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
         return await this.userRepository.update(email, updateUserDto);
@@ -45,7 +50,7 @@ export class UsersService {
     /**
      * Elimina de la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a eliminar 
-     * @returns - Usuario eliminado
+     * @returns {User} - Usuario eliminado
      */
     async remove(email: string): Promise<User> {
         return await this.userRepository.remove(email);

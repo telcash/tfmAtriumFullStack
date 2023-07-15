@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from './services/hash.service';
 import { UsersService } from 'src/users/users.service';
@@ -28,9 +28,9 @@ export class AuthService {
     ){}
 
     /**
-     * Crea un usuario en la base de datos
-     * @param {CreateUserDto} createUserDto - Data transfer object del usuario a crear
-     * @returns {User} - Usuario en la base de datos
+     * Crea un usuario tipo CLIENT
+     * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
+     * @returns {User} - Usuario creado
      */
     async signup(createUserDto: CreateUserDto): Promise<User> {
         // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
@@ -50,7 +50,7 @@ export class AuthService {
      * Valida las credenciales de inicio de sesión de un usuario
      * @param {string} email - Credencial email del usuario que intenta iniciar sesión
      * @param {string} password - Credencial password del usuario que intenta iniciar sesión
-     * @returns {User | null} - Usuario si las credenciales son válidas, sino null
+     * @returns {User} - Usuario validado
      */
     async validateUser(email: string, password: string): Promise<User> {
 
@@ -69,9 +69,9 @@ export class AuthService {
     }
 
     /**
-     * Realiza el login de un usuario autenticado
-     * @param user - Usuario autenticado
-     * @returns - accessToken y refreshToken del usuario
+     * Realiza el login de un usuario validado
+     * @param {User} user - Usuario validado
+     * @returns {JwtTokens} - accessToken y refreshToken
      */
     async login(user: User): Promise<JwtTokens> {
         // Genera los tokens para el usuario autenticado
@@ -85,9 +85,9 @@ export class AuthService {
 
     /**
      * Realiza la actualización del password de un usuario
-     * @param email - Email del usuario que actualiza el password
-     * @param updatePasswordDto - DTO para la actualización del password
-     * @returns - Usuario con nuevo password
+     * @param {string} email - Email del usuario que actualiza el password
+     * @param {string} updatePasswordDto - DTO para la actualización del password
+     * @returns {User} - Usuario con nuevo password
      */
     async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto): Promise<User> {
         // Validamos que el nuevo password y su verificación sean iguales
@@ -105,19 +105,19 @@ export class AuthService {
     }
 
     /**
-     * Realiza el logout de un usuario autenticado
+     * Realiza el cierre de sesion de un usuario autenticado
      * @param {string} email - email del usuario 
-     * @returns - Usuario con refreshToken null
+     * @returns {User} - Usuario con refreshToken null
      */
-    async logout(email: string): Promise<CreateUserDto> {
+    async logout(email: string): Promise<User> {
         // Establece como null el refreshToken del usuario en la base de datos
         return await this.usersService.update(email, { refreshToken: null });
     }
 
     /**
      * Genera el accessToken y refreshToken para un usuario
-     * @param user - Usuario al que se le crearan los tokens
-     * @returns - Tokens para el usuario
+     * @param {User} user - Usuario al que se le crearan los tokens
+     * @returns {JwtTokens} - accessToken y refreshToken
      */
     async getTokens(user: User): Promise<JwtTokens> {
 
@@ -168,7 +168,7 @@ export class AuthService {
      * Genera nuevos tokens para un usuario dado un refreshToken
      * @param {string} email - email del usuario
      * @param {string} refreshToken - refreshToken del usuario
-     * @returns - Tokens nuevos para el usuario
+     * @returns {JwtTokens} - accessToken y refreshToken
      */
     async refreshTokens(email: string, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos

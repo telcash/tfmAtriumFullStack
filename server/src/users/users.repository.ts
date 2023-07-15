@@ -9,16 +9,30 @@ import { CreateUserDto } from "./dto/create-user.dto";
 export class UsersRepository {
     constructor(private prisma: PrismaService) {}
 
+    /**
+     * Crea un usuario en la base de datos
+     * @param {CreateUserDto} createUserDto 
+     * @returns {User} - Usuario creado
+     */
     async create(createUserDto: CreateUserDto): Promise<User> {
         return await this.prisma.user.create({
             data: createUserDto,
         })
     }
 
+    /**
+     * Busca el listado de usuarios en la base de datos
+     * @returns {User[]} - Listado de usuarios
+     */
     async findAll(): Promise<User[]> {
         return await this.prisma.user.findMany();
     }
 
+    /**
+     * Busca un usuario según su correo(único)
+     * @param {string} email - Correo del usuario
+     * @returns {User} - Usuario correspondiente al correo
+     */
     async findUserByEmail(email: string): Promise<User> {
         return await this.prisma.user.findUniqueOrThrow({
             where: {
@@ -32,6 +46,12 @@ export class UsersRepository {
         });
     }
 
+    /**
+     * Actualiza los datos de un usuario en la base de datos
+     * @param {string} email - Correo del usuario
+     * @param {UpdateUserDto} updateUserDto - DTO para actualizar
+     * @returns {User} - Usuario actualizado
+     */
     async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
         return await this.prisma.user.update({
             data: updateUserDto,
@@ -46,6 +66,11 @@ export class UsersRepository {
         });
     }
 
+    /**
+     * Remueve un usuario de la base de datos
+     * @param {string} email - Correo del usuario
+     * @returns {User} - Usuario removido
+     */
     async remove(email: string): Promise<User> {
         return await this.prisma.user.delete({
             where: {
