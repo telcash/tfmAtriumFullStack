@@ -39,9 +39,10 @@ export class ProductsController {
     return products.map((product) => new ProductEntity(product));
   }
 
+  @UseInterceptors(UserIsAdminInterceptor)
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.findOne(+id));
+  async findOne(@Request() req, @Param('id') id: string): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.findOne(+id, req));
   }
 
   @UseGuards(JwtAccessGuard, RoleGuard)

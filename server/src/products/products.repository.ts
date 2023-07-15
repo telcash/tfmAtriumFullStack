@@ -1,12 +1,34 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { Product, Availability } from '@prisma/client';
+import { Product, Prisma } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductsRepository {
-    constructor(private prisma: PrismaService) {} 
+    constructor(private prisma: PrismaService) {}
+
+    private productConditionsForClients:Prisma.ProductWhereInput = {
+        price: {
+            gt: 0,
+        },
+        image: {
+            not: null,
+        },
+        availability: {
+            not: 'NEVER',
+        },
+        OR: [
+            {
+                stock: {
+                    gt: 0,
+                }
+            },
+            {
+                availability: 'ALWAYS',
+            }
+        ]
+    }
 
     async create(createProductDto: CreateProductDto): Promise<Product> {
         return await this.prisma.product.create({
@@ -21,27 +43,7 @@ export class ProductsRepository {
 
     async findAllForClients(): Promise<Product[]> {
         return await this.prisma.product.findMany({
-            where: {
-                price: {
-                    gt: 0,
-                },
-                image: {
-                    not: null,
-                },
-                availability: {
-                    not: 'NEVER',
-                },
-                OR: [
-                    {
-                        stock: {
-                            gt: 0,
-                        }
-                    },
-                    {
-                        availability: 'ALWAYS',
-                    }
-                ]
-            }
+            where: this.productConditionsForClients,
         })
     }
 
@@ -49,7 +51,16 @@ export class ProductsRepository {
         return await this.prisma.product.findUnique({
           where: {
             id: id,
-          }
+          },
+        });
+    }
+
+    async findOneForClients(id: number): Promise<Product> {
+        return await this.prisma.product.findUnique({
+            where: {
+                ...this.productConditionsForClients,
+                id: id,
+              },
         });
     }
 

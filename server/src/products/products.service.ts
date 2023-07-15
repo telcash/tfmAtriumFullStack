@@ -36,8 +36,11 @@ export class ProductsService {
     return await this.productRepository.findAllForClients();
   }
 
-  async findOne(id: number): Promise<Product> {
-    return this.productRepository.findOne(id);
+  async findOne(id: number, req): Promise<Product> {
+    if (req.isAdmin) {
+      return await this.productRepository.findOne(id);
+    }
+    return await this.productRepository.findOneForClients(id);
   }
 
   async update(id: number, updateProductDto: UpdateProductDto, file: Express.Multer.File): Promise<Product> {
