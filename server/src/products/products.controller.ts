@@ -10,6 +10,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductEntity } from './entities/product.entity';
+import { UserIsAdminInterceptor } from 'src/auth/interceptors/user-is-admin.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -31,9 +32,8 @@ export class ProductsController {
       return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
 
-
   @Get()
-  async findAll(): Promise<ProductEntity[]> {
+  async findAll(@Request() req): Promise<ProductEntity[]> {
     const products = await this.productsService.findAll();
     return products.map((product) => new ProductEntity(product));
   }
