@@ -4,23 +4,29 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductsRepository } from './products.repository';
 import { Product } from '@prisma/client';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private productRepository: ProductsRepository, private storageService: StorageService) {}
+  constructor(private productRepository: ProductsRepository, private storageService: StorageService, private authService: AuthService) {}
 
   /**
-   * 
-   * @param createProductDto 
-   * @param file 
-   * @returns 
+   * Crea un Producto
+   * @param {CreateProductDto} createProductDto - Dto para crear el producto
+   * @param {Express.Multer.File} file - Archivo de imagen
+   * @returns {Product} - Producto Creado
    */
-  async create(createProductDto: CreateProductDto, file: Express.Multer.File): Promise<Product> {
+  async create(createProductDto: CreateProductDto, file?: Express.Multer.File): Promise<Product> {
+    // Nombre del archivo si hay, sino el nombre es null
     const fileName = file ? file.filename : null;
+
+    // Actualiza el DTO
     createProductDto = {
       ...createProductDto,
       image: fileName,
     }
+
+    // Petición al repositorio para crear el producto
     return await this.productRepository.create(createProductDto);
   }
 

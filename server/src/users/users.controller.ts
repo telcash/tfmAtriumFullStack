@@ -50,6 +50,8 @@ export class UsersController {
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
+        
+        
         return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 

@@ -150,6 +150,19 @@ export class AuthService {
             refreshToken,
         }
     }
+    /**
+     * Verifica que en el request existe un refresh token válido
+     * @param req - Request
+     * @returns {boolean} - true si existe un token válido
+     */
+    async validateRefreshToken(req: any) : Promise<boolean> {
+        const token: string = req.headers.authorization.replace('Bearer','').trim();
+        const verified = await this.jwtService.verifyAsync(token, {
+            secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+        })
+        return verified ? true : false;
+        
+    }
 
     /**
      * Actualiza el refreshToken de un usuario en la base de datos

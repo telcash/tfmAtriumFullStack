@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Request } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
@@ -15,6 +15,12 @@ import { ProductEntity } from './entities/product.entity';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  /**
+   * Endpoint para la creación de un producto
+   * @param {Express.Multer.File} file - Archivo de imagen 
+   * @param {CreateProductDto} createProductDto - DTO para crear el producto
+   * @returns {ProductEntity} - Producto creado
+   */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
@@ -24,6 +30,7 @@ export class ProductsController {
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
       return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
+
 
   @Get()
   async findAll(): Promise<ProductEntity[]> {

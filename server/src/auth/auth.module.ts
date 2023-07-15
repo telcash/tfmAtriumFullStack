@@ -20,6 +20,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
     })
   ],
   providers: [AuthService, HashService, LocalStrategy, JwtAccessStrategy, JwtRefreshStrategy],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthService]
 })
 export class AuthModule {}
