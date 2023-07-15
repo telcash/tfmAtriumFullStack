@@ -2,10 +2,11 @@ import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { UserEntity } from '../users/entities/user.entity';
 import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { User } from '@prisma/client';
 
 /**
  * Controlador del modulo AuthModule
@@ -17,7 +18,7 @@ export class AuthController {
     /**
      * Endpoint para registro/creacion de usuario
      * @param {CreateUserDto} createUserDto - Data transfer object para la creación de un usuario 
-     * @returns {UserEntity} - Usuario creado
+     * @returns {CreateUserDto} - Usuario creado
      */
     @Post('signup')
     async signup(@Body() createUserDto: CreateUserDto): Promise<UserEntity>{
@@ -43,14 +44,21 @@ export class AuthController {
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Request() req): Promise<{accessToken: string, refreshToken: string}> {
+    async login(@Request() req): Promise<JwtTokens> {
         return await this.authService.login(req.user);
     }
 
+    /**
+     * Endpoint para actualización de password de usuario
+     * Protegido por JwtAccessGuard
+     * @param req 
+     * @param updatePasswordDto - Dto para actualización de password.
+     * @returns 
+     */
     @UseGuards(JwtAccessGuard)
     @Patch('password')
     async updatePassword(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
-        return await this.authService.updatePassword(req.user.email, updatePasswordDto);
+        return new UserEntity (await this.authService.updatePassword(req.user.email, updatePasswordDto));
     }
 
     /**

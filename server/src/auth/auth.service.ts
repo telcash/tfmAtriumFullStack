@@ -1,9 +1,9 @@
-import { BadGatewayException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from './services/hash.service';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
@@ -37,13 +37,13 @@ export class AuthService {
         const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
 
         // Actualizamos los datos para la creación del usuario
-        createUserDto = {
-            ...createUserDto,
-            password: hashedPassword,
-        }
-
         // Invocamos al servicio que crea el usuario
-        return this.usersService.create(createUserDto);
+        return this.usersService.create({
+            ...createUserDto,
+            role: Role.CLIENT,
+            password: hashedPassword,
+            refreshToken: null,
+        });
     }
 
     /**
@@ -55,11 +55,11 @@ export class AuthService {
     async validateUser(email: string, password: string): Promise<User> {
 
         // Buscamos en la base de datos el usuario registrado con el email
+        // Si no existe, el repositorio lanza un error
         const user: User = await this.usersService.findUserByEmail(email);
 
-        if(!user) throw new NotFoundException(`The user ${email} was not found`)
-
         // Si existe el usuario comparamos el password recibido con el password de la base de datos
+        // Lanzamos un error si el password no es válido
         if (! await this.hashService.isMatch(password, user.password)) {
             throw new UnauthorizedException('Password invalid')
         }
@@ -90,14 +90,18 @@ export class AuthService {
      * @returns - Usuario con nuevo password
      */
     async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto): Promise<User> {
-        // Valida el usuario (verifica que el password viejo es correcto)
-        const user: User = await this.validateUser(email, updatePasswordDto.oldPassword);
-        
-        // Valida el DTO y retorna el usuario con el password actualizado
-        if ((updatePasswordDto.newPassword === updatePasswordDto.newPasswordVerification) && user) {
-            const hashedPassword: string = await this.hashService.hashData(updatePasswordDto.newPassword);
-            return await this.usersService.update(email, { password: hashedPassword});  
+        // Validamos que el nuevo password y su verificación sean iguales
+        if (updatePasswordDto.newPassword !== updatePasswordDto.newPasswordConfirmation) {
+            throw new UnauthorizedException('Confirm password does not match password')
         }
+
+        // Valida el usuario (verifica que el password viejo es correcto)
+        // Lanza un error si no lo es
+        await this.validateUser(email, updatePasswordDto.password);
+
+        // Actualiza el password del usuario
+        const hashedPassword: string = await this.hashService.hashData(updatePasswordDto.newPassword);
+        return await this.usersService.update(email, { password: hashedPassword});
     }
 
     /**
@@ -105,7 +109,7 @@ export class AuthService {
      * @param {string} email - email del usuario 
      * @returns - Usuario con refreshToken null
      */
-    async logout(email: string): Promise<User> {
+    async logout(email: string): Promise<CreateUserDto> {
         // Establece como null el refreshToken del usuario en la base de datos
         return await this.usersService.update(email, { refreshToken: null });
     }
@@ -168,16 +172,12 @@ export class AuthService {
      */
     async refreshTokens(email: string, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos
+        // Si no lo encuentra, el repositorio lanza un error
         const user: User = await this.usersService.findUserByEmail(email);
         
-        // Si no encuentra al usuario o el usuario no tiene refreshToken negamos el acceso
-        if(!user || !user.refreshToken) {
-            throw new ForbiddenException('Access Denied');
-        }
-
-        // Comprueba que el refreshToken recibido coincide con el refreshToken en la base de datos
-        const refreshTokenMatches: boolean = await this.hashService.isMatch(refreshToken, user.refreshToken);
-        if (!refreshTokenMatches) {
+        // Si el usuario no tiene refreshToken en la base de datos, o este no coincide con el
+        // suministrado, negamos el acceso
+        if(!user.refreshToken || await this.hashService.isMatch(refreshToken, user.refreshToken)) {
             throw new ForbiddenException('Access Denied');
         }
 

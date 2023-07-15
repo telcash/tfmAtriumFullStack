@@ -17,7 +17,7 @@ export class UpdatePasswordDto {
         }
     )
     @MaxLength(16)
-    oldPassword: string;
+    password: string;
 
     @IsNotEmpty()
     @IsString()
@@ -45,5 +45,5 @@ export class UpdatePasswordDto {
         }
     )
     @MaxLength(16)
-    newPasswordVerification: string;
+    newPasswordConfirmation: string;
 }

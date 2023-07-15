@@ -23,7 +23,8 @@ export class RoleGuard implements CanActivate {
             return true;
         }
 
-        // Extrae el rol del request y si esta incluido en el listado de roles exigidos el Guard da acceso
+        // Extrae el rol del usuario del request y si esta incluido en el listado de roles exigidos el Guard da acceso
+        // El rol se encuantra en user agregado al request por JwtAccessGuard 
         const request = context.switchToHttp().getRequest();
         const user = request.user;
         return roles.includes(user.role);

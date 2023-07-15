@@ -5,8 +5,8 @@ import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/guards/role.guard';
-import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserEntity } from './entities/user.entity';
 
 /**
  * Controlador del modulo UsersModule
@@ -32,8 +32,8 @@ export class UsersController {
 
     @UseGuards(RoleGuard)
     @Roles(Role.ADMIN)
-    @Post('admin')
-    async createAdmin(createUserDto: CreateUserDto): Promise<UserEntity> {
+    @Post()
+    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
         return new UserEntity(await this.usersService.create(createUserDto));
     }
 

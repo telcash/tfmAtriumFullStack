@@ -4,7 +4,7 @@ import { Exclude } from "class-transformer";
 
 /**
  * Entidad usuario para enviar como respuesta al cliente
- * Hereda del modelo User de Prisma
+ * Implementa User de Prisma
  */
 export class UserEntity implements User {
     /**

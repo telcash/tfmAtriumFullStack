@@ -11,7 +11,7 @@ export class UsersRepository {
 
     async create(createUserDto: CreateUserDto): Promise<User> {
         return await this.prisma.user.create({
-            data: createUserDto
+            data: createUserDto,
         })
     }
 
@@ -20,13 +20,15 @@ export class UsersRepository {
     }
 
     async findUserByEmail(email: string): Promise<User> {
-        return await this.prisma.user.findUnique({
+        return await this.prisma.user.findUniqueOrThrow({
             where: {
                 email: email,
             },
             include: {
+                addresses: true,
+                orders: true,
                 cart: true,
-            }
+            },
         });
     }
 
@@ -35,6 +37,11 @@ export class UsersRepository {
             data: updateUserDto,
             where: {
                 email: email,
+            },
+            include: {
+                addresses: true,
+                orders: true,
+                cart: true,
             },
         });
     }

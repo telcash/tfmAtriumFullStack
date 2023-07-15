@@ -1,8 +1,8 @@
-import { Availability } from "@prisma/client";
-import { Type } from "class-transformer";
+import { Availability, Prisma } from "@prisma/client";
+import { Exclude, Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
-export class CreateProductDto {
+export class CreateProductDto implements Prisma.ProductCreateInput {
     @IsString()
     @MinLength(3)
     name: string;
@@ -16,15 +16,18 @@ export class CreateProductDto {
     @Type(() => Number)
     @IsNumber()
     price?: number;
+    
+    @IsOptional()
+    @IsString()
+    @Exclude({
+        toClassOnly: true,
+    })
+    image?: string;
 
     @IsOptional()
     @Type(() => Number)
     @IsNumber()
     stock?: number;
-
-    @IsOptional()
-    @IsString()
-    image?: string;
 
     @IsOptional()
     @IsString()

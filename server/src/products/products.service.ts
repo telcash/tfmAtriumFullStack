@@ -9,6 +9,12 @@ import { Product } from '@prisma/client';
 export class ProductsService {
   constructor(private productRepository: ProductsRepository, private storageService: StorageService) {}
 
+  /**
+   * 
+   * @param createProductDto 
+   * @param file 
+   * @returns 
+   */
   async create(createProductDto: CreateProductDto, file: Express.Multer.File): Promise<Product> {
     const fileName = file ? file.filename : null;
     createProductDto = {

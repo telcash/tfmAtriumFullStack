@@ -9,6 +9,7 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
 import { StorageService } from 'src/common/services/storage.service';
+import { ProductEntity } from './entities/product.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -20,18 +21,19 @@ export class ProductsController {
   @Post()
   async create(
     @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
-    @Body() createProductDto: CreateProductDto): Promise<Product>{
-      return await this.productsService.create(createProductDto, file);
+    @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
+      return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
 
   @Get()
-  async findAll(): Promise<Product[]> {
-    return await this.productsService.findAll();
+  async findAll(): Promise<ProductEntity[]> {
+    const products = await this.productsService.findAll();
+    return products.map((product) => new ProductEntity(product));
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Product> {
-    return await this.productsService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.findOne(+id));
   }
 
   @UseGuards(JwtAccessGuard, RoleGuard)
@@ -41,14 +43,14 @@ export class ProductsController {
   async update(
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
-    @Body() updateProductDto: UpdateProductDto): Promise<Product> {
-    return await this.productsService.update(+id, updateProductDto, file);
+    @Body() updateProductDto: UpdateProductDto): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.update(+id, updateProductDto, file));
   }
 
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Product> {
-    return await this.productsService.remove(+id);
+  async remove(@Param('id') id: string): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.remove(+id));
   }
 }

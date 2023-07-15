@@ -1,17 +1,32 @@
-import { CartStatus } from "@prisma/client";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { CartStatus, Prisma } from "@prisma/client";
+import { Exclude } from "class-transformer";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 /**
  * Data Transfer Object para creación de un Carrito de compras
  * Validado con class-validator
  */
-export class CreateCartDto {
+export class CreateCartDto implements Prisma.CartCreateWithoutUserInput {
     
     @IsOptional()
-    @IsNumber()
-    userId: number;
+    @Exclude({
+        toClassOnly: true,
+    })
+    userId: number
 
     @IsNotEmpty()
     @IsString()
     status: CartStatus;
+    
+    @IsOptional()
+    @Exclude({
+        toClassOnly: true,
+    })
+    createdAt?: Date;
+    
+    @IsOptional()
+    @Exclude({
+        toClassOnly: true,
+    })
+    updatedAt?: Date;
 }
