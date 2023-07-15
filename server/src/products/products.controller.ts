@@ -32,9 +32,10 @@ export class ProductsController {
       return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
 
+  @UseInterceptors(UserIsAdminInterceptor)
   @Get()
   async findAll(@Request() req): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAll();
+    const products = await this.productsService.findAll(req);
     return products.map((product) => new ProductEntity(product));
   }
 

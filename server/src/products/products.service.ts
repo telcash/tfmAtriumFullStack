@@ -4,11 +4,10 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductsRepository } from './products.repository';
 import { Product } from '@prisma/client';
-import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private productRepository: ProductsRepository, private storageService: StorageService, private authService: AuthService) {}
+  constructor(private productRepository: ProductsRepository, private storageService: StorageService) {}
 
   /**
    * Crea un Producto
@@ -30,8 +29,11 @@ export class ProductsService {
     return await this.productRepository.create(createProductDto);
   }
 
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.findAll();
+  async findAll(req): Promise<Product[]> {
+    if (req.isAdmin) {
+      return await this.productRepository.findAll();
+    }
+    return await this.productRepository.findAllForClients();
   }
 
   async findOne(id: number): Promise<Product> {

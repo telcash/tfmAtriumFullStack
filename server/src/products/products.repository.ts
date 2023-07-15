@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { Product } from "@prisma/client";
+import { Product, Availability } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
@@ -15,7 +15,34 @@ export class ProductsRepository {
     }
 
     async findAll(): Promise<Product[]> {
-        return await this.prisma.product.findMany();
+        return await this.prisma.product.findMany({
+        });
+    }
+
+    async findAllForClients(): Promise<Product[]> {
+        return await this.prisma.product.findMany({
+            where: {
+                price: {
+                    gt: 0,
+                },
+                image: {
+                    not: null,
+                },
+                availability: {
+                    not: 'NEVER',
+                },
+                OR: [
+                    {
+                        stock: {
+                            gt: 0,
+                        }
+                    },
+                    {
+                        availability: 'ALWAYS',
+                    }
+                ]
+            }
+        })
     }
 
     async findOne(id: number): Promise<Product> {

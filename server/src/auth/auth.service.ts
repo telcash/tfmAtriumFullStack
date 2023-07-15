@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { HashService } from './services/hash.service';
+import { HashService } from '../common/services/hash.service';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Role, User } from '@prisma/client';
@@ -149,22 +149,6 @@ export class AuthService {
             accessToken,
             refreshToken,
         }
-    }
-    /**
-     * Verifica que en el request existe un refresh token válido
-     * @param req - Request
-     * @returns {boolean} - true si existe un token válido
-     */
-    async validateRefreshToken(req: any) : Promise<boolean> {
-        if (!req.headers.authorization) {
-            return false;
-        }
-        const token: string = req.headers.authorization.replace('Bearer','').trim();
-        await this.jwtService.verifyAsync(token, {
-            secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-        })
-        .then(() => {return true})
-        .catch(() => {return false})
     }
 
     /**
