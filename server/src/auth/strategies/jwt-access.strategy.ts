@@ -20,6 +20,8 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt') {
             secretOrKey: process.env.JWT_ACCESS_SECRET,
         })
     }
+    
+
 
     /**
      * Implementacion de la funcion validate de la estrategia

@@ -57,9 +57,8 @@ model Order {
 
 model Cart {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
-  status CartStatus @default(NEW)
+  user User? @relation(fields: [userId], references: [id])
+  userId Int? @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products CartItem[]
@@ -131,8 +130,3 @@ enum Availability {
   NEVER
   STOCK
 }
-
-enum CartStatus {
-  NEW
-  UPDATED
-} 

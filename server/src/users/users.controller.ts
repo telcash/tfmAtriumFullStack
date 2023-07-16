@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post, UseFilters } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -12,8 +12,8 @@ import { UserEntity } from './entities/user.entity';
  * Controlador del modulo UsersModule
  * Endpoints protegidos por JwtAccessGuard
  */
-@Controller('users')
 @UseGuards(JwtAccessGuard)
+@Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
@@ -50,8 +50,6 @@ export class UsersController {
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
-        
-        
         return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
     }
 

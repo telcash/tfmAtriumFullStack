@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { Cart } from '@prisma/client';
@@ -8,12 +7,8 @@ import { Cart } from '@prisma/client';
 export class CartsService {
   constructor(private cartsRepository: CartsRepository) {}
 
-  async create(userId: number, createCartDto: CreateCartDto): Promise<Cart> {
-    createCartDto = {
-      ...createCartDto,
-      userId: userId,
-    };
-    return await this.cartsRepository.create(createCartDto);
+  async create(userId?: number): Promise<Cart> {
+    return await this.cartsRepository.create(userId);
   }
 
   async findAll(): Promise<Cart[]> {
