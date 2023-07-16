@@ -4,6 +4,10 @@ import { Availability } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsOptional, IsString, MinLength, IsNumber, Min } from 'class-validator';
 
+/**
+ * Data Transfer Object para la actualización de un producto
+ * Validado con class-validator
+ */
 export class UpdateProductDto extends PartialType(CreateProductDto) {
     @IsOptional()
     @IsString()

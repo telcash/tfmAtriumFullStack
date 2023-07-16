@@ -32,6 +32,13 @@ export class ProductsController {
       return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
 
+  /**
+   * Endpoint para obtener todos los productos
+   * Respuesta varía según el tipo de usuario
+   * Usa {@link UserIsAdminInterceptor} para ver si el usuario es un Admin
+   * @param req - Request
+   * @returns {ProductEntity[]} - Listado de productos
+   */
   @UseInterceptors(UserIsAdminInterceptor)
   @Get()
   async findAll(@Request() req): Promise<ProductEntity[]> {
@@ -39,12 +46,28 @@ export class ProductsController {
     return products.map((product) => new ProductEntity(product));
   }
 
+  /**
+   * Endpoint para obtener un producto por id
+   * Respuesta varía según el tipo de usuario
+   * Usa {@link UserIsAdminInterceptor} para ver si el usuario es un Admin
+   * @param req - Request 
+   * @param {string} id - Id del producto
+   * @returns {Promise<ProductEntity>} - Producto solicitado
+   */
   @UseInterceptors(UserIsAdminInterceptor)
   @Get(':id')
   async findOne(@Request() req, @Param('id') id: string): Promise<ProductEntity> {
     return new ProductEntity(await this.productsService.findOne(+id, req));
   }
 
+  /**
+   * Endpoint para Actualizar un Producto
+   * Solo para usuarios ADMIN
+   * @param {string} id - Id del producto 
+   * @param {Express.Multer.File} file - Archivo de imagen del producto 
+   * @param {UpdateProductDto} updateProductDto - DTO de actualización 
+   * @returns {ProductEntity} - Producto actualizado
+   */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
@@ -56,6 +79,12 @@ export class ProductsController {
     return new ProductEntity(await this.productsService.update(+id, updateProductDto, file));
   }
 
+  /**
+   * Endpoint para eliminar un producto
+   * Solo para usuarios ADMIN
+   * @param {string} id - Id del producto
+   * @returns {ProductEntity} - Producto Eliminado
+   */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @Delete(':id')

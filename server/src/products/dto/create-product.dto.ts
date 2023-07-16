@@ -2,6 +2,10 @@ import { Availability, Prisma } from "@prisma/client";
 import { Exclude, Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
+/**
+ * Data Transfer Object para creación de un producto
+ * Validado con class-validator
+ */
 export class CreateProductDto implements Prisma.ProductCreateInput {
     @IsString()
     @MinLength(3)
