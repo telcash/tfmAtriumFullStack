@@ -45,16 +45,16 @@ export class CartsController {
   
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
-  async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<Cart> {
-    return await this.cartsService.addItemToCart(req.user.sub, createCartItemDto);
+  async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
+    return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
   }
   
-  /* @UseGuards(JwtAccessGuard)
+  
+  @UseGuards(JwtAccessGuard)
   @Delete('/mycart/items')
   async emptyCart(@Request() req): Promise<CartEntity>{
-    return await this.cartsService.emptyCart(req.user.sub);
+    return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
   }
- */
 
 
   /**

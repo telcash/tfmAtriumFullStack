@@ -60,10 +60,10 @@ export class CartsRepository{
         })
     }
 
-    async remove(id: number): Promise<Cart> {
+    async removeByUserId(userId: number): Promise<Cart> {
         return await this.prisma.cart.delete({
           where: {
-            id: id,
+            userId: userId,
           }
         })
     }

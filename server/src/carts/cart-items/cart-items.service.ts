@@ -24,6 +24,10 @@ export class CartItemsService {
     return await this.cartItemsRepository.update(productId, cartId, updateCartItemDto);
   }
 
+  async removeAllFromCart(cartId: number) {
+    return await this.cartItemsRepository.removeAllFromCart(cartId);
+  }
+
   remove(id: number) {
     return `This action removes a #${id} cartItem`;
   }

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CartItem } from "@prisma/client";
+import { CartItem, Prisma } from "@prisma/client";
 import { CreateCartDto } from "src/carts/dto/create-cart.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCartItemDto } from "./dto/create-cart-item.dto";
@@ -38,5 +38,15 @@ export class CartItemsRepository {
                 }
             }
         })
+    }
+
+    async removeAllFromCart(cartId: number): Promise<Prisma.BatchPayload> {
+        const payload = await this.prisma.cartItem.deleteMany({
+            where: {
+                cartId: cartId,
+            }
+        })
+        console.log(payload);
+        return payload;
     }
 }

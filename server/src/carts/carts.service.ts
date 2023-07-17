@@ -63,15 +63,15 @@ export class CartsService {
     return await this.findCartByUserId(userId);
   }
 
-  /* async emptyCart(userId: number): Promise<Cart> {
-    return aconst cart = await this.findCartByUserId(userId);
+  //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
+  async emptyCart(userId: number): Promise<Cart> {
+    const cart = await this.findCartByUserId(userId);
+    await this.cartItemsService.removeAllFromCart(cart.id);
+    return await this.findCartByUserId(userId);
   }
- */
+ 
   async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
     return await this.cartsRepository.update(userId, updateCartDto);
   }
 
-  async remove(id: number): Promise<Cart> {
-    return await this.cartsRepository.remove(id);
-  }
 }
