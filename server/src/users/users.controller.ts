@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post, UseFilters, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -56,7 +56,7 @@ export class UsersController {
     /**
      * Endpoint para editar los datos del usuario que hace la petición
      * @param {UpdateUserDto} updateUserDto - DTO con los datos a editar
-     * @param req 
+     * @param req -Request
      * @returns {UserEntity} - Usuario actualizado
      */
     @Patch('profile')
@@ -66,7 +66,7 @@ export class UsersController {
 
     /**
      * Endpoint para eliminar al usuario que hace la petición
-     * @param req 
+     * @param req - Request
      * @returns {UserEntity} - Usuario eliminado
      */
     @Delete('profile')

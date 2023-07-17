@@ -46,6 +46,8 @@ export class UsersRepository {
         });
     }
 
+
+
     /**
      * Actualiza los datos de un usuario en la base de datos
      * @param {string} email - Correo del usuario

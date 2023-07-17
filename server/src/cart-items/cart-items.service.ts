@@ -6,9 +6,9 @@ import { CartsService } from '../carts/carts.service';
 
 @Injectable()
 export class CartItemsService {
-  constructor(private prisma: PrismaService, private cartsService: CartsService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(userId: number, createCartItemDto: CreateCartItemDto) {
+  /* async create(userId: number, createCartItemDto: CreateCartItemDto) {
     const cart = await this.cartsService.findOne(userId);
     if (!cart) {
       throw new BadRequestException('Cart not founded');
@@ -34,7 +34,7 @@ export class CartItemsService {
       })
     }
     return cartItem;
-  }
+  } */
 
   findAll() {
     return `This action returns all cartItems`;
@@ -44,7 +44,7 @@ export class CartItemsService {
     return `This action returns a #${id} cartItem`;
   }
 
-  async update(id: number, updateCartItemDto: UpdateCartItemDto) {
+  /* async update(id: number, updateCartItemDto: UpdateCartItemDto) {
     const updatedCartItem = await this.prisma.cartItem.update({
       where: {
         productId_cartId: {
@@ -55,7 +55,7 @@ export class CartItemsService {
       data: updateCartItemDto,
     })
     return `This action updates a #${id} cartItem`;
-  }
+  } */
 
   remove(id: number) {
     return `This action removes a #${id} cartItem`;

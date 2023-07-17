@@ -1,5 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, UnauthorizedException } from '@nestjs/common';
 
+
 @Catch(UnauthorizedException)
 export class JwtRedirectFilter<T> implements ExceptionFilter {
 
@@ -10,13 +11,13 @@ export class JwtRedirectFilter<T> implements ExceptionFilter {
     this.url = url;
   }
 
-  catch(exception: T, host: ArgumentsHost) {
+  catch(exception: UnauthorizedException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-
-    response.json({
-      url: this.url,
-      statusCode: this.statusCode,
-    })
+    const isTokenInRequest = ctx.getRequest().headers.authorization ? true : false;
+    if (!isTokenInRequest) {
+      return response.redirect(this.url);
+    }
+    return response.send(new UnauthorizedException);
   }
 }

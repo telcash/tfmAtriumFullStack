@@ -15,8 +15,18 @@ export class CartsService {
     return await this.cartsRepository.findAll();
   }
 
-  async findOne(userId: number): Promise<Cart> {
-    return await this.cartsRepository.findOne(userId)
+  /**
+   * Busca el carrito de compras para un usuario autenticado
+   * Crea el carrito del usuario si no existe
+   * @param {number} userId - Id del usuario 
+   * @returns {Cart} - Carrito de compras
+   */
+  async findCartByUserId(userId: number): Promise<Cart> {
+    let cart = await this.cartsRepository.findOne(userId);
+    if (!cart) {
+      cart = await this.cartsRepository.create(userId);
+    }
+    return cart;
   }
 
   async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {

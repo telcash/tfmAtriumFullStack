@@ -4,15 +4,16 @@ import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 
-@UseGuards(JwtAccessGuard)
+//@UseGuards(JwtAccessGuard)
 @Controller('carts/cart-items')
 export class CartItemsController {
   constructor(private readonly cartItemsService: CartItemsService) {}
 
-  @Post()
-  async create(@Request() req, @Body() createCartItemDto: CreateCartItemDto) {
-    return await this.cartItemsService.create(req.user.sub, createCartItemDto);
-  }
+  /* @Post()
+  async create(createCartItemDto: CreateCartItemDto) {
+
+    return await this.cartItemsService.create(1, createCartItemDto);
+  } */
 
   @Get()
   findAll() {
@@ -24,10 +25,10 @@ export class CartItemsController {
     return this.cartItemsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartItemDto: UpdateCartItemDto) {
-    return this.cartItemsService.update(+id, updateCartItemDto);
-  }
+  /* @Patch(':id')
+  update(@Param('id')) {
+    return this.cartItemsService.update(+id);
+  } */
 
   @Delete(':id')
   remove(@Param('id') id: string) {
