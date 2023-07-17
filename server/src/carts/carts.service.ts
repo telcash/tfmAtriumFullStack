@@ -7,7 +7,7 @@ import { Cart } from '@prisma/client';
 export class CartsService {
   constructor(private cartsRepository: CartsRepository) {}
 
-  async create(userId?: number): Promise<Cart> {
+  async createWithUserId(userId?: number): Promise<Cart> {
     return await this.cartsRepository.create(userId);
   }
 
@@ -22,10 +22,23 @@ export class CartsService {
    * @returns {Cart} - Carrito de compras
    */
   async findCartByUserId(userId: number): Promise<Cart> {
-    let cart = await this.cartsRepository.findOne(userId);
+    let cart = await this.cartsRepository.findOneByUserId(userId);
     if (!cart) {
       cart = await this.cartsRepository.create(userId);
     }
+    return cart;
+  }
+
+  async findGuestCart(id: number, response) {
+    if(id) {
+      return await this.cartsRepository.findOneById(id);
+    }
+    const cart = await this.cartsRepository.create(null);
+    response.cookie('cartId', cart.id, {
+      httpOnly: true,
+      signed: true,
+      sameSite: true,
+    });
     return cart;
   }
 
@@ -33,7 +46,7 @@ export class CartsService {
     return await this.cartsRepository.update(userId, updateCartDto);
   }
 
-  async remove(userId: number): Promise<Cart> {
-    return await this.cartsRepository.remove(userId);
+  async remove(id: number): Promise<Cart> {
+    return await this.cartsRepository.remove(id);
   }
 }

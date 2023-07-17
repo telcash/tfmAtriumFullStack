@@ -14,6 +14,9 @@ export class CartsRepository{
           data: {
             userId: userId,
           },
+          include: {
+            products: true,
+          }
         });
     }
 
@@ -26,16 +29,26 @@ export class CartsRepository{
         });
     }
 
-    async findOne(userId: number): Promise<Cart> {
-        return await this.prisma.cart.findUnique({
-          where: {
-            userId: userId,
-          },
-          include: {
-            user: true,
-            products: true,
-          }
-        })
+    async findOneById(id: number): Promise<Cart> {
+      return await this.prisma.cart.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          products: true,
+        }
+      })
+    }
+
+    async findOneByUserId(userId: number): Promise<Cart> {
+      return await this.prisma.cart.findUnique({
+        where: {
+          userId: userId,
+        },
+        include: {
+          products: true,
+        }
+      })
     }
 
     async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
@@ -47,10 +60,10 @@ export class CartsRepository{
         })
     }
 
-    async remove(userId: number): Promise<Cart> {
+    async remove(id: number): Promise<Cart> {
         return await this.prisma.cart.delete({
           where: {
-            userId: userId,
+            id: id,
           }
         })
     }

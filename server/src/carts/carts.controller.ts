@@ -1,12 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Delete, UseGuards, Request, UseFilters, Redirect } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, UseFilters, Res } from '@nestjs/common';
 import { CartsService } from './carts.service';
-import { UpdateCartDto } from './dto/update-cart.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
-import { Role } from '@prisma/client';
+import { Cart, Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CartEntity } from './entities/cart.entity';
-import { CreateCartItemDto } from '../cart-items/dto/create-cart-item.dto';
 import { JwtRedirectFilter } from 'src/auth/filters/jwt-redirect.filter';
 
 
@@ -14,13 +12,19 @@ import { JwtRedirectFilter } from 'src/auth/filters/jwt-redirect.filter';
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
+  /**
+   * Endpoint para recibir todos los carritos
+   * Para uso de un ADMIN
+   * @returns 
+   */
   @UseGuards(JwtAccessGuard)
   @UseGuards(RoleGuard)
   @Roles(Role.ADMIN)
   @Get()
-  async findAll(): Promise<CartEntity[]> {
+  async findAll(): Promise<Cart[]> {
     const carts = await this.cartsService.findAll();
-    return carts.map((cart) => new CartEntity(cart));
+    return carts;
+    //return carts.map((cart) => new CartEntity(cart));
   }
 
   /**
@@ -36,18 +40,12 @@ export class CartsController {
     return new CartEntity(await this.cartsService.findCartByUserId(req.user.sub));
   }
 
+  /**
+   * Endpoint que busca el carro de compras de un invitado
+   * @returns 
+   */
   @Get('/guest')
-  async findGuestCart() {
-    return 'Guest cart'
+  async findGuestCart(@Request() req, @Res({passthrough: true}) res) {
+    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
   }
-
-  /* @Patch('/mycart')
-  async update(@Request() req, @Body() updateCartDto: UpdateCartDto): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.update(req.user.sub, updateCartDto));
-  } */
-
-  /* @Delete('/mycart')
-  async remove(@Request() req): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.remove(req.user.sub));
-  } */
 }
