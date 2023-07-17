@@ -9,7 +9,6 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
-import { CartItemsModule } from './cart-items/cart-items.module';
 import { PrismaExceptionFilter } from './prisma/filters/prisma.filter/prisma-exception.filter';
 import { JwtModule } from '@nestjs/jwt';
 import { CommonModule } from './common/common.module';
@@ -24,7 +23,7 @@ import { CommonModule } from './common/common.module';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule, CartItemsModule, CommonModule
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule, CommonModule
   ],
   controllers: [AppController],
   providers: [

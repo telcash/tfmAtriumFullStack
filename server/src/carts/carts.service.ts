@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { Cart } from '@prisma/client';
+import { CreateCartDto } from './dto/create-cart.dto';
+import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
+import { CartItemsService } from './cart-items/cart-items.service';
+import { userInfo } from 'os';
 
 @Injectable()
 export class CartsService {
-  constructor(private cartsRepository: CartsRepository) {}
+  constructor(private cartsRepository: CartsRepository, private cartItemsService: CartItemsService) {}
 
   async createWithUserId(userId?: number): Promise<Cart> {
     return await this.cartsRepository.create(userId);
@@ -42,6 +46,27 @@ export class CartsService {
     return cart;
   }
 
+  async addItemToCart(userId: number, createCartItemDto: CreateCartItemDto): Promise<Cart> {
+    const cart = await this.findCartByUserId(userId);
+
+    let cartItem = await this.cartItemsService.findOne(createCartItemDto.productId, cart.id);
+
+    if(cartItem) {
+      const quantity = cartItem.quantity + createCartItemDto.quantity;
+      cartItem = await this.cartItemsService.update(createCartItemDto.productId, cart.id, { quantity: quantity});
+    } else {
+      cartItem = await this.cartItemsService.create({
+        ...createCartItemDto,
+        cartId: cart.id,
+      }) 
+    }
+    return await this.findCartByUserId(userId);
+  }
+
+  /* async emptyCart(userId: number): Promise<Cart> {
+    return aconst cart = await this.findCartByUserId(userId);
+  }
+ */
   async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
     return await this.cartsRepository.update(userId, updateCartDto);
   }
