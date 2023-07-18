@@ -6,6 +6,8 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   // Validación de los datos en dto recibidos del cliente
   app.useGlobalPipes(new ValidationPipe({
     transform: true,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -55,4 +55,9 @@ export class UsersService {
     async remove(email: string): Promise<User> {
         return await this.userRepository.remove(email);
     }
+
+    async countUsersByRole(role: Role): Promise<number> {
+        return await this.userRepository.countUsersByRole(role);
+    }
+
 }

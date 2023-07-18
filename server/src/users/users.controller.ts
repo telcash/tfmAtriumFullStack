@@ -7,6 +7,7 @@ import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { LastAdminGuard } from './guards/last-admin.guard';
 
 /**
  * Controlador del modulo UsersModule
@@ -43,7 +44,6 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
-
     /**
      * Endpoint para obtener los datos del usuario que hace la petición
      * @param req
@@ -70,6 +70,7 @@ export class UsersController {
      * @param req - Request
      * @returns {UserEntity} - Usuario eliminado
      */
+    @UseGuards(LastAdminGuard)
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {
         return new UserEntity(await this.usersService.remove(req.user.email));
