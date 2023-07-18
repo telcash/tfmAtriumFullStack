@@ -1,4 +1,4 @@
-import { Cart, Product } from "@prisma/client";
+import { Cart, Product, User } from "@prisma/client";
 import { Exclude } from "class-transformer";
 
 export class CartEntity implements Cart{
@@ -7,7 +7,6 @@ export class CartEntity implements Cart{
     }
     id: number;
 
-    @Exclude()
     userId: number;
 
     @Exclude()
@@ -17,4 +16,7 @@ export class CartEntity implements Cart{
     updatedAt: Date;
     
     products: Product[];
+
+    @Exclude()
+    user: User;
 }

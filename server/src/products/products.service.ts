@@ -15,49 +15,50 @@ export class ProductsService {
    * @param {Express.Multer.File} file - Archivo de imagen
    * @returns {Product} - Producto Creado
    */
-  async create(createProductDto: CreateProductDto, file?: Express.Multer.File): Promise<Product> {
-    // Nombre del archivo si hay, sino el nombre es null
-    const fileName = file ? file.filename : null;
-
-    // Actualiza el DTO
-    createProductDto = {
+  async create(createProductDto: CreateProductDto, fileName: string): Promise<Product> {
+    // Petición al repositorio para crear el producto
+    return await this.productRepository.create({
       ...createProductDto,
       image: fileName,
-    }
+    });
+  }
 
-    // Petición al repositorio para crear el producto
-    return await this.productRepository.create(createProductDto);
+  /**
+   * Genera un listado de todos los productos disponibles para clientes
+   * @returns {Product[]} - Listado de productos
+   */
+  async findAllForClients(): Promise<Product[]> {
+    // Busca un listado de todos los productos disponibles para clientes
+    return await this.productRepository.findAllForClients();
   }
 
   /**
    * Genera un listado de todos los productos
-   * @param req - Request
    * @returns {Product[]} - Listado de productos
    */
-  async findAll(req): Promise<Product[]> {
-    // Si el usuario es ADMIN genera un listado sin condiciones
-    if (req.isAdmin) {
-      return await this.productRepository.findAll();
-    }
+  async findAll(): Promise<Product[]> {
+    // Busca un listado de todos los productos
+    return await this.productRepository.findAll();
+  }
 
-    // Si el usuario no es Admin genera un listado con condiciones
-    return await this.productRepository.findAllForClients();
+  /**
+   * Busca un producto por id si está disponible para clientes
+   * @param {number} id - Id del producto 
+   * @returns {Product} - Producto buscado
+   */
+  async findOneForClients(id: number): Promise<Product> {
+    // Busca un producto que este disponible para clientes
+    return await this.productRepository.findOneForClients(id);
   }
 
   /**
    * Busca un producto por id
    * @param {number} id - Id del producto
-   * @param req - Request
    * @returns {Product} - Producto buscado
    */
-  async findOne(id: number, req): Promise<Product> {
-    // Si el usuario es ADMIN busca el producto sin condiciones
-    if (req.isAdmin) {
-      return await this.productRepository.findOne(id);
-    }
-
-    // Si el usuario no es ADMIN busca el producto con condiciones
-    return await this.productRepository.findOneForClients(id);
+  async findOne(id: number): Promise<Product> {
+    // Busca un producto
+    return await this.productRepository.findOne(id);
   }
 
   /**
@@ -67,20 +68,20 @@ export class ProductsService {
    * @param {Express.Multer.File} file - Archivo de imagen del producto 
    * @returns {Product} - Producto buscado
    */
-  async update(id: number, updateProductDto: UpdateProductDto, file: Express.Multer.File): Promise<Product> {
-    if (file) {
-      // Si hay nueva imagen, agregamos su nombre al Dto
-      updateProductDto = {
-        ...updateProductDto,
-        image: file.filename,
-      }
-      // Si hay nueva imagen, eliminamos el archivo de la imagen anterior si existe
+  async update(id: number, updateProductDto: UpdateProductDto, fileName: string): Promise<Product> {
+    // Si hay un archivo de imagen para actualizar el producto, eliminamos la imagen anterior si existe
+    if (fileName) {
       const oldImage = (await this.productRepository.findOne(id)).image;
       if (oldImage) {
         this.storageService.deleteFile(this.storageService.imagesDestination, oldImage);
       }
     }
-    return await this.productRepository.update(id, updateProductDto);
+
+    // Peticion para actualizar el producto en la base de datos
+    return await this.productRepository.update(id, {
+      ...updateProductDto,
+      image: fileName,
+    });
   }
 
   /**

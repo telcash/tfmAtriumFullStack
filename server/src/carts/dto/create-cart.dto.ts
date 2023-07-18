@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 
 /**
  * Data Transfer Object para creación de un Carrito de compras
@@ -8,6 +8,7 @@ import { IsOptional } from "class-validator";
 export class CreateCartDto {
     
     @IsOptional()
+    @IsNumber()
     @Exclude({
         toClassOnly: true,
     })

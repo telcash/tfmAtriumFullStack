@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCartDto } from './create-cart.dto';
-import { IsOptional } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 /**
@@ -9,6 +9,7 @@ import { Exclude } from 'class-transformer';
  */
 export class UpdateCartDto extends PartialType(CreateCartDto) {
     @IsOptional()
+    @IsNumber()
     @Exclude({
         toClassOnly: true,
     })

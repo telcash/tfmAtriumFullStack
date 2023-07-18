@@ -19,30 +19,40 @@ export class CartsController {
    * Para uso de un ADMIN
    * @returns 
    */
-  @UseGuards(JwtAccessGuard)
-  @UseGuards(RoleGuard)
+  @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @Get()
-  async findAll(): Promise<Cart[]> {
+  async findAll(): Promise<CartEntity[]> {
     const carts = await this.cartsService.findAll();
-    return carts;
-    //return carts.map((cart) => new CartEntity(cart));
+    return carts.map((cart) => new CartEntity(cart));
   }
 
   /**
    * Endpoint para obtener el carro de compras de un usuario autenticado
-   * Si el usuario no está autenticado redirige al endpoint para carrito de invitado
-   * @param req 
-   * @returns 
+   * @param req - Request
+   * @returns {CartEntity} - Carrito
    */
   @UseGuards(JwtAccessGuard)
-  @UseFilters(new JwtRedirectFilter('/carts/guest'))
   @Get('/mycart')
   async findCartByUserId(@Request() req): Promise<CartEntity> {
     return new CartEntity(await this.cartsService.findCartByUserId(req.user.sub));
   }
 
-  
+  /**
+   * Endpoint para obtener el carro de compras de un invitado
+   * Obtiene el id del carrito de cookie
+   * @returns {CartEntity} - Carrito
+   */
+  @Get('/guest')
+  async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
+    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
+  }
+  /**
+   * Endpoint para agregar items al carrito de un usuario autenticado
+   * @param req - Request
+   * @param createCartItemDto - DTO
+   * @returns {CartEntity} - Carrito actualizado
+   */
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
   async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
@@ -57,12 +67,4 @@ export class CartsController {
   }
 
 
-  /**
-   * Endpoint que busca el carro de compras de un invitado
-   * @returns 
-   */
-  @Get('/guest')
-  async findGuestCart(@Request() req, @Res({passthrough: true}) res) {
-    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
-  }
 }

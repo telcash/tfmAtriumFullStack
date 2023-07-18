@@ -9,6 +9,7 @@ async function bootstrap() {
   // Validación de los datos en dto recibidos del cliente
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
+    whitelist: true,
   })
   );
 

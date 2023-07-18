@@ -18,6 +18,19 @@ export class UsersController {
     constructor(private usersService: UsersService) {}
 
     /**
+     * Endpoint para la creación de un usuario
+     * Endpoint protegido por RoleGuard
+     * @param {CreateUserDto} createUserDto - DTO para crear al usuario 
+     * @returns {UserEntity} - Usuario creado
+     */
+    @UseGuards(RoleGuard)
+    @Roles(Role.ADMIN)
+    @Post()
+    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.create(createUserDto));
+    }
+    
+    /**
      * Endpoint para obtener un listado de todos los usuarios
      * Endpoint protegido por RoleGuard
      * @returns {UserEntity[]} - Listado de usuarios
@@ -30,18 +43,6 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
-    /**
-     * Endpoint para la creación de un usuario
-     * Endpoint protegido por RoleGuard
-     * @param {CreateUserDto} createUserDto - DTO para crear al usuario 
-     * @returns {UserEntity} - Usuario creado
-     */
-    @UseGuards(RoleGuard)
-    @Roles(Role.ADMIN)
-    @Post()
-    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.create(createUserDto));
-    }
 
     /**
      * Endpoint para obtener los datos del usuario que hace la petición

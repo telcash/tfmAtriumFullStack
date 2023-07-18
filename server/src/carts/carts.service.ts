@@ -11,10 +11,10 @@ import { userInfo } from 'os';
 export class CartsService {
   constructor(private cartsRepository: CartsRepository, private cartItemsService: CartItemsService) {}
 
-  async createWithUserId(userId?: number): Promise<Cart> {
-    return await this.cartsRepository.create(userId);
-  }
-
+  /**
+   * Busca todos los carritos
+   * @returns {Cart[]} - Listado de carritos
+   */
   async findAll(): Promise<Cart[]> {
     return await this.cartsRepository.findAll();
   }
@@ -26,23 +26,41 @@ export class CartsService {
    * @returns {Cart} - Carrito de compras
    */
   async findCartByUserId(userId: number): Promise<Cart> {
+    // Busca el carrito para el usuario
     let cart = await this.cartsRepository.findOneByUserId(userId);
+    
+    // Si el usuario no tiene aún carrito creado se crea un carrito
     if (!cart) {
       cart = await this.cartsRepository.create(userId);
     }
+
+    // Retorna el carrito
     return cart;
   }
 
-  async findGuestCart(id: number, response) {
+  /**
+   * Busca el carrito de compras para un invitado
+   * @param {number} id - Id del carrito 
+   * @param response - Response
+   * @returns {Cart} - Carrito de compras
+   */
+  async findGuestCart(id: number, response): Promise<Cart> {
+    // Si existe id del carrito en cookies busca el carrito
     if(id) {
       return await this.cartsRepository.findOneById(id);
     }
+
+    // Si no existe carrito se crea una nuevo sin usuario asignado (null)
     const cart = await this.cartsRepository.create(null);
+
+    // Se envía en response cookie con el id del carrito asignado
     response.cookie('cartId', cart.id, {
       httpOnly: true,
       signed: true,
       sameSite: true,
     });
+
+    // Retorna el carrito
     return cart;
   }
 

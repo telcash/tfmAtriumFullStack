@@ -10,7 +10,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductEntity } from './entities/product.entity';
-import { UserIsAdminInterceptor } from 'src/auth/interceptors/user-is-admin.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -27,38 +26,52 @@ export class ProductsController {
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
   @Post()
   async create(
-    @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
+    @UploadedFile(ImageValidationPipe) file,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
       return new ProductEntity(await this.productsService.create(createProductDto, file));
   }
 
   /**
-   * Endpoint para obtener todos los productos
-   * Respuesta varía según el tipo de usuario
-   * Usa {@link UserIsAdminInterceptor} para ver si el usuario es un Admin
-   * @param req - Request
-   * @returns {ProductEntity[]} - Listado de productos
+   * Endpoint para un cliente obtener todos los productos disponibles
+   * @returns 
    */
-  @UseInterceptors(UserIsAdminInterceptor)
   @Get()
-  async findAll(@Request() req): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAll(req);
+  async findAllForClients(): Promise<ProductEntity[]> {
+    const products = await this.productsService.findAllForClients();
     return products.map((product) => new ProductEntity(product));
   }
 
   /**
-   * Endpoint para obtener un producto por id
-   * Respuesta varía según el tipo de usuario
-   * Usa {@link UserIsAdminInterceptor} para ver si el usuario es un Admin
+   * Endpoint para un Admin obtener todos los productos
+   * @param req - Request
+   * @returns {ProductEntity[]} - Listado de productos
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(Role.ADMIN)
+  @Get('/admin')
+  async findAll(): Promise<ProductEntity[]> {
+    const products = await this.productsService.findAll();
+    return products.map((product) => new ProductEntity(product));
+  }
+
+  @Get(':id')
+  async findOneForClients(@Param('id') id: string): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.findOneForClients(+id));
+  }
+
+  /**
+   * Endpoint para un Admin obtener un producto por id
    * @param req - Request 
    * @param {string} id - Id del producto
    * @returns {Promise<ProductEntity>} - Producto solicitado
    */
-  @UseInterceptors(UserIsAdminInterceptor)
-  @Get(':id')
-  async findOne(@Request() req, @Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.findOne(+id, req));
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(Role.ADMIN)
+  @Get('/admin/:id')
+  async findOne(@Param('id') id: string): Promise<ProductEntity> {
+    return new ProductEntity(await this.productsService.findOne(+id));
   }
+  
 
   /**
    * Endpoint para Actualizar un Producto
@@ -74,7 +87,7 @@ export class ProductsController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @UploadedFile(ImageValidationPipe) file: Express.Multer.File,
+    @UploadedFile(ImageValidationPipe) file,
     @Body() updateProductDto: UpdateProductDto): Promise<ProductEntity> {
     return new ProductEntity(await this.productsService.update(+id, updateProductDto, file));
   }

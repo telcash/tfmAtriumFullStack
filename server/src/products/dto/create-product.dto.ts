@@ -6,7 +6,7 @@ import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
  * Data Transfer Object para creación de un producto
  * Validado con class-validator
  */
-export class CreateProductDto implements Prisma.ProductCreateInput {
+export class CreateProductDto {
     @IsString()
     @MinLength(3)
     name: string;
