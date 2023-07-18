@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Request, UseGuards, UsePipes } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -6,7 +6,8 @@ import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
-import { SignupPipe } from './pipes/signup/signup.pipe';
+import { SignupPipe } from './pipes/signup.pipe';
+import { PasswordUpdatePipe } from './pipes/password-update.pipe';
 
 /**
  * Controlador del modulo AuthModule
@@ -59,7 +60,7 @@ export class AuthController {
      */
     @UseGuards(JwtAccessGuard)
     @Patch('password')
-    async updatePassword(@Request() req, @Body() updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
+    async updatePassword(@Request() req, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
         return new UserEntity (await this.authService.updatePassword(req.user.email, updatePasswordDto));
     }
 

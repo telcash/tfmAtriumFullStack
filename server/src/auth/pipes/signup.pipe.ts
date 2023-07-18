@@ -11,7 +11,7 @@ export class SignupPipe implements PipeTransform {
 
     // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
     const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
-    
+
     // Actualizamos los datos para la creación del usuario
     createUserDto = {
       ...createUserDto,
