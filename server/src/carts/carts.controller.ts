@@ -1,14 +1,14 @@
-import { Controller, Get, UseGuards, Request, UseFilters, Res, Post, Body, Delete } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Res, Post, Body, Delete } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
-import { Cart, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CartEntity } from './entities/cart.entity';
-import { JwtRedirectFilter } from 'src/auth/filters/jwt-redirect.filter';
 import { CreateCartItemDto } from 'src/carts/cart-items/dto/create-cart-item.dto';
 import { CartItemsService } from './cart-items/cart-items.service';
-
+import { AddItemToCartPipe } from './pipes/add-item-to-cart.pipe';
+             
 
 @Controller('carts')
 export class CartsController {
@@ -47,6 +47,7 @@ export class CartsController {
   async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
     return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
   }
+
   /**
    * Endpoint para agregar items al carrito de un usuario autenticado
    * @param req - Request
@@ -55,16 +56,18 @@ export class CartsController {
    */
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
-  async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
+  async addItemToCart(@Request() req, @Body(AddItemToCartPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
     return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
   }
   
-  
+  /**
+   * Endpoint para vaciar el carrito de compras
+   * @param req - Request
+   * @returns {CartEntity} - Carrito de compras vacío
+   */
   @UseGuards(JwtAccessGuard)
   @Delete('/mycart/items')
   async emptyCart(@Request() req): Promise<CartEntity>{
     return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
   }
-
-
 }

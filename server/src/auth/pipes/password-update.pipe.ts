@@ -4,6 +4,9 @@ import { UpdatePasswordDto } from '../dto/update-password.dto';
 import { AuthService } from '../auth.service';
 import { HashService } from 'src/common/services/hash.service';
 
+/**
+ * Valida UpdatePasswordDto
+ */
 @Injectable({ scope: Scope.REQUEST} )
 export class PasswordUpdatePipe implements PipeTransform {
   constructor(
@@ -12,6 +15,12 @@ export class PasswordUpdatePipe implements PipeTransform {
     private readonly hashService: HashService,
   ) {}
 
+  /**
+   * Valida UpdatePasswordDto
+   * @param {UpdatePasswordDto} updatePasswordDto - DTO
+   * @param {ArgumentMetadata} metadata 
+   * @returns - Nuevo password hasheado
+   */
   async transform(updatePasswordDto: UpdatePasswordDto, metadata: ArgumentMetadata) {
 
     // Validamos que el nuevo password y su verificación sean iguales
@@ -26,6 +35,7 @@ export class PasswordUpdatePipe implements PipeTransform {
     // Hashing del nuevo password
     const hashedPassword: string = await this.hashService.hashData(updatePasswordDto.newPassword);
 
+    // Retorna nuevo password hasheado
     return { password: hashedPassword };
   }
 }

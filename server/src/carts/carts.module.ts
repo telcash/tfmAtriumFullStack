@@ -4,8 +4,10 @@ import { CartsController } from './carts.controller';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { CartItemsRepository } from './cart-items/cart-items.repository';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
+  imports: [ProductsModule],
   controllers: [CartsController],
   providers: [CartsService, CartsRepository, CartItemsService, CartItemsRepository],
   exports: [CartsService]

@@ -1,15 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { Cart } from '@prisma/client';
-import { CreateCartDto } from './dto/create-cart.dto';
 import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
 import { CartItemsService } from './cart-items/cart-items.service';
-import { userInfo } from 'os';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class CartsService {
-  constructor(private cartsRepository: CartsRepository, private cartItemsService: CartItemsService) {}
+  constructor(private cartsRepository: CartsRepository, private cartItemsService: CartItemsService, private productsService: ProductsService) {}
 
   /**
    * Busca todos los carritos
@@ -64,28 +63,50 @@ export class CartsService {
     return cart;
   }
 
+  /**
+   * Agrega un item al carrito de compras de un usuario autenticado
+   * @param userId - Id del usuario
+   * @param createCartItemDto - DTO del item
+   * @returns {Cart} - Carrito de compras actualizado
+   */
   async addItemToCart(userId: number, createCartItemDto: CreateCartItemDto): Promise<Cart> {
     const cart = await this.findCartByUserId(userId);
-
     let cartItem = await this.cartItemsService.findOne(createCartItemDto.productId, cart.id);
 
-    if(cartItem) {
-      const quantity = cartItem.quantity + createCartItemDto.quantity;
-      cartItem = await this.cartItemsService.update(createCartItemDto.productId, cart.id, { quantity: quantity});
-    } else {
+    if(!cartItem) {
       cartItem = await this.cartItemsService.create({
         ...createCartItemDto,
         cartId: cart.id,
-      }) 
+      })
+      return await this.findCartByUserId(userId);
     }
+
+    const stock = (await this.productsService.findOne(createCartItemDto.productId)).stock;
+    const quantity = cartItem.quantity + createCartItemDto.quantity
+    if (quantity > stock) {
+      throw new BadRequestException("Insufficient product stock");
+    } 
+
+    cartItem = await this.cartItemsService.update(createCartItemDto.productId, cart.id, { quantity: quantity});
     return await this.findCartByUserId(userId);
   }
 
-  //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
+  /**
+   * Vacia el carrito de un usuario autenticado
+   * @param userId - Id del usuario
+   * @returns {Cart} - Carrito vacío
+   */
   async emptyCart(userId: number): Promise<Cart> {
+    // Buscamos el carrito del usuario
     const cart = await this.findCartByUserId(userId);
+
+    // Eliminamos todos los items en el carrito
     await this.cartItemsService.removeAllFromCart(cart.id);
+
+    // Devolvemos el carrito vacío
     return await this.findCartByUserId(userId);
+    
+    //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
   }
  
   async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
