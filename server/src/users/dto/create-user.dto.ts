@@ -6,7 +6,7 @@ import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Ma
  * Data Transfer Object para creación (signup) de un usuario
  * Validado con class-validator
  */
-export class CreateUserDto implements Prisma.UserCreateInput {
+export class CreateUserDto {
     constructor(partial: Partial<CreateUserDto>) {
         Object.assign(this, partial);
     }

@@ -6,6 +6,7 @@ import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { SignupPipe } from './pipes/signup/signup.pipe';
 
 /**
  * Controlador del modulo AuthModule
@@ -20,20 +21,8 @@ export class AuthController {
      * @returns {UserEntity} - Usuario creado
      */
     @Post('signup')
-    async signup(@Body() createUserDto: CreateUserDto): Promise<UserEntity>{
+    async signup(@Body(SignupPipe) createUserDto: CreateUserDto): Promise<UserEntity>{
         return new UserEntity(await this.authService.signup(createUserDto));
-    }
-
-    /**
-     * Endpoint para cierre se sesión
-     * Protegido por JwtAccessGuard
-     * @param req
-     * @returns {UserEntity} - Usuario que cierra sesión
-     */
-    @UseGuards(JwtAccessGuard)
-    @Get('logout')
-    async logout(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.authService.logout(req.user.email));
     }
 
     /**
@@ -47,6 +36,19 @@ export class AuthController {
     async login(@Request() req): Promise<JwtTokens> {
         return await this.authService.login(req.user);
     }
+    
+    /**
+     * Endpoint para cierre se sesión
+     * Protegido por JwtAccessGuard
+     * @param req
+     * @returns {UserEntity} - Usuario que cierra sesión
+     */
+    @UseGuards(JwtAccessGuard)
+    @Get('logout')
+    async logout(@Request() req): Promise<UserEntity> {
+        return new UserEntity(await this.authService.logout(req.user.email));
+    }
+
 
     /**
      * Endpoint para actualización de password de usuario

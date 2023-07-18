@@ -33,17 +33,7 @@ export class AuthService {
      * @returns {User} - Usuario creado
      */
     async signup(createUserDto: CreateUserDto): Promise<User> {
-        // Se realiza el hash del password recibido en el dto antes de crear el usuario en la base de datos
-        const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
-
-        // Actualizamos los datos para la creación del usuario
-        // Invocamos al servicio que crea el usuario
-        return this.usersService.create({
-            ...createUserDto,
-            role: Role.CLIENT,
-            password: hashedPassword,
-            refreshToken: null,
-        });
+        return await this.usersService.create(createUserDto);
     }
 
     /**
