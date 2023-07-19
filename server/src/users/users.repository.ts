@@ -14,28 +14,28 @@ export class UsersRepository {
     /**
      * Crea un usuario en la base de datos
      * @param {CreateUserDto} createUserDto 
-     * @returns {User} - Usuario creado
+     * @returns - Usuario creado
      */
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    async create(createUserDto: CreateUserDto) {
         return await this.prisma.user.create({
             data: createUserDto,
-        })
+        });
     }
 
     /**
      * Busca el listado de usuarios en la base de datos
-     * @returns {User[]} - Listado de usuarios
+     * @returns - Listado de usuarios
      */
-    async findAll(): Promise<User[]> {
+    async findAll() {
         return await this.prisma.user.findMany();
     }
 
     /**
      * Busca un usuario según su correo(único)
      * @param {string} email - Correo del usuario
-     * @returns {User} - Usuario correspondiente al correo
+     * @returns - Usuario correspondiente al correo
      */
-    async findUserByEmail(email: string): Promise<User> {
+    async findUserByEmail(email: string) {
         return await this.prisma.user.findUniqueOrThrow({
             where: {
                 email: email,
@@ -51,9 +51,9 @@ export class UsersRepository {
     /**
      * Busca un usuario según su id único
      * @param {number} id - Id del usuario 
-     * @returns {User} - Usuario correspondiente al id
+     * @returns  - Usuario correspondiente al id
      */
-    async findUserById(id: number): Promise<User> {
+    async findUserById(id: number) {
         return await this.prisma.user.findUniqueOrThrow({
             where: {
                 id: id,
@@ -70,9 +70,9 @@ export class UsersRepository {
      * Actualiza los datos de un usuario en la base de datos
      * @param {number} id - Id del usuario
      * @param {UpdateUserDto} updateUserDto - DTO para actualizar
-     * @returns {User} - Usuario actualizado
+     * @returns - Usuario actualizado
      */
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    async update(id: number, updateUserDto: UpdateUserDto) {
         return await this.prisma.user.update({
             data: updateUserDto,
             where: {
@@ -89,9 +89,9 @@ export class UsersRepository {
     /**
      * Remueve un usuario de la base de datos
      * @param {number} id - Correo del usuario
-     * @returns {User} - Usuario removido
+     * @returns - Usuario removido
      */
-    async remove(id: number): Promise<User> {
+    async remove(id: number) {
         return await this.prisma.user.delete({
             where: {
                 id: id,
@@ -104,7 +104,7 @@ export class UsersRepository {
      * @param {UserRole} role - Rol de usuario 
      * @returns - Cantidad
      */
-    async countUsersByRole(role: UserRole): Promise<number>{
+    async countUsersByRole(role: UserRole) {
         return await this.prisma.user.count({
             where: {
                 role: role,

@@ -28,7 +28,7 @@ export class ProductsController {
   async create(
     @UploadedFile(ImageValidationPipe) file,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
-      return await this.productsService.create(createProductDto, file);
+      return new ProductEntity (await this.productsService.create(createProductDto, file));
   }
 
   /**
@@ -37,7 +37,8 @@ export class ProductsController {
    */
   @Get()
   async findAllForClients(): Promise<ProductEntity[]> {
-    return await this.productsService.findAllForClients();
+    const products = await this.productsService.findAllForClients();
+    return products.map((product) => new ProductEntity(product));
   }
 
   /**
@@ -49,7 +50,8 @@ export class ProductsController {
   @Roles(UserRole.ADMIN)
   @Get('/admin')
   async findAll(): Promise<ProductEntity[]> {
-    return await this.productsService.findAll();
+    const products = await this.productsService.findAll();
+    return products.map((product) => new ProductEntity(product));
   }
 
   /**
@@ -59,7 +61,7 @@ export class ProductsController {
    */
   @Get(':id')
   async findOneForClients(@Param('id') id: string): Promise<ProductEntity> {
-    return await this.productsService.findOneForClients(+id);
+    return new ProductEntity (await this.productsService.findOneForClients(+id));
   }
 
   /**
@@ -72,7 +74,7 @@ export class ProductsController {
   @Roles(UserRole.ADMIN)
   @Get('/admin/:id')
   async findOne(@Param('id') id: string): Promise<ProductEntity> {
-    return await this.productsService.findOne(+id);
+    return new ProductEntity (await this.productsService.findOne(+id));
   }
   
 
@@ -92,7 +94,7 @@ export class ProductsController {
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file,
     @Body() updateProductDto: UpdateProductDto): Promise<ProductEntity> {
-    return await this.productsService.update(+id, updateProductDto, file);
+    return new ProductEntity (await this.productsService.update(+id, updateProductDto, file));
   }
 
   /**
@@ -105,6 +107,6 @@ export class ProductsController {
   @Roles(UserRole.ADMIN)
   @Delete('/admin/:id')
   async remove(@Param('id') id: string): Promise<ProductEntity> {
-    return await this.productsService.remove(+id);
+    return new ProductEntity (await this.productsService.remove(+id));
   }
 }

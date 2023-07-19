@@ -31,9 +31,9 @@ export class AuthService {
     /**
      * Crea un usuario tipo CLIENT
      * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
-     * @returns {UserEntity} - Usuario creado
+     * @returns - Usuario creado
      */
-    async signup(createUserDto: CreateUserDto): Promise<UserEntity> {
+    async signup(createUserDto: CreateUserDto) {
         return await this.usersService.create(createUserDto);
     }
 
@@ -56,13 +56,13 @@ export class AuthService {
      * Valida las credenciales de inicio de sesión de un usuario
      * @param {string} email - Credencial email del usuario que intenta iniciar sesión
      * @param {string} password - Credencial password del usuario que intenta iniciar sesión
-     * @returns {UserEntity} - Usuario validado
+     * @returns - Usuario validado
      */
-    async validateUser(email: string, password: string): Promise<UserEntity> {
+    async validateUser(email: string, password: string) {
 
         // Buscamos en la base de datos el usuario registrado con el email
         // Si no existe, el repositorio lanza un error
-        const user: UserEntity = await this.usersService.findUserByEmail(email);
+        const user = await this.usersService.findUserByEmail(email);
 
         // Si existe el usuario comparamos el password recibido con el password de la base de datos
         // Lanzamos un error si el password no es válido
@@ -77,9 +77,9 @@ export class AuthService {
     /**
      * Realiza el cierre de sesion de un usuario autenticado
      * @param {number} id - Id del usuario 
-     * @returns {UserEntity} - Usuario con refreshToken null
+     * @returns  - Usuario con refreshToken null
      */
-     async logout(id: number): Promise<UserEntity> {
+     async logout(id: number) {
         // Establece como null el refreshToken del usuario en la base de datos
         return await this.usersService.update(id, { refreshToken: null });
     }
@@ -88,9 +88,9 @@ export class AuthService {
      * Realiza la actualización del password de un usuario
      * @param {number} id - Id del usuario que actualiza el password
      * @param {string} updatePasswordDto - DTO para la actualización del password
-     * @returns {UserEntity} - Usuario con nuevo password
+     * @returns - Usuario con nuevo password
      */
-    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
+    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
         return await this.usersService.update(id, updatePasswordDto);
     }
 
@@ -103,7 +103,7 @@ export class AuthService {
     async refreshTokens(id: number, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos
         // Si no lo encuentra, el repositorio lanza un error
-        const user: UserEntity = await this.usersService.findUserById(id);
+        const user = await this.usersService.findUserById(id);
         // Si el usuario no tiene refreshToken en la base de datos, o este no coincide con el
         // suministrado, negamos el acceso
         if(!user.refreshToken || ! await this.hashService.isMatch(refreshToken, user.refreshToken)) {

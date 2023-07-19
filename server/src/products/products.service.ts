@@ -16,56 +16,52 @@ export class ProductsService {
    * Crea un Producto
    * @param {CreateProductDto} createProductDto - Dto para crear el producto
    * @param {string} fileName - Nombre del archivo de imagen
-   * @returns {ProductEntity} - Producto Creado
+   * @returns - Producto Creado
    */
-  async create(createProductDto: CreateProductDto, fileName: string): Promise<ProductEntity> {
+  async create(createProductDto: CreateProductDto, fileName: string) {
     // Petición al repositorio para crear el producto
-    const product = await this.productRepository.create({
+    return await this.productRepository.create({
       ...createProductDto,
       image: fileName,
     });
-
-    return new ProductEntity(product);
   }
 
   /**
    * Genera un listado de todos los productos disponibles para clientes
-   * @returns {ProductEntity[]} - Listado de productos
+   * @returns - Listado de productos
    */
-  async findAllForClients(): Promise<ProductEntity[]> {
+  async findAllForClients() {
     // Busca un listado de todos los productos disponibles para clientes
-    const products = await this.productRepository.findAllForClients();
-    return products.map((product) => new ProductEntity(product));
+    return await this.productRepository.findAllForClients();
   }
 
   /**
    * Genera un listado de todos los productos
-   * @returns {ProductEntity[]} - Listado de productos
+   * @returns - Listado de productos
    */
-  async findAll(): Promise<ProductEntity[]> {
+  async findAll() {
     // Busca un listado de todos los productos
-    const products = await this.productRepository.findAll();
-    return products.map((product) => new ProductEntity(product));
+    return await this.productRepository.findAll();
   }
 
   /**
    * Busca un producto por id si está disponible para clientes
    * @param {number} id - Id del producto 
-   * @returns {ProductEntity} - Producto buscado
+   * @returns - Producto buscado
    */
-  async findOneForClients(id: number): Promise<ProductEntity> {
+  async findOneForClients(id: number) {
     // Busca un producto que este disponible para clientes
-    return new ProductEntity(await this.productRepository.findOneForClients(id));
+    return await this.productRepository.findOneForClients(id);
   }
 
   /**
    * Busca un producto por id
    * @param {number} id - Id del producto
-   * @returns {ProductEntity} - Producto buscado
+   * @returns - Producto buscado
    */
-  async findOne(id: number): Promise<ProductEntity> {
+  async findOne(id: number) {
     // Busca un producto
-    return new ProductEntity(await this.productRepository.findOne(id));
+    return await this.productRepository.findOne(id);
   }
 
   /**
@@ -73,9 +69,9 @@ export class ProductsService {
    * @param {number} id - Id del producto 
    * @param {UpdateProductDto} updateProductDto - Dto del producto
    * @param {Express.Multer.File} file - Archivo de imagen del producto 
-   * @returns {ProductEntity} - Producto buscado
+   * @returns - Producto buscado
    */
-  async update(id: number, updateProductDto: UpdateProductDto, fileName: string): Promise<ProductEntity> {
+  async update(id: number, updateProductDto: UpdateProductDto, fileName: string) {
     // Si hay un archivo de imagen para actualizar el producto, eliminamos la imagen anterior si existe
     if (fileName) {
       const oldImage: string = (await this.productRepository.findOne(id)).image;
@@ -85,22 +81,20 @@ export class ProductsService {
     }
 
     // Peticion para actualizar el producto en la base de datos
-    const product = await this.productRepository.update(id, {
+    return await this.productRepository.update(id, {
       ...updateProductDto,
       image: fileName,
     });
-
-    return new ProductEntity(product);
   }
 
   /**
    * Elimina un producto por id
    * @param {number} id - Id del producto 
-   * @returns {ProductEntity} - Producto eliminado
+   * @returns - Producto eliminado
    */
   async remove(id: number): Promise<ProductEntity> {
     // Peticion para eliminar el producto de la base de datos 
-    const product = new ProductEntity(await this.productRepository.remove(id));
+    const product = await this.productRepository.remove(id);
 
     // Elimina del servidor el arhivo de imagen si este existe
     if (product && product.image) {

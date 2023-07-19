@@ -1,16 +1,14 @@
+import { Cart } from "@prisma/client";
 import { Exclude } from "class-transformer";
-import { ProductEntity } from "src/products/entities/product.entity";
-import { UserEntity } from "src/users/entities/user.entity";
 
 /**
  * CartEntity para retornar al cliente que hace el request
  */
-export class CartEntity {
+export class CartEntity implements Cart{
     constructor(partial: Partial<CartEntity>) {
         Object.assign(this, partial)
     }
     id: number;
-
     userId: number;
 
     @Exclude()
@@ -18,9 +16,5 @@ export class CartEntity {
 
     @Exclude()
     updatedAt: Date;
-    
-    products: ProductEntity[];
 
-    @Exclude()
-    user: UserEntity;
 }

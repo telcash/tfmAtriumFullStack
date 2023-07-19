@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Request, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -25,7 +25,7 @@ export class AuthController {
      */
     @Post('signup')
     async signup(@Body(SignupPipe) createUserDto: CreateUserDto): Promise<UserEntity>{
-        return await this.authService.signup(createUserDto);
+        return new UserEntity(await this.authService.signup(createUserDto));
     }
 
     /**
@@ -49,7 +49,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Get('logout')
     async logout(@Request() req): Promise<UserEntity> {
-        return await this.authService.logout(req.user.sub);
+        return new UserEntity (await this.authService.logout(req.user.sub));
     }
 
     /**
@@ -62,7 +62,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Patch('password')
     async updatePassword(@Request() req, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
-        return await this.authService.updatePassword(req.user.sub, updatePasswordDto);
+        return new UserEntity(await this.authService.updatePassword(req.user.sub, updatePasswordDto));
     }
 
     /**

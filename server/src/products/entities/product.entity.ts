@@ -1,11 +1,10 @@
-import { ProductAvailability } from "../constants/product-availability";
-
+import { Product, ProductAvailability } from "@prisma/client";
 
 /**
  * Entidad producto para enviar como respuesta al cliente
  * Implementa Product de Prisma
  */
-export class ProductEntity {
+export class ProductEntity implements Product {
 
     /**
      * Genera una entidad de la clase con cualquier parcial de ella
@@ -14,7 +13,6 @@ export class ProductEntity {
     constructor(partial: Partial<ProductEntity>) {
         Object.assign(this, partial);
     }
-
     id: number;
     name: string;
     description: string;

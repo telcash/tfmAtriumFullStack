@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { CartItem, Prisma } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCartItemDto } from "./dto/create-cart-item.dto";
 import { UpdateCartItemDto } from "./dto/update-cart-item.dto";
@@ -15,9 +14,9 @@ export class CartItemsRepository {
     /**
      * Crea un CartItem en la base de datos
      * @param {CreateCartItemDto} createCartItemDto - DTO
-     * @returns {CartItem} - CartItem creado
+     * @returns - CartItem creado
      */
-    async create(createCartItemDto: CreateCartItemDto): Promise<CartItem> {
+    async create(createCartItemDto: CreateCartItemDto) {
         return await this.prisma.cartItem.create({
             data: createCartItemDto,
         })
@@ -27,9 +26,9 @@ export class CartItemsRepository {
      * Busca un CartItem en la base de datos por id de producto y id de carrito
      * @param {number} productId - Id de producto 
      * @param {number} cartId - Id de carrito 
-     * @returns {CartItem} - CartItem buscado
+     * @returns - CartItem buscado
      */
-    async findOne(productId: number, cartId: number): Promise<CartItem> {
+    async findOne(productId: number, cartId: number) {
         return await this.prisma.cartItem.findUnique({
             where: {
                 productId_cartId: {
@@ -45,9 +44,9 @@ export class CartItemsRepository {
      * @param {number} productId - Id de producto
      * @param {number} cartId - Id de carrito
      * @param {UpdateCartItemDto} updateCartItemDto - DTO
-     * @returns {CartItem} - CartItem actualizado
+     * @returns - CartItem actualizado
      */
-    async update(productId: number, cartId:number, updateCartItemDto: UpdateCartItemDto): Promise<CartItem> {
+    async update(productId: number, cartId:number, updateCartItemDto: UpdateCartItemDto) {
         return await this.prisma.cartItem.update({
             data: updateCartItemDto,
             where: {
@@ -62,9 +61,9 @@ export class CartItemsRepository {
     /**
      * Elimina todos los CartItem de un carrito de la base de datos
      * @param {number} cartId - Id de carrito 
-     * @returns {number} - Cantidad de CartItems eliminados
+     * @returns  - Cantidad de CartItems eliminados
      */
-    async removeAllFromCart(cartId: number): Promise<number> {
+    async removeAllFromCart(cartId: number) {
         const payload = await this.prisma.cartItem.deleteMany({
             where: {
                 cartId: cartId,

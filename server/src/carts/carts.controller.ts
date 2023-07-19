@@ -23,28 +23,29 @@ export class CartsController {
   @Roles(UserRole.ADMIN)
   @Get()
   async findAll(): Promise<CartEntity[]> {
-    return await this.cartsService.findAll();
+    const carts = await this.cartsService.findAll();
+    return carts.map((cart) => new CartEntity(cart));
   }
 
   /**
    * Endpoint para obtener el carro de compras de un usuario autenticado
    * @param req - Request
-   * @returns {CartEntity} - Carrito
+   * @returns - Carrito
    */
   @UseGuards(JwtAccessGuard)
   @Get('/mycart')
   async findCartByUserId(@Request() req): Promise<CartEntity> {
-    return await this.cartsService.findCartByUserId(req.user.sub);
+    return new CartEntity(await this.cartsService.findCartByUserId(req.user.sub));
   }
 
   /**
    * Endpoint para obtener el carro de compras de un invitado
    * Obtiene el id del carrito de cookie
-   * @returns {CartEntity} - Carrito
+   * @returns - Carrito
    */
   @Get('/guest')
-  async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
-    return await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res);
+  async findGuestCart(@Request() req, @Res({passthrough: true}) res) {
+    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
   }
 
   /**
@@ -53,22 +54,22 @@ export class CartsController {
    * Desde 0 (eliminar item) hasta el máximo permitido.
    * @param req - Request
    * @param createCartItemDto - DTO
-   * @returns {CartEntity} - Carrito actualizado
+   * @returns - Carrito actualizado
    */
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
   async addItemToCart(@Request() req, @Body(AddItemToCartPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
-    return await this.cartsService.addItemToCart(req.user.sub, createCartItemDto);
+    return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
   }
   
   /**
    * Endpoint para vaciar el carrito de compras de un usuario autenticado
    * @param req - Request
-   * @returns {CartEntity} - Carrito de compras vacío
+   * @returns - Carrito de compras vacío
    */
   @UseGuards(JwtAccessGuard)
   @Delete('/mycart/items')
   async emptyCart(@Request() req): Promise<CartEntity>{
-    return await this.cartsService.emptyCart(req.user.sub);
+    return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
   }
 }

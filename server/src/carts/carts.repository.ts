@@ -14,9 +14,9 @@ export class CartsRepository{
     /**
      * Crea un carrito en la base de datos según un id de usuario
      * @param {number} userId - Id de usuario
-     * @returns {Cart} - Carrito de compra
+     * @returns - Carrito de compra
      */
-    async create(userId: number): Promise<Cart> {
+    async create(userId: number) {
         return await this.prisma.cart.create({
           data: {
             userId: userId,
@@ -29,9 +29,9 @@ export class CartsRepository{
 
     /**
      * Busca todos los carritos en la base de datos
-     * @returns {Cart[]} - Listado de carritos
+     * @returns - Listado de carritos
      */
-    async findAll(): Promise<Cart[]> {
+    async findAll() {
         return await this.prisma.cart.findMany({
           include: {
             user: true,
@@ -59,9 +59,9 @@ export class CartsRepository{
     /**
      * Busca un carrito en la base de datos según id de usuario
      * @param {number} userId - Id de usuario 
-     * @returns {Cart} - Carrito buscado
+     * @returns - Carrito buscado
      */
-    async findOneByUserId(userId: number): Promise<Cart> {
+    async findOneByUserId(userId: number) {
       return await this.prisma.cart.findUnique({
         where: {
           userId: userId,

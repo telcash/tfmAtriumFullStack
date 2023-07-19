@@ -15,64 +15,63 @@ export class UsersService {
     /**
      * Invoca al repositorio para crear un usuario en la base de datos
      * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
-     * @returns {UserEntity} - Usuario creado
+     * @returns  - Usuario creado
      */
-    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-        return new UserEntity (await this.userRepository.create(createUserDto));
+    async create(createUserDto: CreateUserDto) {
+        return await this.userRepository.create(createUserDto);
     }
 
     /**
      * Encuentra todos los usuarios en la base de datos
-     * @returns {UserEntity[]} - Listado de usuarios en la base de datos
+     * @returns  - Listado de usuarios en la base de datos
      */
-    async findAll(): Promise<UserEntity[]> {
-        const users = await this.userRepository.findAll();
-        return users.map((user) => new UserEntity(user));
+    async findAll() {
+        return await this.userRepository.findAll();
     }
 
     /**
      * Busca  en la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a buscar
-     * @returns {UserEntity} - Usuario correspondiente
+     * @returns - Usuario correspondiente
      */
-    async findUserByEmail(email: string): Promise<UserEntity> {
-        return new UserEntity(await this.userRepository.findUserByEmail(email));
+    async findUserByEmail(email: string) {
+        return await this.userRepository.findUserByEmail(email);
     }
     
     /**
      * Busca en la base de datos el usuario correspondiente a un id
      * @param {number} id - Id del usuario
-     * @returns {UserEntity} - Usuario buscado
+     * @returns  - Usuario buscado
      */
-    async findUserById(id: number): Promise<UserEntity> {
-        return new UserEntity(await this.userRepository.findUserById(id));
+    async findUserById(id: number) {
+        return await this.userRepository.findUserById(id);
     }
 
     /**
      * Actualiza en la base de datos al usuario correspondiente a un email
      * @param {number} id - Id del usuario a actualizar
      * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a actualizar
-     * @returns {UserEntity} - Usuario actualizado
+     * @returns - Usuario actualizado
      */
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-        return new UserEntity(await this.userRepository.update(id, updateUserDto));
+    async update(id: number, updateUserDto: UpdateUserDto) {
+        return await this.userRepository.update(id, updateUserDto);
     }
   
     /**
      * Elimina de la base de datos al usuario correspondiente a un email
      * @param {id} Id - Id del usuario a eliminar 
-     * @returns {UserEntity} - Usuario eliminado
+     * @returns - Usuario eliminado
      */
     async remove(id: number): Promise<UserEntity> {
-        return new UserEntity(await this.userRepository.remove(id));
+        return await this.userRepository.remove(id);
     }
 
     /**
      * Determina la cantidad de usuarios por rol
      * @param {Role} role - Rol de usuario
-     * @returns {number} - Cantidad
+     * @returns - Cantidad de usuarios por rol
      */
-    async countUsersByRole(role: UserRole): Promise<number> {
+    async countUsersByRole(role: UserRole) {
         return await this.userRepository.countUsersByRole(role);
     }
 

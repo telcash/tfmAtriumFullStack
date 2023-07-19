@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post, UseFilters, Query } from '@nestjs/common';
+import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -29,7 +29,7 @@ export class UsersController {
     @Roles(UserRole.ADMIN)
     @Post()
     async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-        return await this.usersService.create(createUserDto);
+        return new UserEntity(await this.usersService.create(createUserDto));
     }
     
     /**
@@ -41,7 +41,8 @@ export class UsersController {
     @Roles(UserRole.ADMIN)
     @Get()
     async findAll(): Promise<UserEntity[]> {
-        return await this.usersService.findAll();
+        const users = await this.usersService.findAll();
+        return users.map((user) => new UserEntity(user));
     }
 
     /**
@@ -51,7 +52,7 @@ export class UsersController {
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
-        return await this.usersService.findUserByEmail(req.user.email);
+        return new UserEntity (await this.usersService.findUserByEmail(req.user.email));
     }
 
     /**
@@ -62,7 +63,7 @@ export class UsersController {
      */
     @Patch('profile')
     async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
-        return await this.usersService.update(req.user.sub, updateUserDto);
+        return new UserEntity(await this.usersService.update(req.user.sub, updateUserDto));
     }
 
     /**
@@ -73,6 +74,6 @@ export class UsersController {
     @UseGuards(LastAdminGuard)
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {
-        return await this.usersService.remove(req.user.sub);
+        return new UserEntity(await this.usersService.remove(req.user.sub));
     }
 }

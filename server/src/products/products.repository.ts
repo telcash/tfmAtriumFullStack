@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { Product, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
 
 /**
@@ -40,9 +40,9 @@ export class ProductsRepository {
     /**
      * Crea un producto en la base de datos
      * @param {CreateProductDto} createProductDto 
-     * @returns {Product} - Producto creado
+     * @returns - Producto creado
      */
-    async create(createProductDto: CreateProductDto): Promise<Product> {
+    async create(createProductDto: CreateProductDto) {
         return await this.prisma.product.create({
             data: createProductDto,
         });
@@ -50,18 +50,17 @@ export class ProductsRepository {
 
     /**
      * Busca todos los productos en la base de datos
-     * @returns {Producto[]} - Listado de productos
+     * @returns - Listado de productos
      */
-    async findAll(): Promise<Product[]> {
-        return await this.prisma.product.findMany({
-        });
+    async findAll() {
+        return await this.prisma.product.findMany();
     }
 
     /**
      * Busca todos los productos en la base de datos con condiciones para clientes
-     * @returns {Producto[]} - Listado de productos
+     * @returns - Listado de productos
      */
-    async findAllForClients(): Promise<Product[]> {
+    async findAllForClients() {
         return await this.prisma.product.findMany({
             where: this.productConditionsForClients,
         })
@@ -70,9 +69,9 @@ export class ProductsRepository {
     /**
      * Busca un producto en la base de datos por su id único
      * @param {number} id - Id del producto 
-     * @returns {Product} - Producto buscado
+     * @returns - Producto buscado
      */
-    async findOne(id: number): Promise<Product> {
+    async findOne(id: number) {
         return await this.prisma.product.findUnique({
           where: {
             id: id,
@@ -83,9 +82,9 @@ export class ProductsRepository {
     /**
      * Busca un producto en la base de datos por su id único si cumple las condiciones para clientes
      * @param {number} id - Id del producto
-     * @returns {Product} - Producto buscado
+     * @returns - Producto buscado
      */
-    async findOneForClients(id: number): Promise<Product> {
+    async findOneForClients(id: number) {
         return await this.prisma.product.findUnique({
             where: {
                 ...this.productConditionsForClients,
@@ -98,9 +97,9 @@ export class ProductsRepository {
      * Actualiza un producto en la base de datos
      * @param {number} id - Id del producto
      * @param {UpdateProductDto} updateProductDto - DTO 
-     * @returns {Product} - Producto actualizado
+     * @returns - Producto actualizado
      */
-    async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    async update(id: number, updateProductDto: UpdateProductDto) {
         return await this.prisma.product.update({
             data: updateProductDto,
             where: {
@@ -112,9 +111,9 @@ export class ProductsRepository {
     /**
      * Elimina un producto de la base de datos
      * @param {number} id - Id del producto 
-     * @returns {Product} - Producto eliminado
+     * @returns - Producto eliminado
      */
-    async remove(id: number): Promise<Product> {
+    async remove(id: number) {
         return await this.prisma.product.delete({
             where: {
               id: id
