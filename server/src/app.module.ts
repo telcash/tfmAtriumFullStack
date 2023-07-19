@@ -32,10 +32,10 @@ import { CommonModule } from './common/common.module';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    /* {
+    {
       provide: APP_FILTER,
       useClass: PrismaExceptionFilter,
-    }, */
+    },
   ],
 })
 export class AppModule {}

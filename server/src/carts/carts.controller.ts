@@ -46,7 +46,6 @@ export class CartsController {
   @Get('/guest')
   async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
     const cart = new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
-    console.log(res);
     return cart;
   }
 

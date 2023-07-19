@@ -47,18 +47,36 @@ export class UsersRepository {
             },
         });
     }
+    
+    /**
+     * Busca un usuario según su id único
+     * @param {number} id - Id del usuario 
+     * @returns {User} - Usuario correspondiente al id
+     */
+    async findUserById(id: number): Promise<User> {
+        return await this.prisma.user.findUniqueOrThrow({
+            where: {
+                id: id,
+            },
+            include: {
+                addresses: true,
+                orders: true,
+                cart: true,
+            },
+        });
+    }
 
     /**
      * Actualiza los datos de un usuario en la base de datos
-     * @param {string} email - Correo del usuario
+     * @param {number} id - Id del usuario
      * @param {UpdateUserDto} updateUserDto - DTO para actualizar
      * @returns {User} - Usuario actualizado
      */
-    async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
         return await this.prisma.user.update({
             data: updateUserDto,
             where: {
-                email: email,
+                id: id,
             },
             include: {
                 addresses: true,
@@ -70,13 +88,13 @@ export class UsersRepository {
 
     /**
      * Remueve un usuario de la base de datos
-     * @param {string} email - Correo del usuario
+     * @param {number} id - Correo del usuario
      * @returns {User} - Usuario removido
      */
-    async remove(email: string): Promise<User> {
+    async remove(id: number): Promise<User> {
         return await this.prisma.user.delete({
             where: {
-                email: email,
+                id: id,
             },
         });
     }

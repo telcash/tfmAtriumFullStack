@@ -48,7 +48,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Get('logout')
     async logout(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.authService.logout(req.user.email));
+        return new UserEntity(await this.authService.logout(req.user.sub));
     }
 
     /**
@@ -61,7 +61,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Patch('password')
     async updatePassword(@Request() req, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
-        return new UserEntity (await this.authService.updatePassword(req.user.email, updatePasswordDto));
+        return new UserEntity (await this.authService.updatePassword(req.user.sub, updatePasswordDto));
     }
 
     /**
@@ -73,6 +73,6 @@ export class AuthController {
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
     async refreshTokens(@Request() req): Promise<JwtTokens> {
-        return await this.authService.refreshTokens(req.user.email, req.user.refreshToken);
+        return await this.authService.refreshTokens(req.user.sub, req.user.refreshToken);
     }
 }

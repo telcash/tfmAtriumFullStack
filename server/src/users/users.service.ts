@@ -29,31 +29,40 @@ export class UsersService {
     }
 
     /**
-     * Encuentra en la base de datos al usuario correspondiente a un email
+     * Busca  en la base de datos al usuario correspondiente a un email
      * @param {string} email - email del usuario a buscar
      * @returns {User} - Usuario correspondiente
      */
     async findUserByEmail(email: string): Promise<User> {
         return await this.userRepository.findUserByEmail(email);
     }
+    
+    /**
+     * Busca en la base de datos el usuario correspondiente a un id
+     * @param {number} id - Id del usuario
+     * @returns {User} - Usuario buscado
+     */
+    async findUserById(id: number): Promise<User> {
+        return await this.userRepository.findUserById(id);
+    }
 
     /**
      * Actualiza en la base de datos al usuario correspondiente a un email
-     * @param {string} email - email del usuario a actualizar
+     * @param {number} id - Id del usuario a actualizar
      * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a actualizar
      * @returns {User} - Usuario actualizado
      */
-    async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
-        return await this.userRepository.update(email, updateUserDto);
+    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+        return await this.userRepository.update(id, updateUserDto);
     }
   
     /**
      * Elimina de la base de datos al usuario correspondiente a un email
-     * @param {string} email - email del usuario a eliminar 
+     * @param {id} Id - Id del usuario a eliminar 
      * @returns {User} - Usuario eliminado
      */
-    async remove(email: string): Promise<User> {
-        return await this.userRepository.remove(email);
+    async remove(id: number): Promise<User> {
+        return await this.userRepository.remove(id);
     }
 
     /**

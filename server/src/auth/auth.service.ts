@@ -47,45 +47,44 @@ export class AuthService {
         const tokens: JwtTokens = await this.getTokens(user);
 
         // Actualiza en la base de datos el refreshToken del usuario autenticado
-        await this.updateRefreshToken(user.email, tokens.refreshToken);
+        await this.updateRefreshToken(user.id, tokens.refreshToken);
         
         return tokens;
     }
 
     /**
      * Realiza el cierre de sesion de un usuario autenticado
-     * @param {string} email - email del usuario 
+     * @param {number} id - Id del usuario 
      * @returns {User} - Usuario con refreshToken null
      */
-     async logout(email: string): Promise<User> {
+     async logout(id: number): Promise<User> {
         // Establece como null el refreshToken del usuario en la base de datos
-        return await this.usersService.update(email, { refreshToken: null });
+        return await this.usersService.update(id, { refreshToken: null });
     }
 
     /**
      * Realiza la actualización del password de un usuario
-     * @param {string} email - Email del usuario que actualiza el password
+     * @param {number} id - Id del usuario que actualiza el password
      * @param {string} updatePasswordDto - DTO para la actualización del password
      * @returns {User} - Usuario con nuevo password
      */
-    async updatePassword(email:string, updatePasswordDto: UpdatePasswordDto): Promise<User> {
-        return await this.usersService.update(email, updatePasswordDto);
+    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto): Promise<User> {
+        return await this.usersService.update(id, updatePasswordDto);
     }
 
     /**
      * Genera nuevos tokens para un usuario dado un refreshToken
-     * @param {string} email - email del usuario
+     * @param {number} Id - Id del usuario
      * @param {string} refreshToken - refreshToken del usuario
      * @returns {JwtTokens} - accessToken y refreshToken
      */
-    async refreshTokens(email: string, refreshToken: string): Promise<JwtTokens> {
+    async refreshTokens(id: number, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos
         // Si no lo encuentra, el repositorio lanza un error
-        const user: User = await this.usersService.findUserByEmail(email);
-        
+        const user: User = await this.usersService.findUserById(id);
         // Si el usuario no tiene refreshToken en la base de datos, o este no coincide con el
         // suministrado, negamos el acceso
-        if(!user.refreshToken || await this.hashService.isMatch(refreshToken, user.refreshToken)) {
+        if(!user.refreshToken || ! await this.hashService.isMatch(refreshToken, user.refreshToken)) {
             throw new ForbiddenException('Access Denied');
         }
 
@@ -93,7 +92,7 @@ export class AuthService {
         const tokens: JwtTokens = await this.getTokens(user);
 
         // Actualiza el nuevo refreshToken en la base de datos
-        await this.updateRefreshToken(email, tokens.refreshToken);
+        await this.updateRefreshToken(id, tokens.refreshToken);
         
         return tokens;
     }
@@ -161,15 +160,15 @@ export class AuthService {
 
     /**
      * Actualiza el refreshToken de un usuario en la base de datos
-     * @param {string} email 
-     * @param {string} refreshToken 
+     * @param {number} id - Id del usuario 
+     * @param {string} refreshToken - Nuevo refreshToken
      */
-    async updateRefreshToken(email: string, refreshToken: string) {
+    async updateRefreshToken(id: number, refreshToken: string) {
         // Hash del refreshToken para guardar en la base de datos
         const hashedRefreshToken: string = await this.hashService.hashData(refreshToken);
         
         // Se guarda el hash del refreshToken en la base de datos
-        await this.usersService.update(email, { refreshToken: hashedRefreshToken});
+        await this.usersService.update(id, { refreshToken: hashedRefreshToken});
     }
 
 }

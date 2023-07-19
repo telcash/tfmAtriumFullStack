@@ -63,7 +63,7 @@ export class UsersController {
      */
     @Patch('profile')
     async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.update(req.user.email, updateUserDto));
+        return new UserEntity(await this.usersService.update(req.user.sub, updateUserDto));
     }
 
     /**
@@ -74,6 +74,6 @@ export class UsersController {
     @UseGuards(LastAdminGuard)
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.remove(req.user.email));
+        return new UserEntity(await this.usersService.remove(req.user.sub));
     }
 }
