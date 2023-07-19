@@ -45,23 +45,27 @@ export class CartsController {
    */
   @Get('/guest')
   async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
+    const cart = new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
+    console.log(res);
+    return cart;
   }
 
   /**
-   * Endpoint para agregar items al carrito de un usuario autenticado
+   * Endpoint para agregar/actualizar items al carrito de un usuario autenticado
+   * El DTO contiene la nueva cantida que se desea tener del item:
+   * Desde 0 (eliminar item) hasta el máximo permitido.
    * @param req - Request
    * @param createCartItemDto - DTO
    * @returns {CartEntity} - Carrito actualizado
    */
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
-  async addItemToCart(@Request() req, @Body(AddItemToCartPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
+  async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
     return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
   }
   
   /**
-   * Endpoint para vaciar el carrito de compras
+   * Endpoint para vaciar el carrito de compras de un usuario autenticado
    * @param req - Request
    * @returns {CartEntity} - Carrito de compras vacío
    */

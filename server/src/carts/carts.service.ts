@@ -88,6 +88,8 @@ export class CartsService {
       return await this.findCartByUserId(userId);
     }
 
+    
+
     const stock = (await this.productsService.findOne(createCartItemDto.productId)).stock;
     const quantity = cartItem.quantity + createCartItemDto.quantity
     if (quantity > stock) {

@@ -16,7 +16,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /**
-   * Endpoint para la creación de un producto
+   * Endpoint para la creación de un producto.
    * @param {Express.Multer.File} file - Archivo de imagen 
    * @param {CreateProductDto} createProductDto - DTO para crear el producto
    * @returns {ProductEntity} - Producto creado
@@ -24,7 +24,7 @@ export class ProductsController {
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
-  @Post()
+  @Post('/admin')
   async create(
     @UploadedFile(ImageValidationPipe) file,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
@@ -89,7 +89,7 @@ export class ProductsController {
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
-  @Patch(':id')
+  @Patch('/admin/:id')
   async update(
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file,
@@ -105,7 +105,7 @@ export class ProductsController {
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(Role.ADMIN)
-  @Delete(':id')
+  @Delete('/admin/:id')
   async remove(@Param('id') id: string): Promise<ProductEntity> {
     return new ProductEntity(await this.productsService.remove(+id));
   }
