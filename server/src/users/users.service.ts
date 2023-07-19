@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
  */
 @Injectable()
 export class UsersService {
-    constructor(private userRepository: UsersRepository){}
+    constructor(private readonly userRepository: UsersRepository){}
 
     /**
      * Invoca al repositorio para crear un usuario en la base de datos
@@ -56,6 +56,11 @@ export class UsersService {
         return await this.userRepository.remove(email);
     }
 
+    /**
+     * Determina la cantidad de usuarios por rol
+     * @param {Role} role - Rol de usuario
+     * @returns {number} - Cantidad
+     */
     async countUsersByRole(role: Role): Promise<number> {
         return await this.userRepository.countUsersByRole(role);
     }

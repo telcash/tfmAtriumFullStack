@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
  * Servicio para el hashing de data. Utiliza la librería bcrypt
  */
 @Injectable()
+
 export class HashService {
 
     /**

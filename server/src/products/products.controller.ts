@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -33,7 +33,7 @@ export class ProductsController {
 
   /**
    * Endpoint para un cliente obtener todos los productos disponibles
-   * @returns 
+   * @returns {ProductEntity[]} - Listado de productos
    */
   @Get()
   async findAllForClients(): Promise<ProductEntity[]> {
@@ -54,6 +54,11 @@ export class ProductsController {
     return products.map((product) => new ProductEntity(product));
   }
 
+  /**
+   * Endpoint para un cliente obtener un producto por id
+   * @param {string} id - Id del producto 
+   * @returns {ProductEntity} - Producto solicitado
+   */
   @Get(':id')
   async findOneForClients(@Param('id') id: string): Promise<ProductEntity> {
     return new ProductEntity(await this.productsService.findOneForClients(+id));

@@ -14,7 +14,8 @@ import { PasswordUpdatePipe } from './pipes/password-update.pipe';
  */
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService){}
+
+    constructor(private readonly authService: AuthService) {}
 
     /**
      * Endpoint para registro de usuario tipo CLIENT (signup)
@@ -49,7 +50,6 @@ export class AuthController {
     async logout(@Request() req): Promise<UserEntity> {
         return new UserEntity(await this.authService.logout(req.user.email));
     }
-
 
     /**
      * Endpoint para actualización de password de usuario

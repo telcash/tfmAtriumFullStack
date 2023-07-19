@@ -4,7 +4,9 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
 
-
+/**
+ * Repositorio para manejar entidades User en la base de datos
+ */
 @Injectable()
 export class UsersRepository {
     constructor(private prisma: PrismaService) {}
@@ -46,8 +48,6 @@ export class UsersRepository {
         });
     }
 
-
-
     /**
      * Actualiza los datos de un usuario en la base de datos
      * @param {string} email - Correo del usuario
@@ -81,6 +81,11 @@ export class UsersRepository {
         });
     }
 
+    /**
+     * Cuenta la cantidad de usuarios por rol
+     * @param {Role} role - Rol de usuario 
+     * @returns - Cantidad
+     */
     async countUsersByRole(role: Role): Promise<number>{
         return await this.prisma.user.count({
             where: {

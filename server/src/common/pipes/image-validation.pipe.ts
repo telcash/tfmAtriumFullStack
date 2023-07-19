@@ -9,7 +9,8 @@ import { StorageService } from '../services/storage.service';
  */
 @Injectable()
 export class ImageValidationPipe implements PipeTransform {
-  constructor(private storageService: StorageService) {}
+  
+  constructor(private readonly storageService: StorageService) {}
 
   /**
    * Implementación del método de validación del Pipe

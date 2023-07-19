@@ -8,6 +8,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
  */
 @Injectable()
 export class SignupPipe implements PipeTransform {
+  
   constructor(private readonly hashService: HashService) {}
 
   /**

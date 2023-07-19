@@ -16,7 +16,8 @@ import { LastAdminGuard } from './guards/last-admin.guard';
 @UseGuards(JwtAccessGuard)
 @Controller('users')
 export class UsersController {
-    constructor(private usersService: UsersService) {}
+
+    constructor(private readonly usersService: UsersService) {}
 
     /**
      * Endpoint para la creación de un usuario

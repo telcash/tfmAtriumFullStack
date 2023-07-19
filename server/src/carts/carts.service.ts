@@ -1,14 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateCartDto } from './dto/update-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { Cart } from '@prisma/client';
 import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { ProductsService } from 'src/products/products.service';
 
+/**
+ * Servicio que implementa las funciones de carritos
+ */
 @Injectable()
 export class CartsService {
-  constructor(private cartsRepository: CartsRepository, private cartItemsService: CartItemsService, private productsService: ProductsService) {}
+
+  constructor(
+    private readonly cartsRepository: CartsRepository,
+    private readonly cartItemsService: CartItemsService,
+    private readonly productsService: ProductsService
+  ) {}
 
   /**
    * Busca todos los carritos
@@ -107,10 +114,6 @@ export class CartsService {
     return await this.findCartByUserId(userId);
     
     //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
-  }
- 
-  async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
-    return await this.cartsRepository.update(userId, updateCartDto);
   }
 
 }

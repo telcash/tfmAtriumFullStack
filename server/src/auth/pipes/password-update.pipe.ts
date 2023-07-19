@@ -9,6 +9,7 @@ import { HashService } from 'src/common/services/hash.service';
  */
 @Injectable({ scope: Scope.REQUEST} )
 export class PasswordUpdatePipe implements PipeTransform {
+  
   constructor(
     @Inject(REQUEST) private readonly req,
     private readonly authService: AuthService,

@@ -20,12 +20,13 @@ export type JwtTokens = {
  */
 @Injectable()
 export class AuthService {
+
     constructor(
-        private hashService: HashService,
-        private usersService: UsersService,
-        private jwtService: JwtService,
-        private configService: ConfigService,
-    ){}
+        private readonly hashService: HashService,
+        private readonly usersService: UsersService,
+        private readonly jwtService: JwtService,
+        private readonly configService: ConfigService,
+    ) {}
 
     /**
      * Crea un usuario tipo CLIENT

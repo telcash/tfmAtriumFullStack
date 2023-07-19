@@ -4,9 +4,13 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { Product, Prisma } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
 
+/**
+ * Repositorio para manejar entidades Product en la base de datos
+ */
 @Injectable()
 export class ProductsRepository {
-    constructor(private prisma: PrismaService) {}
+
+    constructor(private readonly prisma: PrismaService) {}
 
     /**
      * Condición para devolver producto en peticiones de clientes (No ADMIN)

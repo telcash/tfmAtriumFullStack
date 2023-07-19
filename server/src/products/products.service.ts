@@ -7,7 +7,10 @@ import { Product } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
-  constructor(private productRepository: ProductsRepository, private storageService: StorageService) {}
+  constructor(
+    private readonly productRepository: ProductsRepository,
+    private readonly storageService: StorageService
+  ) {}
 
   /**
    * Crea un Producto

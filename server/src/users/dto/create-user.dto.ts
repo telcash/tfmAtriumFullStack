@@ -1,4 +1,4 @@
-import { Prisma, Role, User } from '@prisma/client';
+import { Role } from '@prisma/client';
 import { Exclude } from "class-transformer";
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
 

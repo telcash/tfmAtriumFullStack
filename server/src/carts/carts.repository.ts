@@ -1,14 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Cart } from "@prisma/client";
-import { UpdateCartDto } from "./dto/update-cart.dto";
 
 
-
+/**
+ * Repositorio para manejar entidades Cart en la base de datos
+ */
 @Injectable()
 export class CartsRepository{
-    constructor(private prisma: PrismaService) {}
 
+    constructor(private readonly prisma: PrismaService) {}
+
+    /**
+     * Crea un carrito en la base de datos según un id de usuario
+     * @param {number} userId - Id de usuario
+     * @returns {Cart} - Carrito de compra
+     */
     async create(userId: number): Promise<Cart> {
         return await this.prisma.cart.create({
           data: {
@@ -20,6 +27,10 @@ export class CartsRepository{
         });
     }
 
+    /**
+     * Busca todos los carritos en la base de datos
+     * @returns {Cart[]} - Listado de carritos
+     */
     async findAll(): Promise<Cart[]> {
         return await this.prisma.cart.findMany({
           include: {
@@ -29,6 +40,11 @@ export class CartsRepository{
         });
     }
 
+    /**
+     * Busca un carrito en la base de datos según su id
+     * @param {number} id - Id de carrito 
+     * @returns {Cart} - Carrito buscado
+     */
     async findOneById(id: number): Promise<Cart> {
       return await this.prisma.cart.findUnique({
         where: {
@@ -40,6 +56,11 @@ export class CartsRepository{
       })
     }
 
+    /**
+     * Busca un carrito en la base de datos según id de usuario
+     * @param {number} userId - Id de usuario 
+     * @returns {Cart} - Carrito buscado
+     */
     async findOneByUserId(userId: number): Promise<Cart> {
       return await this.prisma.cart.findUnique({
         where: {
@@ -51,20 +72,4 @@ export class CartsRepository{
       })
     }
 
-    async update(userId: number, updateCartDto: UpdateCartDto): Promise<Cart> {
-        return await this.prisma.cart.update({
-          data : updateCartDto,
-          where: {
-            userId: userId,
-          },
-        })
-    }
-
-    async removeByUserId(userId: number): Promise<Cart> {
-        return await this.prisma.cart.delete({
-          where: {
-            userId: userId,
-          }
-        })
-    }
 }

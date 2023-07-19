@@ -6,13 +6,13 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CartEntity } from './entities/cart.entity';
 import { CreateCartItemDto } from 'src/carts/cart-items/dto/create-cart-item.dto';
-import { CartItemsService } from './cart-items/cart-items.service';
 import { AddItemToCartPipe } from './pipes/add-item-to-cart.pipe';
              
 
 @Controller('carts')
 export class CartsController {
-  constructor(private readonly cartsService: CartsService, private readonly cartItemsService: CartItemsService) {}
+  constructor(
+    private readonly cartsService: CartsService) {}
 
   /**
    * Endpoint para recibir todos los carritos
