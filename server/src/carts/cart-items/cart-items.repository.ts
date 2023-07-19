@@ -62,14 +62,14 @@ export class CartItemsRepository {
     /**
      * Elimina todos los CartItem de un carrito de la base de datos
      * @param {number} cartId - Id de carrito 
-     * @returns {Prisma.BatchPayload} - Objeto con propiedad count de valor igual a los CartItems eliminados
+     * @returns {number} - Cantidad de CartItems eliminados
      */
-    async removeAllFromCart(cartId: number): Promise<Prisma.BatchPayload> {
+    async removeAllFromCart(cartId: number): Promise<number> {
         const payload = await this.prisma.cartItem.deleteMany({
             where: {
                 cartId: cartId,
             }
         })
-        return payload;
+        return payload.count;
     }
 }

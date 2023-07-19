@@ -1,12 +1,12 @@
-import { Role, User } from "@prisma/client";
 import { Exclude } from "class-transformer";
+import { UserRole } from "../constants/user-role";
 
 
 /**
  * Entidad usuario para enviar como respuesta al cliente
  * Implementa User de Prisma
  */
-export class UserEntity implements User {
+export class UserEntity {
     /**
      * Genera una entidad de la clase con cualquier parcial de ella
      * @param partial - 
@@ -16,7 +16,7 @@ export class UserEntity implements User {
     }
 
     id: number;
-    role: Role;
+    role: UserRole;
     firstName: string;
     lastName: string;
     email: string;

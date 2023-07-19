@@ -1,5 +1,3 @@
-// Guard que verifica que el request contenga un Jwt de acceso válido
-
 import { Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 

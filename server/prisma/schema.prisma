@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id           Int    @id @default(autoincrement())
-  role         Role @default(CLIENT)
+  role         UserRole @default(CLIENT)
   firstName    String @db.VarChar(50)
   lastName     String @db.VarChar(50)
   email        String @unique @db.VarChar(50)
@@ -71,7 +71,7 @@ model Product {
   price Float? @default(0)
   image String?
   stock Int? @default(0)
-  availability Availability? @default(STOCK)
+  availability ProductAvailability? @default(STOCK)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders OrderItem[]
@@ -120,12 +120,12 @@ model ProductsOnCategories {
   @@id([productId, categoryId])
 }
 
-enum Role {
+enum UserRole {
   CLIENT
   ADMIN
 }
 
-enum Availability {
+enum ProductAvailability {
   ALWAYS
   NEVER
   STOCK

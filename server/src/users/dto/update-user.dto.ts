@@ -1,7 +1,7 @@
 import { PartialType } from "@nestjs/mapped-types";
-import { Role } from "@prisma/client";
 import { IsOptional, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
 import { CreateUserDto } from "./create-user.dto";
+import { UserRole } from "../constants/user-role";
 
 /**
  * Data Transfer Object para la actualización de datos de un usuario
@@ -9,7 +9,7 @@ import { CreateUserDto } from "./create-user.dto";
 export class UpdateUserDto extends PartialType(CreateUserDto){
     @IsOptional()
     @IsString()
-    role?: Role;
+    role?: UserRole;
 
     @IsOptional()
     @IsString()

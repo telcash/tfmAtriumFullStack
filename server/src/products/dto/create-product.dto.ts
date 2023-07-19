@@ -1,6 +1,6 @@
-import { Availability, Prisma } from "@prisma/client";
 import { Exclude, Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { ProductAvailability } from "../constants/product-availability";
 
 /**
  * Data Transfer Object para creación de un producto
@@ -35,5 +35,5 @@ export class CreateProductDto {
 
     @IsOptional()
     @IsString()
-    availability?: Availability;
+    availability?: ProductAvailability;
 }

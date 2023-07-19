@@ -8,6 +8,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { SignupPipe } from './pipes/signup.pipe';
 import { PasswordUpdatePipe } from './pipes/password-update.pipe';
+import { User } from 'src/users/decorators/user.decorator';
 
 /**
  * Controlador del modulo AuthModule
@@ -24,7 +25,7 @@ export class AuthController {
      */
     @Post('signup')
     async signup(@Body(SignupPipe) createUserDto: CreateUserDto): Promise<UserEntity>{
-        return new UserEntity(await this.authService.signup(createUserDto));
+        return await this.authService.signup(createUserDto);
     }
 
     /**
@@ -35,8 +36,8 @@ export class AuthController {
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Request() req): Promise<JwtTokens> {
-        return await this.authService.login(req.user);
+    async login(@User() user: UserEntity): Promise<JwtTokens> {
+        return await this.authService.login(user);
     }
     
     /**
@@ -48,7 +49,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Get('logout')
     async logout(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.authService.logout(req.user.sub));
+        return await this.authService.logout(req.user.sub);
     }
 
     /**
@@ -61,7 +62,7 @@ export class AuthController {
     @UseGuards(JwtAccessGuard)
     @Patch('password')
     async updatePassword(@Request() req, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
-        return new UserEntity (await this.authService.updatePassword(req.user.sub, updatePasswordDto));
+        return await this.authService.updatePassword(req.user.sub, updatePasswordDto);
     }
 
     /**

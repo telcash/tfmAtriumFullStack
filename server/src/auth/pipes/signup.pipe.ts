@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import { Role } from '@prisma/client';
 import { HashService } from 'src/common/services/hash.service';
+import { UserRole } from 'src/users/constants/user-role';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 /**
@@ -25,7 +25,7 @@ export class SignupPipe implements PipeTransform {
     // Actualizamos los datos para la creación del usuario
     createUserDto = {
       ...createUserDto,
-      role: Role.CLIENT,
+      role: UserRole.CLIENT,
       password: hashedPassword,
       refreshToken: null,
     };

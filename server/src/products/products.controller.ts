@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterc
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
@@ -10,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductEntity } from './entities/product.entity';
+import { UserRole } from 'src/users/constants/user-role';
 
 @Controller('products')
 export class ProductsController {
@@ -22,13 +22,13 @@ export class ProductsController {
    * @returns {ProductEntity} - Producto creado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
   @Post('/admin')
   async create(
     @UploadedFile(ImageValidationPipe) file,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
-      return new ProductEntity(await this.productsService.create(createProductDto, file));
+      return await this.productsService.create(createProductDto, file);
   }
 
   /**
@@ -37,8 +37,7 @@ export class ProductsController {
    */
   @Get()
   async findAllForClients(): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAllForClients();
-    return products.map((product) => new ProductEntity(product));
+    return await this.productsService.findAllForClients();
   }
 
   /**
@@ -47,11 +46,10 @@ export class ProductsController {
    * @returns {ProductEntity[]} - Listado de productos
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @Get('/admin')
   async findAll(): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAll();
-    return products.map((product) => new ProductEntity(product));
+    return await this.productsService.findAll();
   }
 
   /**
@@ -61,7 +59,7 @@ export class ProductsController {
    */
   @Get(':id')
   async findOneForClients(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.findOneForClients(+id));
+    return await this.productsService.findOneForClients(+id);
   }
 
   /**
@@ -71,10 +69,10 @@ export class ProductsController {
    * @returns {Promise<ProductEntity>} - Producto solicitado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @Get('/admin/:id')
   async findOne(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.findOne(+id));
+    return await this.productsService.findOne(+id);
   }
   
 
@@ -87,14 +85,14 @@ export class ProductsController {
    * @returns {ProductEntity} - Producto actualizado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
   @Patch('/admin/:id')
   async update(
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file,
     @Body() updateProductDto: UpdateProductDto): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.update(+id, updateProductDto, file));
+    return await this.productsService.update(+id, updateProductDto, file);
   }
 
   /**
@@ -104,9 +102,9 @@ export class ProductsController {
    * @returns {ProductEntity} - Producto Eliminado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @Delete('/admin/:id')
   async remove(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity(await this.productsService.remove(+id));
+    return await this.productsService.remove(+id);
   }
 }

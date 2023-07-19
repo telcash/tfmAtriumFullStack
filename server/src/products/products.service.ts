@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductsRepository } from './products.repository';
-import { Product } from '@prisma/client';
+import { ProductEntity } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
@@ -15,53 +15,57 @@ export class ProductsService {
   /**
    * Crea un Producto
    * @param {CreateProductDto} createProductDto - Dto para crear el producto
-   * @param {Express.Multer.File} file - Archivo de imagen
-   * @returns {Product} - Producto Creado
+   * @param {string} fileName - Nombre del archivo de imagen
+   * @returns {ProductEntity} - Producto Creado
    */
-  async create(createProductDto: CreateProductDto, fileName: string): Promise<Product> {
+  async create(createProductDto: CreateProductDto, fileName: string): Promise<ProductEntity> {
     // Petición al repositorio para crear el producto
-    return await this.productRepository.create({
+    const product = await this.productRepository.create({
       ...createProductDto,
       image: fileName,
     });
+
+    return new ProductEntity(product);
   }
 
   /**
    * Genera un listado de todos los productos disponibles para clientes
-   * @returns {Product[]} - Listado de productos
+   * @returns {ProductEntity[]} - Listado de productos
    */
-  async findAllForClients(): Promise<Product[]> {
+  async findAllForClients(): Promise<ProductEntity[]> {
     // Busca un listado de todos los productos disponibles para clientes
-    return await this.productRepository.findAllForClients();
+    const products = await this.productRepository.findAllForClients();
+    return products.map((product) => new ProductEntity(product));
   }
 
   /**
    * Genera un listado de todos los productos
-   * @returns {Product[]} - Listado de productos
+   * @returns {ProductEntity[]} - Listado de productos
    */
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<ProductEntity[]> {
     // Busca un listado de todos los productos
-    return await this.productRepository.findAll();
+    const products = await this.productRepository.findAll();
+    return products.map((product) => new ProductEntity(product));
   }
 
   /**
    * Busca un producto por id si está disponible para clientes
    * @param {number} id - Id del producto 
-   * @returns {Product} - Producto buscado
+   * @returns {ProductEntity} - Producto buscado
    */
-  async findOneForClients(id: number): Promise<Product> {
+  async findOneForClients(id: number): Promise<ProductEntity> {
     // Busca un producto que este disponible para clientes
-    return await this.productRepository.findOneForClients(id);
+    return new ProductEntity(await this.productRepository.findOneForClients(id));
   }
 
   /**
    * Busca un producto por id
    * @param {number} id - Id del producto
-   * @returns {Product} - Producto buscado
+   * @returns {ProductEntity} - Producto buscado
    */
-  async findOne(id: number): Promise<Product> {
+  async findOne(id: number): Promise<ProductEntity> {
     // Busca un producto
-    return await this.productRepository.findOne(id);
+    return new ProductEntity(await this.productRepository.findOne(id));
   }
 
   /**
@@ -69,32 +73,34 @@ export class ProductsService {
    * @param {number} id - Id del producto 
    * @param {UpdateProductDto} updateProductDto - Dto del producto
    * @param {Express.Multer.File} file - Archivo de imagen del producto 
-   * @returns {Product} - Producto buscado
+   * @returns {ProductEntity} - Producto buscado
    */
-  async update(id: number, updateProductDto: UpdateProductDto, fileName: string): Promise<Product> {
+  async update(id: number, updateProductDto: UpdateProductDto, fileName: string): Promise<ProductEntity> {
     // Si hay un archivo de imagen para actualizar el producto, eliminamos la imagen anterior si existe
     if (fileName) {
-      const oldImage = (await this.productRepository.findOne(id)).image;
+      const oldImage: string = (await this.productRepository.findOne(id)).image;
       if (oldImage) {
         this.storageService.deleteFile(this.storageService.imagesDestination, oldImage);
       }
     }
 
     // Peticion para actualizar el producto en la base de datos
-    return await this.productRepository.update(id, {
+    const product = await this.productRepository.update(id, {
       ...updateProductDto,
       image: fileName,
     });
+
+    return new ProductEntity(product);
   }
 
   /**
    * Elimina un producto por id
    * @param {number} id - Id del producto 
-   * @returns {Product} - Producto eliminado
+   * @returns {ProductEntity} - Producto eliminado
    */
-  async remove(id: number): Promise<Product> {
+  async remove(id: number): Promise<ProductEntity> {
     // Peticion para eliminar el producto de la base de datos 
-    const product = await this.productRepository.remove(id);
+    const product = new ProductEntity(await this.productRepository.remove(id));
 
     // Elimina del servidor el arhivo de imagen si este existe
     if (product && product.image) {

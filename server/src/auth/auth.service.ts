@@ -3,9 +3,9 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { HashService } from '../common/services/hash.service';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 /**
  * Definicion de type JwtTokens
@@ -31,33 +31,55 @@ export class AuthService {
     /**
      * Crea un usuario tipo CLIENT
      * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
-     * @returns {User} - Usuario creado
+     * @returns {UserEntity} - Usuario creado
      */
-    async signup(createUserDto: CreateUserDto): Promise<User> {
+    async signup(createUserDto: CreateUserDto): Promise<UserEntity> {
         return await this.usersService.create(createUserDto);
     }
 
     /**
      * Realiza el login de un usuario validado
-     * @param {User} user - Usuario validado
+     * @param {UserEntity} user - Usuario validado
      * @returns {JwtTokens} - accessToken y refreshToken
+    */
+   async login(user: UserEntity): Promise<JwtTokens> {
+       // Genera los tokens para el usuario autenticado
+       const tokens: JwtTokens = await this.getTokens(user);
+       
+       // Actualiza en la base de datos el refreshToken del usuario autenticado
+       await this.updateRefreshToken(user.id, tokens.refreshToken);
+       
+       return tokens;
+    }
+    
+    /**
+     * Valida las credenciales de inicio de sesión de un usuario
+     * @param {string} email - Credencial email del usuario que intenta iniciar sesión
+     * @param {string} password - Credencial password del usuario que intenta iniciar sesión
+     * @returns {UserEntity} - Usuario validado
      */
-    async login(user: User): Promise<JwtTokens> {
-        // Genera los tokens para el usuario autenticado
-        const tokens: JwtTokens = await this.getTokens(user);
+    async validateUser(email: string, password: string): Promise<UserEntity> {
 
-        // Actualiza en la base de datos el refreshToken del usuario autenticado
-        await this.updateRefreshToken(user.id, tokens.refreshToken);
-        
-        return tokens;
+        // Buscamos en la base de datos el usuario registrado con el email
+        // Si no existe, el repositorio lanza un error
+        const user: UserEntity = await this.usersService.findUserByEmail(email);
+
+        // Si existe el usuario comparamos el password recibido con el password de la base de datos
+        // Lanzamos un error si el password no es válido
+        if (! await this.hashService.isMatch(password, user.password)) {
+            throw new UnauthorizedException('Password invalid')
+        }
+
+        // Retorna el usuario si las credenciales son válidas
+        return user;
     }
 
     /**
      * Realiza el cierre de sesion de un usuario autenticado
      * @param {number} id - Id del usuario 
-     * @returns {User} - Usuario con refreshToken null
+     * @returns {UserEntity} - Usuario con refreshToken null
      */
-     async logout(id: number): Promise<User> {
+     async logout(id: number): Promise<UserEntity> {
         // Establece como null el refreshToken del usuario en la base de datos
         return await this.usersService.update(id, { refreshToken: null });
     }
@@ -66,9 +88,9 @@ export class AuthService {
      * Realiza la actualización del password de un usuario
      * @param {number} id - Id del usuario que actualiza el password
      * @param {string} updatePasswordDto - DTO para la actualización del password
-     * @returns {User} - Usuario con nuevo password
+     * @returns {UserEntity} - Usuario con nuevo password
      */
-    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto): Promise<User> {
+    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
         return await this.usersService.update(id, updatePasswordDto);
     }
 
@@ -81,7 +103,7 @@ export class AuthService {
     async refreshTokens(id: number, refreshToken: string): Promise<JwtTokens> {
         // Busca al usuario en la base de datos
         // Si no lo encuentra, el repositorio lanza un error
-        const user: User = await this.usersService.findUserById(id);
+        const user: UserEntity = await this.usersService.findUserById(id);
         // Si el usuario no tiene refreshToken en la base de datos, o este no coincide con el
         // suministrado, negamos el acceso
         if(!user.refreshToken || ! await this.hashService.isMatch(refreshToken, user.refreshToken)) {
@@ -97,35 +119,14 @@ export class AuthService {
         return tokens;
     }
 
-    /**
-     * Valida las credenciales de inicio de sesión de un usuario
-     * @param {string} email - Credencial email del usuario que intenta iniciar sesión
-     * @param {string} password - Credencial password del usuario que intenta iniciar sesión
-     * @returns {User} - Usuario validado
-     */
-    async validateUser(email: string, password: string): Promise<User> {
-
-        // Buscamos en la base de datos el usuario registrado con el email
-        // Si no existe, el repositorio lanza un error
-        const user: User = await this.usersService.findUserByEmail(email);
-
-        // Si existe el usuario comparamos el password recibido con el password de la base de datos
-        // Lanzamos un error si el password no es válido
-        if (! await this.hashService.isMatch(password, user.password)) {
-            throw new UnauthorizedException('Password invalid')
-        }
-
-        // Retorna el usuario si las credenciales son válidas
-        return user;
-    }
 
 
     /**
      * Genera el accessToken y refreshToken para un usuario
-     * @param {User} user - Usuario al que se le crearan los tokens
+     * @param {UserEntity} user - Usuario al que se le crearan los tokens
      * @returns {JwtTokens} - accessToken y refreshToken
      */
-    async getTokens(user: User): Promise<JwtTokens> {
+    async getTokens(user: UserEntity): Promise<JwtTokens> {
 
         // Establece el payload que tendrán los tokens generados
         const payload = {

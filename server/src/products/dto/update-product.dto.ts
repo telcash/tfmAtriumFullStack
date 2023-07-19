@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateProductDto } from './create-product.dto';
-import { Availability } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsOptional, IsString, MinLength, IsNumber, Min } from 'class-validator';
+import { ProductAvailability } from '../constants/product-availability';
 
 /**
  * Data Transfer Object para la actualización de un producto
@@ -36,5 +36,5 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
 
     @IsOptional()
     @IsString()
-    availability?: Availability;
+    availability?: ProductAvailability;
 }

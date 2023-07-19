@@ -1,6 +1,6 @@
-import { Role } from '@prisma/client';
 import { Exclude } from "class-transformer";
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
+import { UserRole } from "../constants/user-role";
 
 /**
  * Data Transfer Object para creación (signup) de un usuario
@@ -11,8 +11,8 @@ export class CreateUserDto {
         Object.assign(this, partial);
     }
     @IsOptional()
-    @IsEnum(Role)
-    role: Role;
+    @IsEnum(UserRole)
+    role: UserRole;
 
     @IsNotEmpty()
     @IsString()

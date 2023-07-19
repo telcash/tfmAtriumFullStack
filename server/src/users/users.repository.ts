@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Role, User } from "@prisma/client";
+import { UserRole, User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -101,10 +101,10 @@ export class UsersRepository {
 
     /**
      * Cuenta la cantidad de usuarios por rol
-     * @param {Role} role - Rol de usuario 
+     * @param {UserRole} role - Rol de usuario 
      * @returns - Cantidad
      */
-    async countUsersByRole(role: Role): Promise<number>{
+    async countUsersByRole(role: UserRole): Promise<number>{
         return await this.prisma.user.count({
             where: {
                 role: role,

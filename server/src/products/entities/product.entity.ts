@@ -1,10 +1,11 @@
-import { Availability, Product } from "@prisma/client";
+import { ProductAvailability } from "../constants/product-availability";
+
 
 /**
  * Entidad producto para enviar como respuesta al cliente
  * Implementa Product de Prisma
  */
-export class ProductEntity implements Product {
+export class ProductEntity {
 
     /**
      * Genera una entidad de la clase con cualquier parcial de ella
@@ -20,7 +21,7 @@ export class ProductEntity implements Product {
     price: number;
     image: string;
     stock: number;
-    availability: Availability;
+    availability: ProductAvailability;
     createdAt: Date;
     updatedAt: Date;
 }

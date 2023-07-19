@@ -3,11 +3,11 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { LastAdminGuard } from './guards/last-admin.guard';
+import { UserRole } from './constants/user-role';
 
 /**
  * Controlador del modulo UsersModule
@@ -26,10 +26,10 @@ export class UsersController {
      * @returns {UserEntity} - Usuario creado
      */
     @UseGuards(RoleGuard)
-    @Roles(Role.ADMIN)
+    @Roles(UserRole.ADMIN)
     @Post()
     async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.create(createUserDto));
+        return await this.usersService.create(createUserDto);
     }
     
     /**
@@ -38,11 +38,10 @@ export class UsersController {
      * @returns {UserEntity[]} - Listado de usuarios
      */
     @UseGuards(RoleGuard)
-    @Roles(Role.ADMIN)
+    @Roles(UserRole.ADMIN)
     @Get()
     async findAll(): Promise<UserEntity[]> {
-        const users = await this.usersService.findAll();
-        return users.map((user) => new UserEntity(user));
+        return await this.usersService.findAll();
     }
 
     /**
@@ -52,7 +51,7 @@ export class UsersController {
      */
     @Get('profile')
     async findOne(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.findUserByEmail(req.user.email));
+        return await this.usersService.findUserByEmail(req.user.email);
     }
 
     /**
@@ -63,7 +62,7 @@ export class UsersController {
      */
     @Patch('profile')
     async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.update(req.user.sub, updateUserDto));
+        return await this.usersService.update(req.user.sub, updateUserDto);
     }
 
     /**
@@ -74,6 +73,6 @@ export class UsersController {
     @UseGuards(LastAdminGuard)
     @Delete('profile')
     async remove(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.remove(req.user.sub));
+        return await this.usersService.remove(req.user.sub);
     }
 }

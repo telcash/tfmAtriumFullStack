@@ -1,8 +1,8 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Role } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserRole } from 'src/users/constants/user-role';
 
 @Injectable()
 export class UserIsAdminInterceptor implements NestInterceptor {
@@ -19,7 +19,7 @@ export class UserIsAdminInterceptor implements NestInterceptor {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
     })
     .then((response) => {
-      req.isAdmin = response.role === Role.ADMIN ? true : false
+      req.isAdmin = response.role === UserRole.ADMIN ? true : false
     })
     .catch(() => {
       req.isAdmin = false;

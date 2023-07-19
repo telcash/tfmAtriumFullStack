@@ -1,12 +1,12 @@
 import { Controller, Get, UseGuards, Request, Res, Post, Body, Delete } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
-import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CartEntity } from './entities/cart.entity';
 import { CreateCartItemDto } from 'src/carts/cart-items/dto/create-cart-item.dto';
 import { AddItemToCartPipe } from './pipes/add-item-to-cart.pipe';
+import { UserRole } from 'src/users/constants/user-role';
              
 
 @Controller('carts')
@@ -20,11 +20,10 @@ export class CartsController {
    * @returns 
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(Role.ADMIN)
+  @Roles(UserRole.ADMIN)
   @Get()
   async findAll(): Promise<CartEntity[]> {
-    const carts = await this.cartsService.findAll();
-    return carts.map((cart) => new CartEntity(cart));
+    return await this.cartsService.findAll();
   }
 
   /**
@@ -35,7 +34,7 @@ export class CartsController {
   @UseGuards(JwtAccessGuard)
   @Get('/mycart')
   async findCartByUserId(@Request() req): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.findCartByUserId(req.user.sub));
+    return await this.cartsService.findCartByUserId(req.user.sub);
   }
 
   /**
@@ -45,8 +44,7 @@ export class CartsController {
    */
   @Get('/guest')
   async findGuestCart(@Request() req, @Res({passthrough: true}) res): Promise<CartEntity> {
-    const cart = new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
-    return cart;
+    return await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res);
   }
 
   /**
@@ -59,8 +57,8 @@ export class CartsController {
    */
   @UseGuards(JwtAccessGuard)
   @Post('/mycart/items')
-  async addItemToCart(@Request() req, @Body() createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
+  async addItemToCart(@Request() req, @Body(AddItemToCartPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
+    return await this.cartsService.addItemToCart(req.user.sub, createCartItemDto);
   }
   
   /**
@@ -71,6 +69,6 @@ export class CartsController {
   @UseGuards(JwtAccessGuard)
   @Delete('/mycart/items')
   async emptyCart(@Request() req): Promise<CartEntity>{
-    return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
+    return await this.cartsService.emptyCart(req.user.sub);
   }
 }
