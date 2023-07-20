@@ -16,7 +16,7 @@ export class CartsRepository{
      * @param {number} userId - Id de usuario
      * @returns - Carrito de compra
      */
-    async create(userId: number) {
+    async create(userId?: number) {
         return await this.prisma.cart.create({
           data: {
             userId: userId,

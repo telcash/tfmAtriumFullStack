@@ -4,6 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductsRepository } from './products.repository';
 import { ProductEntity } from './entities/product.entity';
+import { UserRole } from 'src/users/constants/user-role';
 
 @Injectable()
 export class ProductsService {
@@ -27,41 +28,28 @@ export class ProductsService {
   }
 
   /**
-   * Genera un listado de todos los productos disponibles para clientes
-   * @returns - Listado de productos
-   */
-  async findAllForClients() {
-    // Busca un listado de todos los productos disponibles para clientes
-    return await this.productRepository.findAllForClients();
-  }
-
-  /**
    * Genera un listado de todos los productos
    * @returns - Listado de productos
    */
-  async findAll() {
+  async findAll(role: UserRole) {
     // Busca un listado de todos los productos
-    return await this.productRepository.findAll();
-  }
-
-  /**
-   * Busca un producto por id si está disponible para clientes
-   * @param {number} id - Id del producto 
-   * @returns - Producto buscado
-   */
-  async findOneForClients(id: number) {
-    // Busca un producto que este disponible para clientes
-    return await this.productRepository.findOneForClients(id);
+    if (role === UserRole.ADMIN) {
+      return await this.productRepository.findAll();
+    }
+    return await this.productRepository.findAllForClients();
   }
 
   /**
    * Busca un producto por id
    * @param {number} id - Id del producto
+   * @param role - Rol del usuario que hace la petición
    * @returns - Producto buscado
    */
-  async findOne(id: number) {
-    // Busca un producto
-    return await this.productRepository.findOne(id);
+  async findOne(id: number, role?: UserRole) {
+    if (role === UserRole.ADMIN) {
+      return await this.productRepository.findOne(id);
+    }
+    return await this.productRepository.findOneForClients(id);
   }
 
   /**

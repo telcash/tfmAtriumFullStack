@@ -10,6 +10,8 @@ import { ImageValidationPipe } from 'src/common/pipes/image-validation.pipe';
 import { StorageService } from 'src/common/services/storage.service';
 import { ProductEntity } from './entities/product.entity';
 import { UserRole } from 'src/users/constants/user-role';
+import { User } from 'src/users/decorators/user.decorator';
+import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -24,7 +26,7 @@ export class ProductsController {
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
-  @Post('/admin')
+  @Post()
   async create(
     @UploadedFile(ImageValidationPipe) file,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
@@ -32,51 +34,28 @@ export class ProductsController {
   }
 
   /**
-   * Endpoint para un cliente obtener todos los productos disponibles
+   * Endpoint para obtener todos los productos disponibles
+   * @param role - Rol del usuario que hace la petición
    * @returns {ProductEntity[]} - Listado de productos
    */
+  @UseInterceptors(SetRequestUserInterceptor)
   @Get()
-  async findAllForClients(): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAllForClients();
+  async findAll(@User('role') role: UserRole): Promise<ProductEntity[]> {
+    const products = await this.productsService.findAll(role);
     return products.map((product) => new ProductEntity(product));
   }
 
   /**
-   * Endpoint para un Admin obtener todos los productos
-   * @param req - Request
-   * @returns {ProductEntity[]} - Listado de productos
-   */
-  @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(UserRole.ADMIN)
-  @Get('/admin')
-  async findAll(): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAll();
-    return products.map((product) => new ProductEntity(product));
-  }
-
-  /**
-   * Endpoint para un cliente obtener un producto por id
+   * Endpoint para obtener un producto por id
+   * @param role - Rol del usuario que hace la petición
    * @param {string} id - Id del producto 
    * @returns {ProductEntity} - Producto solicitado
    */
+  @UseInterceptors(SetRequestUserInterceptor)
   @Get(':id')
-  async findOneForClients(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity (await this.productsService.findOneForClients(+id));
+  async findOne(@Param('id') id: string, @User('role') role: UserRole): Promise<ProductEntity> {
+    return new ProductEntity (await this.productsService.findOne(+id, role));
   }
-
-  /**
-   * Endpoint para un Admin obtener un producto por id
-   * @param req - Request 
-   * @param {string} id - Id del producto
-   * @returns {Promise<ProductEntity>} - Producto solicitado
-   */
-  @UseGuards(JwtAccessGuard, RoleGuard)
-  @Roles(UserRole.ADMIN)
-  @Get('/admin/:id')
-  async findOne(@Param('id') id: string): Promise<ProductEntity> {
-    return new ProductEntity (await this.productsService.findOne(+id));
-  }
-  
 
   /**
    * Endpoint para Actualizar un Producto
@@ -89,7 +68,7 @@ export class ProductsController {
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
-  @Patch('/admin/:id')
+  @Patch(':id')
   async update(
     @Param('id') id: string,
     @UploadedFile(ImageValidationPipe) file,
@@ -105,7 +84,7 @@ export class ProductsController {
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
-  @Delete('/admin/:id')
+  @Delete(':id')
   async remove(@Param('id') id: string): Promise<ProductEntity> {
     return new ProductEntity (await this.productsService.remove(+id));
   }

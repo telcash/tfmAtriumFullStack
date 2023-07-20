@@ -25,48 +25,30 @@ export class CartsService {
   }
 
   /**
-   * Busca el carrito de compras para un usuario autenticado
-   * Crea el carrito del usuario si no existe
-   * @param {number} userId - Id del usuario 
-   * @returns - Carrito de compras
+   * Crea un carrito con un usuario asignado o sin usuario (para invitados)
+   * @param userId - Id del usuario
+   * @returns - Carrito creado
    */
-  async findCartByUserId(userId: number) {
-    // Busca el carrito para el usuario
-    let cart = await this.cartsRepository.findOneByUserId(userId);
-    
-    // Si el usuario no tiene aún carrito creado se crea un carrito
-    if (!cart) {
-      cart = await this.cartsRepository.create(userId);
-    }
-
-    // Retorna el carrito
-    return cart;
+  async create(userId?: number) {
+    return await this.cartsRepository.create(userId);
   }
 
   /**
-   * Busca el carrito de compras para un invitado
-   * @param {number} id - Id del carrito 
-   * @param response - Response
-   * @returns - Carrito de compras
+   * Busca un carrito por id
+   * @param cartId - Id del carrito
+   * @returns - Carrito buscado
    */
-  async findGuestCart(id: number, response) {
-    // Si existe id del carrito en cookies busca el carrito
-    if(id) {
-      return await this.cartsRepository.findOneById(id);
-    }
+  async findOneById(cartId: number) {
+    return await this.cartsRepository.findOneById(cartId);
+  }
 
-    // Si no existe carrito se crea una nuevo sin usuario asignado (null)
-    const cart = await this.cartsRepository.create(null);
-
-    // Se envía en response cookie con el id del carrito asignado
-    response.cookie('cartId', cart.id, {
-      httpOnly: true,
-      signed: true,
-      sameSite: true,
-    });
-
-    // Retorna el carrito
-    return cart;
+  /**
+   * Busca un carrito por id de usuario
+   * @param userId - Id del usuario
+   * @returns - Carrito buscado
+   */
+  async findOneByUserId(userId: number) {
+    return await this.cartsRepository.findOneByUserId(userId)
   }
 
   /**
@@ -76,7 +58,12 @@ export class CartsService {
    * @returns - Carrito de compras actualizado
    */
   async addItemToCart(userId: number, createCartItemDto: CreateCartItemDto) {
-    const cart = await this.findCartByUserId(userId);
+
+    
+
+
+
+    /* const cart = await this.findCartByUserId(userId);
     let cartItem = await this.cartItemsService.findOne(createCartItemDto.productId, cart.id);
     if(!cartItem) {
       cartItem = await this.cartItemsService.create({
@@ -93,7 +80,7 @@ export class CartsService {
     } 
 
     cartItem = await this.cartItemsService.update(createCartItemDto.productId, cart.id, { quantity: quantity});
-    return await this.findCartByUserId(userId);
+    return await this.findCartByUserId(userId); */
   }
 
   /**
@@ -101,7 +88,7 @@ export class CartsService {
    * @param userId - Id del usuario
    * @returns - Carrito vacío
    */
-  async emptyCart(userId: number) {
+  /* async emptyCart(userId: number) {
     // Buscamos el carrito del usuario
     const cart = await this.findCartByUserId(userId);
 
@@ -112,6 +99,9 @@ export class CartsService {
     return await this.findCartByUserId(userId);
     
     //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
+  } */
+  async emptyCart(id) {
+    return 'Carrito vaciado'
   }
 
 }

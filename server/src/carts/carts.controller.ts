@@ -1,12 +1,15 @@
-import { Controller, Get, UseGuards, Request, Res, Post, Body, Delete } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Res, Post, Body, Delete, UseInterceptors } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CartEntity } from './entities/cart.entity';
 import { CreateCartItemDto } from 'src/carts/cart-items/dto/create-cart-item.dto';
-import { AddItemToCartPipe } from './pipes/add-item-to-cart.pipe';
+import { UpdateCartItemPipe } from './pipes/update-cart-item.pipe';
 import { UserRole } from 'src/users/constants/user-role';
+import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
+import { User } from 'src/users/decorators/user.decorator';
+import { SetRequestUserCartInterceptor } from './interceptors/set-request-user-cart.interceptor';
              
 
 @Controller('carts')
@@ -28,38 +31,29 @@ export class CartsController {
   }
 
   /**
-   * Endpoint para obtener el carro de compras de un usuario autenticado
-   * @param req - Request
-   * @returns - Carrito
+   * Endpoint para obtener un carrito para usuarios autenticados e invitados
+   * @param cart - Carrito asignado por SetRequestUserCartInterceptor 
+   * @returns {CartEntity} - Carrito de compras
    */
-  @UseGuards(JwtAccessGuard)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Get('/mycart')
-  async findCartByUserId(@Request() req): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.findCartByUserId(req.user.sub));
+  async findOne(@User('cart') cart): Promise<CartEntity> {
+    return new CartEntity(cart);
   }
 
   /**
-   * Endpoint para obtener el carro de compras de un invitado
-   * Obtiene el id del carrito de cookie
-   * @returns - Carrito
-   */
-  @Get('/guest')
-  async findGuestCart(@Request() req, @Res({passthrough: true}) res) {
-    return new CartEntity(await this.cartsService.findGuestCart(+req.signedCookies['cartId'], res));
-  }
-
-  /**
-   * Endpoint para agregar/actualizar items al carrito de un usuario autenticado
+   * Endpoint para agregar/actualizar items a un carrito
    * El DTO contiene la nueva cantida que se desea tener del item:
    * Desde 0 (eliminar item) hasta el máximo permitido.
    * @param req - Request
    * @param createCartItemDto - DTO
    * @returns - Carrito actualizado
    */
-  @UseGuards(JwtAccessGuard)
-  @Post('/mycart/items')
-  async addItemToCart(@Request() req, @Body(AddItemToCartPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
-    return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
+  @UseInterceptors(SetRequestUserInterceptor)
+  @Post('/mycart')
+  async addItemToCart(@Body(UpdateCartItemPipe) createCartItemDto: CreateCartItemDto): Promise<CartEntity> {
+    //return new CartEntity(await this.cartsService.addItemToCart(req.user.sub, createCartItemDto));
+    return new CartEntity({id: 1}); // temporal para quitar errores de compilacion
   }
   
   /**
@@ -68,8 +62,9 @@ export class CartsController {
    * @returns - Carrito de compras vacío
    */
   @UseGuards(JwtAccessGuard)
-  @Delete('/mycart/items')
+  @Delete('/mycart')
   async emptyCart(@Request() req): Promise<CartEntity>{
-    return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
+    //return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
+    return new CartEntity({id: 1}); // temporal para quitar errores de compilacion
   }
 }
