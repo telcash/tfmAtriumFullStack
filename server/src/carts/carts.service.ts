@@ -3,6 +3,7 @@ import { CartsRepository } from './carts.repository';
 import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { ProductsService } from 'src/products/products.service';
+import { UpdateCartItemDto } from './cart-items/dto/update-cart-item.dto';
 
 /**
  * Servicio que implementa las funciones de carritos
@@ -57,30 +58,13 @@ export class CartsService {
    * @param createCartItemDto - DTO del item
    * @returns - Carrito de compras actualizado
    */
-  async addItemToCart(userId: number, createCartItemDto: CreateCartItemDto) {
-
-    
-
-
-
-    /* const cart = await this.findCartByUserId(userId);
-    let cartItem = await this.cartItemsService.findOne(createCartItemDto.productId, cart.id);
-    if(!cartItem) {
-      cartItem = await this.cartItemsService.create({
-        ...createCartItemDto,
-        cartId: cart.id,
-      })
-      return await this.findCartByUserId(userId);
+  async updateCartItems(updateCartItemDto: UpdateCartItemDto) {
+    if (updateCartItemDto.quantity === 0) {
+      await this.cartItemsService.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
+    } else {
+      await this.cartItemsService.update(updateCartItemDto);
     }
-
-    const stock = (await this.productsService.findOne(createCartItemDto.productId)).stock;
-    const quantity = cartItem.quantity + createCartItemDto.quantity
-    if (quantity > stock) {
-      throw new BadRequestException("Insufficient product stock");
-    } 
-
-    cartItem = await this.cartItemsService.update(createCartItemDto.productId, cart.id, { quantity: quantity});
-    return await this.findCartByUserId(userId); */
+    return await this.findOneById(updateCartItemDto.cartId);
   }
 
   /**

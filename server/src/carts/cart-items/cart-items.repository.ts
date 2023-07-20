@@ -41,18 +41,18 @@ export class CartItemsRepository {
 
     /**
      * Actualiza un CartItem en la base de datos
-     * @param {number} productId - Id de producto
-     * @param {number} cartId - Id de carrito
      * @param {UpdateCartItemDto} updateCartItemDto - DTO
      * @returns - CartItem actualizado
      */
-    async update(productId: number, cartId:number, updateCartItemDto: UpdateCartItemDto) {
+    async update(updateCartItemDto: UpdateCartItemDto) {
         return await this.prisma.cartItem.update({
-            data: updateCartItemDto,
+            data: {
+                quantity: updateCartItemDto.quantity,
+            },
             where: {
                 productId_cartId: {
-                    productId: productId,
-                    cartId: cartId,
+                    productId: updateCartItemDto.productId,
+                    cartId: updateCartItemDto.cartId,
                 }
             }
         })
@@ -70,5 +70,16 @@ export class CartItemsRepository {
             }
         })
         return payload.count;
+    }
+
+    async remove(productId: number, cartId: number) {
+        await this.prisma.cartItem.delete({
+            where: {
+                productId_cartId: {
+                    productId: productId,
+                    cartId: cartId,
+                }
+            }
+        })
     }
 }

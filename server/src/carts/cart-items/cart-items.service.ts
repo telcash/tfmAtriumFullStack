@@ -37,13 +37,11 @@ export class CartItemsService {
 
   /**
    * Actualiza un CartItem
-   * @param {number} productId - Id de producto 
-   * @param {number} cartId - Id de carrito 
    * @param {UpdateCartItemDto} updateCartItemDto - DTO 
    * @returns - CartItem actualizado
    */
-  async update(productId: number, cartId: number, updateCartItemDto: UpdateCartItemDto) {
-    return await this.cartItemsRepository.update(productId, cartId, updateCartItemDto);
+  async update(updateCartItemDto: UpdateCartItemDto) {
+    return await this.cartItemsRepository.update(updateCartItemDto);
   }
 
   /**
@@ -55,7 +53,7 @@ export class CartItemsService {
     return await this.cartItemsRepository.removeAllFromCart(cartId);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cartItem`;
+  async remove(productId: number, cartId: number) {
+    return await this.cartItemsRepository.remove(productId, cartId);
   }
 }

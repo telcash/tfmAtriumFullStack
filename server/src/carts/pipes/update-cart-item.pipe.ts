@@ -1,11 +1,11 @@
 import { ArgumentMetadata, BadRequestException, Inject, Injectable, PipeTransform, Scope } from '@nestjs/common';
-import { CreateCartItemDto } from '../cart-items/dto/create-cart-item.dto';
 import { ProductsService } from 'src/products/products.service';
 import { ProductAvailability } from 'src/products/constants/product-availability';
 import { REQUEST } from '@nestjs/core';
+import { UpdateCartItemDto } from '../cart-items/dto/update-cart-item.dto';
 
 /**
- * Valida CreateCartItemDto: Valida si el item está disponible y/o si hay suficiente cantidad en stock
+ * Valida CreateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada
  */
 @Injectable({ scope: Scope.REQUEST})
 export class UpdateCartItemPipe implements PipeTransform {
@@ -15,36 +15,35 @@ export class UpdateCartItemPipe implements PipeTransform {
   ) {}
 
 
-  async transform(createCartItemDto: CreateCartItemDto, metadata: ArgumentMetadata) {
+  async transform(updateCartItemDto: UpdateCartItemDto, metadata: ArgumentMetadata) {
     
-    // Determinamos el id del carrito 
+    // Extraemos del request el id del carrito
+    const cartId = this.req.user.cart.id;
 
-    // Id del carrito si es un invitado
-    if(this.req.signedCookies['cartId']) {
-      
+    // Si la cantidad es 0 o menos updateCartItemDto es válido
+    if (updateCartItemDto.quantity <= 0) {
+      return {...updateCartItemDto, cartId: cartId, quantity: 0 };
     }
-
-    // Si la nueva cantidad del item es 0 (o menos) lo eliminamos del carrito
-
 
     // Busca si el producto que se quiere agregar al carrito está disponible para venta
-    const product = await this.productsService.findOne(createCartItemDto.productId);
-
+    const product = await this.productsService.findOne(updateCartItemDto.productId);
+    
     // Si el producto no está disponible lanzamos error
     if (!product || product.availability === ProductAvailability.NEVER) {
-      throw new BadRequestException('Product not available');
+      throw new BadRequestException("Product not available");
     }
-
+    
+    
     // Si el producto está disponible según stock, pero el stock es menor que lo
     // solicitado, lanzamos error
     if (
       product.availability === ProductAvailability.STOCK && 
-      product.stock < createCartItemDto.quantity
+      product.stock < updateCartItemDto.quantity
     ) {
-      throw new BadRequestException("Insufficient product stock");
+        throw new BadRequestException("Insufficient product stock");
     }
-
+      
     // En cualquier otro caso se puede agregar el item al carrito
-    return createCartItemDto;
+    return {...updateCartItemDto, cartId: cartId};
   }
 }

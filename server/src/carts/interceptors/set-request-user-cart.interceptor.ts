@@ -34,7 +34,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
       // Buscamos el carrito asignado
       const cart = await this.cartsService.findOneById(+req.signedCookies['cartId']);
       
-      // Anexamos user al request con la propiedad cart
+      // Anexamos user al request con la propiedad cartId
       req.user = {
         cart: cart,
       }
@@ -44,6 +44,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
     }
     
     // Si el invitado no tiene aún carrito le creamos uno
+    // Anexamos user al request con la propiedad cartId
     const cart = await this.cartsService.create();
     req.user = {
       cart: cart,
