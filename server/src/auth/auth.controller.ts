@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -31,7 +31,7 @@ export class AuthController {
     /**
      * Endpoint para inicio de sesion de usuario
      * Protegido por LocalAuthGuard
-     * @param req 
+     * @param user - Usuario
      * @returns {JwtTokens} - accessToken y refreshToken
      */
     @UseGuards(LocalAuthGuard)
@@ -43,37 +43,38 @@ export class AuthController {
     /**
      * Endpoint para cierre se sesión
      * Protegido por JwtAccessGuard
-     * @param req
+     * @param id - Id del usuario
      * @returns {UserEntity} - Usuario que cierra sesión
      */
     @UseGuards(JwtAccessGuard)
     @Get('logout')
-    async logout(@Request() req): Promise<UserEntity> {
-        return new UserEntity (await this.authService.logout(req.user.sub));
+    async logout(@User('sub') id): Promise<UserEntity> {
+        return new UserEntity (await this.authService.logout(id));
     }
 
     /**
      * Endpoint para actualización de password de usuario
      * Protegido por JwtAccessGuard
-     * @param req 
+     * @param id - Id del usuario
      * @param {UpdatePasswordDto} updatePasswordDto - Dto para actualización de password.
      * @returns {UserEntity} - Usuario actualizado
      */
     @UseGuards(JwtAccessGuard)
     @Patch('password')
-    async updatePassword(@Request() req, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
-        return new UserEntity(await this.authService.updatePassword(req.user.sub, updatePasswordDto));
+    async updatePassword(@User('sub') id, @Body(PasswordUpdatePipe) updatePasswordDto: UpdatePasswordDto): Promise<UserEntity> {
+        return new UserEntity(await this.authService.updatePassword(id, updatePasswordDto));
     }
 
     /**
      * Endpoint para actualización de tokens
      * Protegido por JwtRefreshGuard
-     * @param req 
+     * @param id - Id del usuario
+     * @param refreshToken - Refresh Token del usuario 
      * @returns {JwtTokens} - accessToken y refreshToken
      */
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
-    async refreshTokens(@Request() req): Promise<JwtTokens> {
-        return await this.authService.refreshTokens(req.user.sub, req.user.refreshToken);
+    async refreshTokens(@User('sub') id, @User('refreshToken') refreshToken): Promise<JwtTokens> {
+        return await this.authService.refreshTokens(id, refreshToken);
     }
 }

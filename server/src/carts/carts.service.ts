@@ -78,7 +78,6 @@ export class CartsService {
   async addItemToCart(userId: number, createCartItemDto: CreateCartItemDto) {
     const cart = await this.findCartByUserId(userId);
     let cartItem = await this.cartItemsService.findOne(createCartItemDto.productId, cart.id);
-    console.log(cartItem);
     if(!cartItem) {
       cartItem = await this.cartItemsService.create({
         ...createCartItemDto,
@@ -86,7 +85,6 @@ export class CartsService {
       })
       return await this.findCartByUserId(userId);
     }
-    console.log('test')
 
     const stock = (await this.productsService.findOne(createCartItemDto.productId)).stock;
     const quantity = cartItem.quantity + createCartItemDto.quantity

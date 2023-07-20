@@ -59,7 +59,7 @@ export class UsersService {
   
     /**
      * Elimina de la base de datos al usuario correspondiente a un email
-     * @param {id} Id - Id del usuario a eliminar 
+     * @param {id} id - Id del usuario a eliminar 
      * @returns - Usuario eliminado
      */
     async remove(id: number): Promise<UserEntity> {

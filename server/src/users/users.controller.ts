@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Request, Patch, UseGuards, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Delete, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -8,6 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { LastAdminGuard } from './guards/last-admin.guard';
 import { UserRole } from './constants/user-role';
+import { User } from './decorators/user.decorator';
 
 /**
  * Controlador del modulo UsersModule
@@ -47,33 +48,33 @@ export class UsersController {
 
     /**
      * Endpoint para obtener los datos del usuario que hace la petición
-     * @param req
+     * @param id - Id del usuario
      * @returns {UserEntity} - Datos del usuario que hace la petición
      */
     @Get('profile')
-    async findOne(@Request() req): Promise<UserEntity> {
-        return new UserEntity (await this.usersService.findUserByEmail(req.user.email));
+    async findOne(@User('sub') id): Promise<UserEntity> {
+        return new UserEntity (await this.usersService.findUserById(id));
     }
 
     /**
      * Endpoint para editar los datos del usuario que hace la petición
      * @param {UpdateUserDto} updateUserDto - DTO con los datos a editar
-     * @param req -Request
+     * @param id - Id del usuario
      * @returns {UserEntity} - Usuario actualizado
      */
     @Patch('profile')
-    async update(@Body() updateUserDto: UpdateUserDto, @Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.update(req.user.sub, updateUserDto));
+    async update(@User('sub') id, @Body() updateUserDto: UpdateUserDto): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.update(id, updateUserDto));
     }
 
     /**
      * Endpoint para eliminar al usuario que hace la petición
-     * @param req - Request
+     * @param id - Id del usuario
      * @returns {UserEntity} - Usuario eliminado
      */
     @UseGuards(LastAdminGuard)
     @Delete('profile')
-    async remove(@Request() req): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.remove(req.user.sub));
+    async remove(@User('sub') id): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.remove(id));
     }
 }
