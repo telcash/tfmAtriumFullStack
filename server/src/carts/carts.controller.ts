@@ -14,11 +14,10 @@ import { UpdateCartItemDto } from './cart-items/dto/update-cart-item.dto';
 
 @Controller('carts')
 export class CartsController {
-  constructor(
-    private readonly cartsService: CartsService) {}
+  constructor(private readonly cartsService: CartsService) {}
 
   /**
-   * Endpoint para recibir todos los carritos
+   * Endpoint para solicitar todos los carritos
    * Para uso de un ADMIN
    * @returns 
    */
@@ -31,7 +30,7 @@ export class CartsController {
   }
 
   /**
-   * Endpoint para obtener un carrito para usuarios autenticados e invitados
+   * Endpoint para solicitar un carrito para usuarios autenticados e invitados
    * @param cart - Carrito asignado por SetRequestUserCartInterceptor 
    * @returns {CartEntity} - Carrito de compras
    */
@@ -56,14 +55,13 @@ export class CartsController {
   }
   
   /**
-   * Endpoint para vaciar el carrito de compras de un usuario autenticado
+   * Endpoint para vaciar el carrito de compras de un usuario
    * @param req - Request
    * @returns - Carrito de compras vacío
    */
-  @UseGuards(JwtAccessGuard)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Delete('/mycart')
-  async emptyCart(@Request() req): Promise<CartEntity>{
-    //return new CartEntity(await this.cartsService.emptyCart(req.user.sub));
-    return new CartEntity({id: 1}); // temporal para quitar errores de compilacion
+  async emptyCart(@User('cart') cart): Promise<CartEntity>{
+    return new CartEntity(await this.cartsService.emptyCart(+cart.id));
   }
 }

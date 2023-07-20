@@ -76,24 +76,15 @@ export class CartsService {
   }
 
   /**
-   * Vacia el carrito de un usuario autenticado
-   * @param userId - Id del usuario
+   * Vacia el carrito de un usuario
+   * @param {number} cartId - Id del usuario
    * @returns - Carrito vacío
    */
-  /* async emptyCart(userId: number) {
-    // Buscamos el carrito del usuario
-    const cart = await this.findCartByUserId(userId);
-
+  async emptyCart(cartId: number) {
     // Eliminamos todos los items en el carrito
-    await this.cartItemsService.removeAllFromCart(cart.id);
-
+    await this.cartItemsService.removeAllFromCart(cartId);
     // Devolvemos el carrito vacío
-    return await this.findCartByUserId(userId);
-    
-    //Otra opcion es borrar el carro y crear uno nuevo.Toma solo dos peticiones a la base de datos
-  } */
-  async emptyCart(id) {
-    return 'Carrito vaciado'
+    return await this.findOneById(cartId);
   }
 
 }

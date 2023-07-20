@@ -1,7 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpServer, HttpStatus, Module } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 
+
+// Filtro para capturar excepciones generadas por Prisma
+// Faltan ajustes de mensajes para usuarios
+// Genera aún mensajes que no se corresponden al error, particularmente la equivocación está en el nombre de la entidad que lo genera
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaExceptionFilter implements ExceptionFilter {
