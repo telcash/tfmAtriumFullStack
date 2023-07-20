@@ -1,8 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CartsRepository } from './carts.repository';
-import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
 import { CartItemsService } from './cart-items/cart-items.service';
-import { ProductsService } from 'src/products/products.service';
 import { UpdateCartItemDto } from './cart-items/dto/update-cart-item.dto';
 
 /**
@@ -14,7 +12,6 @@ export class CartsService {
   constructor(
     private readonly cartsRepository: CartsRepository,
     private readonly cartItemsService: CartItemsService,
-    private readonly productsService: ProductsService
   ) {}
 
   /**
@@ -59,10 +56,21 @@ export class CartsService {
    * @returns - Carrito de compras actualizado
    */
   async updateCartItems(updateCartItemDto: UpdateCartItemDto) {
-    if (updateCartItemDto.quantity === 0) {
-      await this.cartItemsService.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
+    const cartItem = await this.cartItemsService.findOne(updateCartItemDto.productId, updateCartItemDto.cartId);
+    if(cartItem) {
+      if (updateCartItemDto.quantity === 0) {
+        await this.cartItemsService.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
+      } else {
+        await this.cartItemsService.update(updateCartItemDto);
+      }
     } else {
-      await this.cartItemsService.update(updateCartItemDto);
+      if(updateCartItemDto.quantity > 0) {
+        await this.cartItemsService.create({
+          productId: updateCartItemDto.productId,
+          cartId: updateCartItemDto.cartId,
+          quantity: updateCartItemDto.quantity,
+        })
+      }
     }
     return await this.findOneById(updateCartItemDto.cartId);
   }
