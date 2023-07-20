@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { UserRole, User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UserRole } from "./constants/user-role";
 
 /**
  * Repositorio para manejar entidades User en la base de datos

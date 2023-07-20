@@ -1,4 +1,4 @@
-import { Product, ProductAvailability } from "@prisma/client";
+import { Product } from "@prisma/client";
 
 /**
  * Entidad producto para enviar como respuesta al cliente
@@ -19,7 +19,7 @@ export class ProductEntity implements Product {
     price: number;
     image: string;
     stock: number;
-    availability: ProductAvailability;
+    availability: string;
     createdAt: Date;
     updatedAt: Date;
 }
