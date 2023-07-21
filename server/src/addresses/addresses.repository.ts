@@ -15,6 +15,10 @@ export class AddressesRepository {
         })
     }
 
+    async findAll() {
+        return await this.prisma.address.findMany();
+    }
+
 
 
 }

@@ -4,7 +4,9 @@ import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { User } from 'src/users/decorators/user.decorator';
-import { CreateAddressPipe } from './pipes/create-address.pipe';
+import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRole } from 'src/users/constants/user-role';
 
 /**
  * Controlador del modulo {@link AddressesModule}
@@ -15,12 +17,12 @@ export class AddressesController {
   constructor(private readonly addressesService: AddressesService) {}
 
   @Post()
-
-  @UsePipes(CreateAddressPipe)
   create(@User('sub') id: number, @Body() createAddressDto: CreateAddressDto) {
-    return this.addressesService.create(createAddressDto);
+    return this.addressesService.create(id, createAddressDto);
   }
 
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Get()
   findAll() {
     return this.addressesService.findAll();

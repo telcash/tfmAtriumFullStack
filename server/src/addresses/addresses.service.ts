@@ -8,12 +8,13 @@ export class AddressesService {
   
   constructor(private readonly addressesRepository: AddressesRepository) {}
 
-  async create(createAddressDto: CreateAddressDto) {
+  async create(userId: number, createAddressDto: CreateAddressDto) {
+    createAddressDto = {...createAddressDto, userId: userId}
     return await this.addressesRepository.create(createAddressDto)
   }
 
-  findAll() {
-    return `This action returns all addresses`;
+  async findAll() {
+    return await this.addressesRepository.findAll();
   }
 
   findOne(id: number) {
