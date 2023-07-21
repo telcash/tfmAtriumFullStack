@@ -1,5 +1,7 @@
 
-
+/**
+ * Definición de los valores válidos para la propiedad availability de los productos
+ */
 export const ProductAvailability = {
   ALWAYS: "ALWAYS",
   NEVER: "NEVER",

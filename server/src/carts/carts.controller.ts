@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Request, Body, Delete, UseInterceptors, Patch } from '@nestjs/common';
+import { Controller, Get, UseGuards, Body, Delete, UseInterceptors, Patch } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -11,15 +11,18 @@ import { User } from 'src/users/decorators/user.decorator';
 import { SetRequestUserCartInterceptor } from './interceptors/set-request-user-cart.interceptor';
 import { UpdateCartItemDto } from './cart-items/dto/update-cart-item.dto';
              
-
+/**
+ * Controlador del módulo {@link CartsModule}
+ * Procesa las peticiones al endpoint 'carts'
+ */
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
   /**
-   * Endpoint para solicitar todos los carritos
-   * Para uso de un ADMIN
-   * @returns 
+   * Endpoint para solicitud del listado de todos los carritos
+   * Accesible sólo para usuarios Admin
+   * @returns - Listado de carritos
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
@@ -30,8 +33,8 @@ export class CartsController {
   }
 
   /**
-   * Endpoint para solicitar un carrito para usuarios autenticados e invitados
-   * @param cart - Carrito asignado por SetRequestUserCartInterceptor 
+   * Endpoint para la solicitud de un carrito para un usuario
+   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor} 
    * @returns {CartEntity} - Carrito de compras
    */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
@@ -41,12 +44,14 @@ export class CartsController {
   }
 
   /**
-   * Endpoint para agregar/actualizar/eliminar items del carrito
-   * El DTO contiene la nueva cantida que se desea tener del item:
+   * Endpoint para solicitud de agregar/actualizar/eliminar items del carrito
+   * El valor de la propiedad quantity en el DTO será la cantidad establecida del item en el carrito
    * Desde 0 (eliminar item) hasta el máximo permitido.
-   * @param req - Request
-   * @param createCartItemDto - DTO
-   * @returns - Carrito actualizado
+   * Según la cantidad los servicios implementan la funcionalidad correspondiente
+   * {@link SetRequestUserInterceptor} agrega la entidad user al request
+   * {@link SetRequestUserCartInterceptor} determina el carrito correspondiente al usuario
+   * @param updateCartItemDto - DTO con los datos del item validados con {@link UpdateCartItemPipe}
+   * @returns {CartEntity} - Carrito actualizado
    */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Patch('/mycart')
@@ -55,8 +60,8 @@ export class CartsController {
   }
   
   /**
-   * Endpoint para vaciar el carrito de compras de un usuario
-   * @param req - Request
+   * Endpoint para solicitud de vaciado (eliminación de todos los items) de carrito de compras de un usuario
+   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor}
    * @returns - Carrito de compras vacío
    */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)

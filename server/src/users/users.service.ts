@@ -13,7 +13,8 @@ export class UsersService {
     constructor(private readonly userRepository: UsersRepository){}
 
     /**
-     * Invoca al repositorio para crear un usuario en la base de datos
+     * Crea un nuevo usuario.
+     * Invoca el método create() de {@link UsersRepository} para crear un usuario en la base de datos
      * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
      * @returns  - Usuario creado
      */
@@ -22,7 +23,8 @@ export class UsersService {
     }
 
     /**
-     * Encuentra todos los usuarios en la base de datos
+     * Genera un listado de todos los usuarios registrados
+     * Invoca el método findAll() de {@link UsersRepository} para buscar en la base de datos a todos los usuarios registrados
      * @returns  - Listado de usuarios en la base de datos
      */
     async findAll() {
@@ -30,7 +32,8 @@ export class UsersService {
     }
 
     /**
-     * Busca  en la base de datos al usuario correspondiente a un email
+     * Gestiona la busqueda de un usuario según su email
+     * Invoca el método findUserByEmail() de {@link UsersRepository} para buscar el usuario en la base de datos
      * @param {string} email - email del usuario a buscar
      * @returns - Usuario correspondiente
      */
@@ -39,7 +42,8 @@ export class UsersService {
     }
     
     /**
-     * Busca en la base de datos el usuario correspondiente a un id
+     * Gestiona la busqueda de un usuario según su id
+     * Invoca el método findUserById() de {@link UsersRepository} para buscar el usuario en la base de datos
      * @param {number} id - Id del usuario
      * @returns  - Usuario buscado
      */
@@ -48,9 +52,10 @@ export class UsersService {
     }
 
     /**
-     * Actualiza en la base de datos al usuario correspondiente a un email
+     * Gestiona la actualización de los datos de un usuario identificado con su id
+     * Invoca el método update() de {@link UsersRepository} para actualizar los datos en la base de datos
      * @param {number} id - Id del usuario a actualizar
-     * @param {UpdateUserDto} updateUserDto - Data transfer object con los datos a actualizar
+     * @param {UpdateUserDto} updateUserDto - DTO con los datos a actualizar
      * @returns - Usuario actualizado
      */
     async update(id: number, updateUserDto: UpdateUserDto) {
@@ -58,7 +63,8 @@ export class UsersService {
     }
   
     /**
-     * Elimina de la base de datos al usuario correspondiente a un email
+     * Gestiona la eliminación de un usuario identificado con su id
+     * Invoca el método remove() de {@link UsersRepository} para eliminar el usuario de la base de datos
      * @param {id} id - Id del usuario a eliminar 
      * @returns - Usuario eliminado
      */
@@ -67,7 +73,8 @@ export class UsersService {
     }
 
     /**
-     * Determina la cantidad de usuarios por rol
+     * Determina la cantidad de usuarios registrados según su rol
+     * Invoca el método countUsersByRole() de {@link UsersRepository} para realizar el conteo en la base de datos
      * @param {Role} role - Rol de usuario
      * @returns - Cantidad de usuarios por rol
      */

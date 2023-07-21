@@ -13,7 +13,7 @@ export class UsersRepository {
 
     /**
      * Crea un usuario en la base de datos
-     * @param {CreateUserDto} createUserDto 
+     * @param {CreateUserDto} createUserDto - DTO con los datos del usuario a crear
      * @returns - Usuario creado
      */
     async create(createUserDto: CreateUserDto) {
@@ -23,7 +23,7 @@ export class UsersRepository {
     }
 
     /**
-     * Busca el listado de usuarios en la base de datos
+     * Busca el listado de todos los usuarios en la base de datos
      * @returns - Listado de usuarios
      */
     async findAll() {
@@ -31,7 +31,7 @@ export class UsersRepository {
     }
 
     /**
-     * Busca un usuario según su correo(único)
+     * Busca un usuario en la base de datos según su email
      * @param {string} email - Correo del usuario
      * @returns - Usuario correspondiente al correo
      */
@@ -49,7 +49,7 @@ export class UsersRepository {
     }
     
     /**
-     * Busca un usuario según su id único
+     * Busca un usuario en la base de datos según su id
      * @param {number} id - Id del usuario 
      * @returns  - Usuario correspondiente al id
      */
@@ -67,7 +67,7 @@ export class UsersRepository {
     }
 
     /**
-     * Actualiza los datos de un usuario en la base de datos
+     * Actualiza los datos de un usuario identificado con su id en la base de datos
      * @param {number} id - Id del usuario
      * @param {UpdateUserDto} updateUserDto - DTO para actualizar
      * @returns - Usuario actualizado
@@ -87,7 +87,7 @@ export class UsersRepository {
     }
 
     /**
-     * Remueve un usuario de la base de datos
+     * Remueve un usuario identificado con su id de la base de datos
      * @param {number} id - Correo del usuario
      * @returns - Usuario removido
      */
@@ -100,9 +100,9 @@ export class UsersRepository {
     }
 
     /**
-     * Cuenta la cantidad de usuarios por rol
+     * Cuenta la cantidad de usuarios según rol en la base de datos
      * @param {UserRole} role - Rol de usuario 
-     * @returns - Cantidad
+     * @returns - Cantidad de usuarios para el rol
      */
     async countUsersByRole(role: UserRole) {
         return await this.prisma.user.count({

@@ -12,8 +12,8 @@ export class CartsRepository{
     constructor(private readonly prisma: PrismaService) {}
 
     /**
-     * Crea un carrito en la base de datos según un id de usuario
-     * @param {number} userId - Id de usuario
+     * Crea un carrito en la base de datos con o sin usuario correspondiente
+     * @param {number} userId - Id de usuario (opcional)
      * @returns - Carrito de compra
      */
     async create(userId?: number) {
@@ -28,7 +28,7 @@ export class CartsRepository{
     }
 
     /**
-     * Busca todos los carritos en la base de datos
+     * Busca un listado de todos los carritos en la base de datos
      * @returns - Listado de carritos
      */
     async findAll() {

@@ -13,14 +13,19 @@ import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
 
+/**
+ * Controlador del Módulo {@link ProductsModule}
+ * Procesa las peticiones al endpoint 'products'
+ */
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   /**
-   * Endpoint para la creación de un producto.
-   * @param {Express.Multer.File} file - Archivo de imagen 
-   * @param {CreateProductDto} createProductDto - DTO para crear el producto
+   * Endpoint para solicitud de creación de un producto.
+   * Acceso permitido sólo a usuarios tipo Admin
+   * @param {Express.Multer.File} file - Archivo de imagen del producto. Procesada y validada por {@link StorageService} y {@link ImageValidationPipe}
+   * @param {CreateProductDto} createProductDto - DTO con los datos para la creación del producto, validado con class-validator
    * @returns {ProductEntity} - Producto creado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
@@ -34,7 +39,8 @@ export class ProductsController {
   }
 
   /**
-   * Endpoint para obtener todos los productos disponibles
+   * Endpoint para solicitud de listado de productos
+   * Usa {@link SetRequestUserInterceptor} para determinar el tipo de usuario que hace la solicitud
    * @param role - Rol del usuario que hace la petición
    * @returns {ProductEntity[]} - Listado de productos
    */
@@ -46,7 +52,8 @@ export class ProductsController {
   }
 
   /**
-   * Endpoint para obtener un producto por id
+   * Endpoint para solicitud de un producto por id
+   * Usa {@link SetRequestUserInterceptor} para determinar el tipo de usuario que hace la solicitud
    * @param role - Rol del usuario que hace la petición
    * @param {string} id - Id del producto 
    * @returns {ProductEntity} - Producto solicitado
@@ -58,11 +65,11 @@ export class ProductsController {
   }
 
   /**
-   * Endpoint para Actualizar un Producto
-   * Solo para usuarios ADMIN
+   * Endpoint para solicitud de actualización de un Producto
+   * Acceso permitido sólo a usuarios tipo Admin
    * @param {string} id - Id del producto 
-   * @param {Express.Multer.File} file - Archivo de imagen del producto 
-   * @param {UpdateProductDto} updateProductDto - DTO de actualización 
+   * @param {Express.Multer.File} file - Archivo de imagen del producto. Procesada y validada por {@link StorageService} y {@link ImageValidationPipe} 
+   * @param {UpdateProductDto} updateProductDto - DTO con los datos de actualización 
    * @returns {ProductEntity} - Producto actualizado
    */
   @UseGuards(JwtAccessGuard, RoleGuard)
@@ -77,8 +84,8 @@ export class ProductsController {
   }
 
   /**
-   * Endpoint para eliminar un producto
-   * Solo para usuarios ADMIN
+   * Endpoint para solicitud de eliminación de un producto
+   * Acceso permitido sólo a usuarios tipo Admin
    * @param {string} id - Id del producto
    * @returns {ProductEntity} - Producto Eliminado
    */

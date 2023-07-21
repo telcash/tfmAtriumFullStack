@@ -2,16 +2,20 @@ import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 
 /**
- * Guard que verifica que el usuario tiene un rol válido para acceder al endpoint
+ * Guard que verifica que el usuario tiene un rol válido para acceder al endpoint.
+ * Los roles válidos se establecen en el endpoint con el decorador {@link @Roles}
+ * Compara los roles del decorador con el rol extraido del request
+ * Antes se debe aplicar {@link JwtAccessGuard} para verificar que el request viene de un usuario autenticado
+ * {@link JwtAccessGuard} agrega el rol del usuario al request
  */
 @Injectable()
 export class RoleGuard implements CanActivate {
     constructor(private reflector: Reflector) {}
 
     /**
-     * 
-     * @param {ExecutionContext} context
-     * @returns {boolean} true si el rol del usuario está entre los roles exigidos
+     * Implementación del método canActivate del Guard
+     * @param {ExecutionContext} context - Contexto de ejecución
+     * @returns {boolean} - True si el rol del usuario está entre los roles exigidos
      */
     canActivate(context: ExecutionContext): boolean {
         

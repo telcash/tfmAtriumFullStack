@@ -8,7 +8,7 @@ import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 /**
- * Modulo encargado de las funciones de Autenticación y Autorización
+ * Modulo encargado de las funciones de Autenticación y Autorización de usuarios
  */
 @Module({
   imports: [

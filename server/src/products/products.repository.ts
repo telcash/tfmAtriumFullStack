@@ -13,7 +13,7 @@ export class ProductsRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     /**
-     * Condición para devolver producto en peticiones de clientes (No ADMIN)
+     * Condición para filtrar la busqueda de productos en peticiones de clientes (No ADMIN)
      */
     private productConditionsForClients:Prisma.ProductWhereInput = {
         price: {
@@ -39,7 +39,7 @@ export class ProductsRepository {
 
     /**
      * Crea un producto en la base de datos
-     * @param {CreateProductDto} createProductDto 
+     * @param {CreateProductDto} createProductDto - DTO con los datos para la cración del producto
      * @returns - Producto creado
      */
     async create(createProductDto: CreateProductDto) {
@@ -57,7 +57,7 @@ export class ProductsRepository {
     }
 
     /**
-     * Busca todos los productos en la base de datos con condiciones para clientes
+     * Busca todos los productos en la base de datos, filtrado con las condiciones para clientes
      * @returns - Listado de productos
      */
     async findAllForClients() {
@@ -80,7 +80,7 @@ export class ProductsRepository {
     }
 
     /**
-     * Busca un producto en la base de datos por su id único si cumple las condiciones para clientes
+     * Busca un producto en la base de datos por su id único, filtrado con las condiciones para clientes
      * @param {number} id - Id del producto
      * @returns - Producto buscado
      */
@@ -96,7 +96,7 @@ export class ProductsRepository {
     /**
      * Actualiza un producto en la base de datos
      * @param {number} id - Id del producto
-     * @param {UpdateProductDto} updateProductDto - DTO 
+     * @param {UpdateProductDto} updateProductDto - DTO con los datos para actualización
      * @returns - Producto actualizado
      */
     async update(id: number, updateProductDto: UpdateProductDto) {

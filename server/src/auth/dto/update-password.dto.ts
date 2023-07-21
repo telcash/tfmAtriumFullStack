@@ -1,10 +1,13 @@
 import { IsNotEmpty, IsString, IsStrongPassword, MaxLength } from "class-validator";
 
 /**
- * Data transfer object para actualización de password de usuario
+ * Data transfer object para actualización de la contraseña de un usuario
  * Validado con class-validator
  */
 export class UpdatePasswordDto {
+    /**
+     * Contraseña actual del usuario
+     */
     @IsNotEmpty()
     @IsString()
     @IsStrongPassword(
@@ -19,6 +22,9 @@ export class UpdatePasswordDto {
     @MaxLength(16)
     password: string;
 
+    /**
+     * Nueva contraseña del usuario
+     */
     @IsNotEmpty()
     @IsString()
     @IsStrongPassword(
@@ -33,6 +39,9 @@ export class UpdatePasswordDto {
     @MaxLength(16)
     newPassword: string;
 
+    /**
+     * Confirmación de la nueva contraseña
+     */
     @IsNotEmpty()
     @IsString()
     @IsStrongPassword(

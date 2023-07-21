@@ -5,7 +5,14 @@ import { REQUEST } from '@nestjs/core';
 import { UpdateCartItemDto } from '../cart-items/dto/update-cart-item.dto';
 
 /**
- * Valida CreateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada
+ * Valida UpdateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada
+ * Verifica que el producto esté disponible para la venta (Verificación de seguridad, los productos no disponibles no son visibles a un usuario tipo CLIENT)
+ * Verifica que la cantidad del producto solicitada es válida: hay suficiente stock
+ * Si el producto tiene un valor de ALWAYS para la propiedad availability se considera disponible en cualquier cantidad (TODO: fijar un máximo)
+ * Si el producto tiene un valor de NEVER para la propiedad availability no está disponible para la venta. El producto no debe ser visible en las peticiones de usuario tipo CLIENT
+ * Si el producto tiene un valor de STOCK para la propiedad availability está disponible para la venta según valor de la cantidad en propiedad STOCK
+ * Si no se cumplen las verificaciones se generan errores BadRequestException
+ * Si se cumplen las verificaciones se devuelve el DTO verificado
  */
 @Injectable({ scope: Scope.REQUEST})
 export class UpdateCartItemPipe implements PipeTransform {
@@ -15,6 +22,12 @@ export class UpdateCartItemPipe implements PipeTransform {
   ) {}
 
 
+  /**
+   * Implementación del método transform() del pipe
+   * @param updateCartItemDto - DTO con los datos a validar
+   * @param metadata 
+   * @returns - DTO validado
+   */
   async transform(updateCartItemDto: UpdateCartItemDto, metadata: ArgumentMetadata) {
     
     // Extraemos del request el id del carrito

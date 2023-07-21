@@ -15,7 +15,8 @@ export class CartsService {
   ) {}
 
   /**
-   * Busca todos los carritos
+   * Gestiona la busqueda de todos los carritos existentes
+   * Invoca al método findAll() de {@link CartsRepository} para buscar todos los carritos en la base de datos
    * @returns - Listado de carritos
    */
   async findAll() {
@@ -23,7 +24,9 @@ export class CartsService {
   }
 
   /**
-   * Crea un carrito con un usuario asignado o sin usuario (para invitados)
+   * Crea un carrito con un id de usuario registrado correspondiente
+   * Si no recibe el parámetro userId crea un carrito sin usuario registrado correspondiente (carrito para invitados)
+   * Invoca al método create() de {@link CartsRepository} para crear el carrito en la base de datos
    * @param userId - Id del usuario
    * @returns - Carrito creado
    */
@@ -32,7 +35,8 @@ export class CartsService {
   }
 
   /**
-   * Busca un carrito por id
+   * Realiza la busqueda de un carrito por su id
+   * Invoca al método findOneById() de {@link CartsRepository} para buscar el carrito en la base de datos
    * @param cartId - Id del carrito
    * @returns - Carrito buscado
    */
@@ -41,7 +45,8 @@ export class CartsService {
   }
 
   /**
-   * Busca un carrito por id de usuario
+   * Realiza la busqueda de un carrito asociado a un id de usuario registrado
+   * Invoca al método findOneByUserId() de {@link CartsRepository} para realizar la busqueda en la base de datos
    * @param userId - Id del usuario
    * @returns - Carrito buscado
    */
@@ -50,19 +55,34 @@ export class CartsService {
   }
 
   /**
-   * Agrega un item al carrito de compras de un usuario autenticado
+   * Gestiona los items de un carrito de compras
+   * Crea un nuevo item, actualiza la cantidad de un item existente, o elimina un item del carrito según corresponda
+   * La correspondencia viene dada por la propiedad cantidad recibida en el DTO y la existencia previa o no del item en el carrito
+   * Invoca al método create() de {@link CartsRepository} para crear el item si la cantidad es mayor que cero y el item no existe previamente en el carrito
+   * Invoca al método update() de {@link CartsRepository} para actualizar el item si la cantidad es mayor que cero y el item existe previamente en el carrito
+   * Invoca al método remove() de {@link CartsRepository} para eliminar el item si la cantidad es igual a cero y el item existe previamente en el carrito
    * @param userId - Id del usuario
-   * @param createCartItemDto - DTO del item
+   * @param createCartItemDto - DTO validado del item
    * @returns - Carrito de compras actualizado
    */
   async updateCartItems(updateCartItemDto: UpdateCartItemDto) {
+
+    // Determina si el item ya existe en el carrito
     const cartItem = await this.cartItemsService.findOne(updateCartItemDto.productId, updateCartItemDto.cartId);
+
+    // Si el item existe actualiza su cantidad o lo elimina según corresponda
     if(cartItem) {
+      // Si la cantidad es cero elimina el item
       if (updateCartItemDto.quantity === 0) {
         await this.cartItemsService.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
       } else {
+        // Si la cantidad es mayor que cero actualiza el item en el carrito
         await this.cartItemsService.update(updateCartItemDto);
       }
+    
+    // Si el item no existe lo actualizamos
+    // TODO; cambiar el DTO de UpdateCartItemDto donde todos las propiedaes son opcionales (crea conflicto con el método create() del repositorio)
+    // Se cambia a CreateCartItemDto, o se crea un DTO único para todas las operaciones (CartItemDto)
     } else {
       if(updateCartItemDto.quantity > 0) {
         await this.cartItemsService.create({
@@ -72,12 +92,16 @@ export class CartsService {
         })
       }
     }
+
+    // Devuelve el carrito actualizado
     return await this.findOneById(updateCartItemDto.cartId);
   }
 
   /**
    * Vacia el carrito de un usuario
-   * @param {number} cartId - Id del usuario
+   * Elmina todos los items que estén el carrito
+   * Invoca al método removeAllFromCart() de {@link CartsRepository} para eliminar todos los items del carrito en la base de datos
+   * @param {number} cartId - Id del carrito a vaciar
    * @returns - Carrito vacío
    */
   async emptyCart(cartId: number) {

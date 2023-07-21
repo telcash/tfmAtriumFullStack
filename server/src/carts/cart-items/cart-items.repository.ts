@@ -13,7 +13,7 @@ export class CartItemsRepository {
 
     /**
      * Crea un CartItem en la base de datos
-     * @param {CreateCartItemDto} createCartItemDto - DTO
+     * @param {CreateCartItemDto} createCartItemDto - DTO del CartItem
      * @returns - CartItem creado
      */
     async create(createCartItemDto: CreateCartItemDto) {
@@ -72,6 +72,11 @@ export class CartItemsRepository {
         return payload.count;
     }
 
+    /**
+     * Elimina un CartItem de la base de datos
+     * @param productId - Id del producto
+     * @param cartId - Id del carrito
+     */
     async remove(productId: number, cartId: number) {
         await this.prisma.cartItem.delete({
             where: {

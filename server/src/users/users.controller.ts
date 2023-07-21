@@ -11,8 +11,9 @@ import { UserRole } from './constants/user-role';
 import { User } from './decorators/user.decorator';
 
 /**
- * Controlador del modulo UsersModule
- * Endpoints protegidos por JwtAccessGuard
+ * Controlador del modulo {@link UsersModule}
+ * Procesa las peticiones al endpoint 'users'
+ * Endpoints protegidos por {@link JwtAccessGuard}
  */
 @UseGuards(JwtAccessGuard)
 @Controller('users')
@@ -21,9 +22,9 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     /**
-     * Endpoint para la creación de un usuario
-     * Endpoint protegido por RoleGuard
-     * @param {CreateUserDto} createUserDto - DTO para crear al usuario 
+     * Endpoint para la solicitud de creación de un usuario (Por parte de un ADMIN)
+     * Usa {@link RoleGuard} para solo darle acceso a un Admin
+     * @param {CreateUserDto} createUserDto - DTO para crear al usuario, validado con class-validator
      * @returns {UserEntity} - Usuario creado
      */
     @UseGuards(RoleGuard)
@@ -34,8 +35,8 @@ export class UsersController {
     }
     
     /**
-     * Endpoint para obtener un listado de todos los usuarios
-     * Endpoint protegido por RoleGuard
+     * Endpoint para la solicitud del listado de todos los usuarios registrados
+     * Usa {@link RoleGuard} para solo darle acceso a un Admin
      * @returns {UserEntity[]} - Listado de usuarios
      */
     @UseGuards(RoleGuard)
@@ -47,9 +48,10 @@ export class UsersController {
     }
 
     /**
-     * Endpoint para obtener los datos del usuario que hace la petición
-     * @param id - Id del usuario
-     * @returns {UserEntity} - Datos del usuario que hace la petición
+     * Endpoint para solicitud de datos de un usuario con sesión iniciada
+     * La solicitud la hace el propio usuario
+     * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
+     * @returns {UserEntity} - Usuario
      */
     @Get('profile')
     async findOne(@User('sub') id): Promise<UserEntity> {
@@ -57,9 +59,10 @@ export class UsersController {
     }
 
     /**
-     * Endpoint para editar los datos del usuario que hace la petición
-     * @param {UpdateUserDto} updateUserDto - DTO con los datos a editar
-     * @param id - Id del usuario
+     * Endpoint para solicitud de edición de datos de un usuario con sesión iniciada
+     * La solicitud la hace el propio usuario
+     * @param {UpdateUserDto} updateUserDto - DTO con los datos a editar. Validado con class-validator
+     * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario actualizado
      */
     @Patch('profile')
@@ -68,8 +71,10 @@ export class UsersController {
     }
 
     /**
-     * Endpoint para eliminar al usuario que hace la petición
-     * @param id - Id del usuario
+     * Endpoint para solicitud de eliminación de un usuario con sesión iniciada
+     * La solicitud la hace el propio usuario
+     * Usa {@link LastAdminGuard} para evitar eliminar a un admin si es el único registrado
+     * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario eliminado
      */
     @UseGuards(LastAdminGuard)

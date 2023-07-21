@@ -11,7 +11,8 @@ import { PasswordUpdatePipe } from './pipes/password-update.pipe';
 import { User } from 'src/users/decorators/user.decorator';
 
 /**
- * Controlador del modulo AuthModule
+ * Controlador del Módulo {@link AuthModule}
+ * Procesa las peticiones al endpoint 'auth'
  */
 @Controller('auth')
 export class AuthController {
@@ -19,8 +20,8 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     /**
-     * Endpoint para registro de usuario tipo CLIENT (signup)
-     * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
+     * Endpoint para peticiones de registro de usuarios tipo CLIENT (signup)
+     * @param {CreateUserDto} createUserDto - DTO para la creación de usuario, es validado con {@link SignupPipe} 
      * @returns {UserEntity} - Usuario creado
      */
     @Post('signup')
@@ -29,10 +30,9 @@ export class AuthController {
     }
 
     /**
-     * Endpoint para inicio de sesion de usuario
-     * Protegido por LocalAuthGuard
-     * @param user - Usuario
-     * @returns {JwtTokens} - accessToken y refreshToken
+     * Endpoint para peticiones de inicio de sesion de usuario
+     * @param user - Usuario validado y agregado al request por {@link LocalAuthGuard}
+     * @returns {JwtTokens} - JSON Web Tokens de acceso y de refrescamiento
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
@@ -41,9 +41,8 @@ export class AuthController {
     }
     
     /**
-     * Endpoint para cierre se sesión
-     * Protegido por JwtAccessGuard
-     * @param id - Id del usuario
+     * Endpoint para peticiones de cierre de sesión
+     * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario que cierra sesión
      */
     @UseGuards(JwtAccessGuard)
@@ -53,11 +52,10 @@ export class AuthController {
     }
 
     /**
-     * Endpoint para actualización de password de usuario
-     * Protegido por JwtAccessGuard
-     * @param id - Id del usuario
-     * @param {UpdatePasswordDto} updatePasswordDto - Dto para actualización de password.
-     * @returns {UserEntity} - Usuario actualizado
+     * Endpoint para peticiones de actualización de contraseña de un usuario
+     * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
+     * @param {UpdatePasswordDto} updatePasswordDto - Dto para actualización de contraseña, es validado con {@link PasswordUpdatePipe}
+     * @returns {UserEntity} - Usuario actualizado con nueva contraseña
      */
     @UseGuards(JwtAccessGuard)
     @Patch('password')
@@ -66,11 +64,10 @@ export class AuthController {
     }
 
     /**
-     * Endpoint para actualización de tokens
-     * Protegido por JwtRefreshGuard
-     * @param id - Id del usuario
-     * @param refreshToken - Refresh Token del usuario 
-     * @returns {JwtTokens} - accessToken y refreshToken
+     * Endpoint para peticiones de nuevo token de acceso por expiración del anterior
+     * @param id - Id del usuario validado y agregado al request por {@link JwtRefreshGuard}
+     * @param refreshToken - Token de refrescamiento validado y agregado al request por {@link JwtRefreshGuard}
+     * @returns {JwtTokens} - Nuevos JSON Web Tokens de acceso y de refrescamiento
      */
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
