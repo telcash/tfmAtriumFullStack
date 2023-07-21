@@ -12,6 +12,7 @@ import { CartsModule } from './carts/carts.module';
 import { PrismaExceptionFilter } from './prisma/filters/prisma.filter/prisma-exception.filter';
 import { JwtModule } from '@nestjs/jwt';
 import { CommonModule } from './common/common.module';
+import { AddressesModule } from './addresses/addresses.module';
 
 /**
  * Modulo raiz de la app
@@ -23,7 +24,7 @@ import { CommonModule } from './common/common.module';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule, CommonModule
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CartsModule, CommonModule, AddressesModule
   ],
   controllers: [AppController],
   providers: [

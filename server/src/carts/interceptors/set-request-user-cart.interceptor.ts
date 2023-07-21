@@ -1,5 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { CartsService } from '../carts.service';
+import { CreateCartDto } from '../dto/create-cart.dto';
 
 /**
  * Asigna un carrito a un usuario registrado en sistema o a un invitado
@@ -24,6 +25,9 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
    */
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
 
+    // Inicializamos el Dto de creacion de carrito
+    const createCartDto: CreateCartDto = {};
+
     // Extrae el request del contexto
     const req = context.switchToHttp().getRequest();
     
@@ -33,7 +37,10 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
       
       // Si el usuario aún no tiene carrito se le crea uno 
       if(!cart) {
-        cart = await this.cartsService.create(req.user.sub)
+        cart = await this.cartsService.create({
+          ...createCartDto,
+          userId: req.user.sub,
+        })
       }
       
       // Anexamos el carrito al request
@@ -59,7 +66,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
     
     // Si el invitado no tiene aún carrito le creamos uno
     // Anexamos user al request con la propiedad cartId
-    const cart = await this.cartsService.create();
+    const cart = await this.cartsService.create(createCartDto);
     req.user = {
       cart: cart,
     };

@@ -7,9 +7,7 @@ import { UserRole } from "../constants/user-role";
  * Validado con class-validator
  */
 export class CreateUserDto {
-    constructor(partial: Partial<CreateUserDto>) {
-        Object.assign(this, partial);
-    }
+    
     @IsOptional()
     @IsEnum(UserRole)
     role: UserRole;

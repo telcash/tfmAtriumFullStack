@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Cart } from "@prisma/client";
+import { CreateCartDto } from './dto/create-cart.dto';
 
 
 /**
@@ -12,15 +13,13 @@ export class CartsRepository{
     constructor(private readonly prisma: PrismaService) {}
 
     /**
-     * Crea un carrito en la base de datos con o sin usuario correspondiente
-     * @param {number} userId - Id de usuario (opcional)
+     * Crea un carrito en la base de datos
+     * @param {CreateCartDto} createCartDto - Dto con los datos para la cración del carrito 
      * @returns - Carrito de compra
      */
-    async create(userId?: number) {
+    async create(createCartDto: CreateCartDto) {
         return await this.prisma.cart.create({
-          data: {
-            userId: userId,
-          },
+          data: createCartDto,
           include: {
             products: true,
           }

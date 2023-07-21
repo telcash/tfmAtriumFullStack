@@ -1,12 +1,15 @@
+// Generador de cliente prisma
 generator client {
   provider = "prisma-client-js"
 }
 
+// Configuración de la base de datos
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+// Modelo para la representación usuarios
 model User {
   id           Int    @id @default(autoincrement())
   role         String @db.VarChar(20) @default("CLIENT")
@@ -18,32 +21,27 @@ model User {
   refreshToken String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  addresses UsersOnAddresses[]
+  addresses Address[]
   orders Order[]
   cart Cart?
 }
 
+// Modelo para la representación de direcciones
 model Address {
   id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
   street String
-  postalCode String
-  city String
-  country String
+  postalCode String @db.VarChar(10)
+  city String @db.VarChar(20)
+  country String @db.VarChar(20)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders Order[]
-  users UsersOnAddresses[]
 }
 
-model UsersOnAddresses {
-  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId Int
-  address Address @relation(fields: [addressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  addressId Int
 
-  @@id([userId, addressId])
-}
-
+// Modelo para la representación de una orden
 model Order {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
@@ -55,6 +53,7 @@ model Order {
   products OrderItem[]
 }
 
+// Modelo para la representación de un carrito de compras
 model Cart {
   id Int @id @default(autoincrement())
   user User? @relation(fields: [userId], references: [id])
@@ -64,6 +63,7 @@ model Cart {
   products CartItem[]
 }
 
+// Modelo para la representación de un producto
 model Product {
   id Int @id @default(autoincrement())
   name String
@@ -79,6 +79,7 @@ model Product {
   categories ProductsOnCategories[]
 }
 
+// Modelo para la representación de la relación entre ordenes y productos
 model OrderItem {
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int
@@ -92,6 +93,7 @@ model OrderItem {
   @@map("ProductsOnOrders")
 }
 
+// Modelo para la representación de la relación enre carritos y productos
 model CartItem {
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int
@@ -105,12 +107,14 @@ model CartItem {
   @@map("ProductsOnCarts")
 }
 
+// Modelo para la representación de una categoría
 model Category {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique @db.VarChar(20)
   products ProductsOnCategories[]
 }
 
+// Modelo para la representación de la relación entre categorías y productos
 model ProductsOnCategories {
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int

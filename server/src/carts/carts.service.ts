@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { UpdateCartItemDto } from './cart-items/dto/update-cart-item.dto';
+import { CreateCartDto } from './dto/create-cart.dto';
 
 /**
  * Servicio que implementa las funciones de carritos
@@ -25,13 +26,13 @@ export class CartsService {
 
   /**
    * Crea un carrito con un id de usuario registrado correspondiente
-   * Si no recibe el parámetro userId crea un carrito sin usuario registrado correspondiente (carrito para invitados)
+   * Si el Dto no contiene un valor de userId crea un carrito sin usuario registrado correspondiente (carrito para invitados)
    * Invoca al método create() de {@link CartsRepository} para crear el carrito en la base de datos
-   * @param userId - Id del usuario
+   * @param {CreateCartDto} createCartDto - Id del usuario
    * @returns - Carrito creado
    */
-  async create(userId?: number) {
-    return await this.cartsRepository.create(userId);
+  async create(createCartDto: CreateCartDto) {
+    return await this.cartsRepository.create(createCartDto);
   }
 
   /**
