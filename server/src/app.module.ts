@@ -13,6 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { CommonModule } from './common/common.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { CartsModule } from './carts/carts.module';
+import { OrdersModule } from './orders/orders.module';
 
 /**
  * Modulo raiz de la app
@@ -24,7 +25,7 @@ import { CartsModule } from './carts/carts.module';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CommonModule, AddressesModule, CartsModule
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CommonModule, AddressesModule, CartsModule, OrdersModule
   ],
   controllers: [AppController],
   providers: [
