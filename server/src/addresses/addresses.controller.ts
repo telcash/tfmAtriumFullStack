@@ -1,12 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { AddressesService } from './addresses.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
 import { User } from 'src/users/decorators/user.decorator';
-import { RoleGuard } from 'src/auth/guards/role.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { UserRole } from 'src/users/constants/user-role';
 import { AddressEntity } from './entities/address.entity';
 
 /**
@@ -29,34 +26,46 @@ export class AddressesController {
   }
 
   /**
-   * Endpoint para solicitar todas las direcciones
-   * Disponible solo para Admins
-   * @returns - Listado de direcciones
+   * Endpoint para solicitar un usuario todas sus direcciones
+   * @returns {AddressEntity[]} - Listado de direcciones
    */
-  @UseGuards(RoleGuard)
-  @Roles(UserRole.ADMIN)
   @Get()
-  async findAll() {
-    return await this.addressesService.findAll();
+  async findAll(@User('sub') userId: number): Promise<AddressEntity[]> {
+    const addresses = await this.addressesService.findAll(userId);
+    return addresses.map((address) => new AddressEntity(address));
   }
 
   /**
-   * Endpoint para solicitar un usuario una dirección
-   * @param id 
-   * @returns 
+   * Endpoint para solicitar un usuario una de sus direcciónes
+   * @param {string} id - Id de la dirección 
+   * @param {number} userId - Id del usuario
+   * @returns {AddressEntity} - Dirección solicitada
    */
   @Get(':id')
   async findOne(@Param('id') id: string, @User('sub') userId: number): Promise<AddressEntity> {
-    return await this.addressesService.findOne(+id, userId);
+    return new AddressEntity(await this.addressesService.findOne(+id, userId));
   }
 
+  /**
+   * Endpoint para solicitar un usuario editar una de sus direcciones
+   * @param {string} id - Id de la dirección
+   * @param {number} userId - Id del usuario
+   * @param {UpdateAddressDto} updateAddressDto 
+   * @returns 
+   */
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
-    return this.addressesService.update(+id, updateAddressDto);
+  async update(@Param('id') id: string, @User('sub') userId: number, @Body() updateAddressDto: UpdateAddressDto): Promise<AddressEntity> {
+    return new AddressEntity(await this.addressesService.update(+id, userId, updateAddressDto));
   }
 
+  /**
+   * Endpoint para solicitar un usuario eliminar una de sus direcciones
+   * @param {string} id - Id de la dirección
+   * @param {number} userId - Id del usuario
+   * @returns {AddressEntity} - Dirección eliminada
+   */
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.addressesService.remove(+id);
+  async remove(@Param('id') id: string, @User('sub') userId: number): Promise<AddressEntity> {
+    return new AddressEntity(await this.addressesService.remove(+id, userId));
   }
 }

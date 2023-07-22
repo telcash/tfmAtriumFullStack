@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { isEmail, isStrongPassword } from 'class-validator';
 
 /**
  * Definicion de tipo JwtTokens
@@ -69,6 +70,16 @@ export class AuthService {
      * @returns - Usuario validado
      */
     async validateUser(email: string, password: string) {
+
+        if(!isEmail(email) || !isStrongPassword(password, {
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+        })) {
+            throw new UnauthorizedException('Credentials format invalid')
+        }
 
         // Buscamos en la base de datos el usuario registrado con el email
         // Si no existe, el repositorio lanza un error

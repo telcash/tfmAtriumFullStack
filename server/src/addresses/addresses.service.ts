@@ -22,23 +22,40 @@ export class AddressesService {
   }
 
   /**
-   * Gestiona la busqueda de todas las direcciones
-   * Invoca el metodo findAll() de {@link AddressesRepository} para buscar todas las direcciones en la base de datos
+   * Gestiona la busqueda de todas las direcciones de un usuario
+   * Invoca el metodo findAll() de {@link AddressesRepository} para buscar todas las direcciones del usuario en la base de datos
    * @returns - Listado de direcciones 
    */
-  async findAll() {
-    return await this.addressesRepository.findAll();
+  async findAll(userId: number) {
+    return await this.addressesRepository.findAll(userId);
   }
 
+  /**
+   * Gestiona la busqueda de una direccion dada su id y la id del usuario a la que pertenece
+   * Invoca el metodo findOne() de {@link AddressesRepository} para buscar la dirección en la base de datos
+   * @returns - Dirección buscada 
+   */
   async findOne(id: number, userId: number) {
     return await this.addressesRepository.findOne(id, userId);
   }
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
-    return `This action updates a #${id} address`;
+  /**
+   * Gestiona la actualización de una direccion dada su id y la id del usuario a la que pertenece
+   * Invoca el metodo update() de {@link AddressesRepository} para actualizar la dirección en la base de datos
+   * @returns - Dirección actualizada 
+   */
+  async update(id: number, userId: number, updateAddressDto: UpdateAddressDto) {
+    return await this.addressesRepository.update(id, userId, updateAddressDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} address`;
+  /**
+   * Gestiona la eliminación de una dirección dada su id y la id del usuario a la que pertenece
+   * Invoca el metodo remove() de {@link AddressesRepository} para eliminar la dirección en la base de datos
+   * @param {number} id - Id de la dirección
+   * @param {number} userId - Id del usuario
+   * @returns - Dirección eliminada
+   */
+  async remove(id: number, userId: number) {
+    return await this.addressesRepository.remove(id, userId);
   }
 }
