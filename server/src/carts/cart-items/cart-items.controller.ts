@@ -60,6 +60,6 @@ export class CartItemsController {
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Delete()
   async remove(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto) {
-    return await this.cartItemsService.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
+    return await this.cartItemsService.remove(updateCartItemDto);
   }
 }

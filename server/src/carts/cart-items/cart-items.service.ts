@@ -29,8 +29,8 @@ export class CartItemsService {
     return await this.cartItemsRepository.update(updateCartItemDto);
   }
 
-  async remove(productId: number, cartId: number) {
-    return await this.cartItemsRepository.remove(productId, cartId);
+  async remove(updateCartItemDto: UpdateCartItemDto) {
+    return await this.cartItemsRepository.remove(updateCartItemDto.productId, updateCartItemDto.cartId);
   }
 
   /**
