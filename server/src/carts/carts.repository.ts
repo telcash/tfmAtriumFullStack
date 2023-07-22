@@ -1,14 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { Cart } from "@prisma/client";
-import { CreateCartDto } from './dto/create-cart.dto';
+import { CreateCartDto } from "./dto/create-cart.dto";
 
 
-/**
- * Repositorio para manejar entidades Cart en la base de datos
- */
 @Injectable()
-export class CartsRepository{
+export class CartsRepository {
 
     constructor(private readonly prisma: PrismaService) {}
 
@@ -19,10 +15,10 @@ export class CartsRepository{
      */
     async create(createCartDto: CreateCartDto) {
         return await this.prisma.cart.create({
-          data: createCartDto,
-          include: {
-            products: true,
-          }
+            data: createCartDto,
+            include: {
+                products: true,
+            }
         });
     }
 
@@ -42,17 +38,17 @@ export class CartsRepository{
     /**
      * Busca un carrito en la base de datos según su id
      * @param {number} id - Id de carrito 
-     * @returns {Cart} - Carrito buscado
+     * @returns - Carrito buscado
      */
-    async findOneById(id: number): Promise<Cart> {
-      return await this.prisma.cart.findUnique({
-        where: {
-          id: id,
-        },
-        include: {
-          products: true,
-        }
-      })
+    async findOne(id: number) {
+        return await this.prisma.cart.findUnique({
+            where: {
+                id: id,
+            },
+            include: {
+                products: true,
+            }
+        })
     }
 
     /**
@@ -61,14 +57,13 @@ export class CartsRepository{
      * @returns - Carrito buscado
      */
     async findOneByUserId(userId: number) {
-      return await this.prisma.cart.findUnique({
-        where: {
-          userId: userId,
-        },
-        include: {
-          products: true,
-        }
-      })
+        return await this.prisma.cart.findUnique({
+            where: {
+                userId: userId,
+            },
+            include: {
+                products: true,
+            }
+        })
     }
-
 }

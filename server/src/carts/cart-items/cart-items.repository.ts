@@ -3,13 +3,29 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCartItemDto } from "./dto/create-cart-item.dto";
 import { UpdateCartItemDto } from "./dto/update-cart-item.dto";
 
-/**
- * Repositiorio para manejar entidades CartItem en la base de datos
- */
+
+
 @Injectable()
 export class CartItemsRepository {
 
     constructor(private readonly prisma: PrismaService) {}
+
+    /**
+     * Busca todos los items en un carrito
+     * @param cartId - Id del carrito
+     * @returns - Listado de items
+     */
+    async findAll(cartId: number) {
+        return await this.prisma.cartItem.findMany({
+            where: {
+                cartId: cartId,
+            },
+            select: {
+                productId: true,
+                quantity: true,
+            }
+        })
+    }
 
     /**
      * Crea un CartItem en la base de datos
@@ -19,23 +35,6 @@ export class CartItemsRepository {
     async create(createCartItemDto: CreateCartItemDto) {
         return await this.prisma.cartItem.create({
             data: createCartItemDto,
-        })
-    }
-
-    /**
-     * Busca un CartItem en la base de datos por id de producto y id de carrito
-     * @param {number} productId - Id de producto 
-     * @param {number} cartId - Id de carrito 
-     * @returns - CartItem buscado
-     */
-    async findOne(productId: number, cartId: number) {
-        return await this.prisma.cartItem.findUnique({
-            where: {
-                productId_cartId: {
-                    productId: productId,
-                    cartId: cartId,
-                }
-            }
         })
     }
 
@@ -59,20 +58,6 @@ export class CartItemsRepository {
     }
 
     /**
-     * Elimina todos los CartItem de un carrito de la base de datos
-     * @param {number} cartId - Id de carrito 
-     * @returns  - Cantidad de CartItems eliminados
-     */
-    async removeAllFromCart(cartId: number) {
-        const payload = await this.prisma.cartItem.deleteMany({
-            where: {
-                cartId: cartId,
-            }
-        })
-        return payload.count;
-    }
-
-    /**
      * Elimina un CartItem de la base de datos
      * @param productId - Id del producto
      * @param cartId - Id del carrito
@@ -87,4 +72,19 @@ export class CartItemsRepository {
             }
         })
     }
+
+    /**
+     * Elimina todos los CartItem de un carrito de la base de datos
+     * @param {number} cartId - Id de carrito 
+     * @returns  - Cantidad de CartItems eliminados
+     */
+    async removeAll(cartId: number) {
+        const payload = await this.prisma.cartItem.deleteMany({
+            where: {
+                cartId: cartId,
+            }
+        })
+        return payload.count;
+    }
+
 }

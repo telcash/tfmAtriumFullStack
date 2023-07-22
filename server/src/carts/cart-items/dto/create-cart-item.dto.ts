@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNumber, IsOptional, Min } from "class-validator";
 
 /**
  * Dto para la creación de un item en carrito
@@ -12,6 +12,8 @@ export class CreateCartItemDto {
     @IsNumber()
     cartId: number;
     
+    @IsOptional()
     @IsNumber()
+    @Min(1)
     quantity: number;
 }

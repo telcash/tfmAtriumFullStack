@@ -53,7 +53,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
     // Si en el request no hay usuario verificamos si hay un carrito previamente asignado a un invitado
     if (req.signedCookies['cartId']) {
       // Buscamos el carrito asignado
-      const cart = await this.cartsService.findOneById(+req.signedCookies['cartId']);
+      const cart = await this.cartsService.findOne(+req.signedCookies['cartId']);
       
       // Anexamos user al request con la propiedad cartId
       req.user = {
