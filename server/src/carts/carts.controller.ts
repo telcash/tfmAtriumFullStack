@@ -31,6 +31,19 @@ export class CartsController {
   }
 
   /**
+   * Endpoint para solicitar un carrito por su id
+   * Accesible solo para usuarios Admin
+   * @param id - Id del carrito
+   * @returns - Carrito buscado
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.cartsService.findOne(+id);
+  }
+
+  /**
    * Endpoint para la solicitud de un carrito para un usuario
    * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor} 
    * @returns {CartEntity} - Carrito de compras
@@ -40,7 +53,7 @@ export class CartsController {
   async findMyCart(@User('cart') cart): Promise<CartEntity> {
     return new CartEntity(cart);
   }
-
+  
   /**
    * Endpoint para solicitud de vaciado (eliminación de todos los items) de carrito de compras de un usuario
    * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor}
@@ -50,16 +63,6 @@ export class CartsController {
   @Delete('/mycart')
   async emptyCart(@User('cart') cart): Promise<CartEntity>{
     return new CartEntity(await this.cartsService.emptyCart(+cart.id));
-  }
-
-  /**
-   * 
-   * @param id 
-   * @returns 
-   */
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartsService.findOne(+id);
   }
 
 }
