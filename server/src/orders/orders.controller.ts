@@ -2,13 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { StripeService } from 'src/stripe/stripe.service';
 
 /**
  * Controlador del modulo {@link OrdersModule}
  */
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService, private readonly stripeService: StripeService) {}
 
   /**
    * 
@@ -38,5 +39,11 @@ export class OrdersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.ordersService.remove(+id);
+  }
+
+  @Post('checkout')
+  async checkout(@Body('amount') amount: number) {
+    console.log(amount);
+    return await this.stripeService.createPaymentIntent(amount);
   }
 }
