@@ -10,6 +10,7 @@ export class CartItemEntity implements CartItem{
     productId: number;
     cartId: number;
     quantity: number;
+    price: number;
     createdAt: Date;
     updatedAt: Date;
 

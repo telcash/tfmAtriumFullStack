@@ -46,6 +46,7 @@ model Order {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
   userId Int @unique
+  total Float
   address Address @relation(fields: [addressId], references: [id])
   addressId Int
   createdAt DateTime @default(now())
@@ -58,6 +59,7 @@ model Cart {
   id Int @id @default(autoincrement())
   user User? @relation(fields: [userId], references: [id])
   userId Int? @unique
+  total Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products CartItem[]
@@ -86,6 +88,7 @@ model OrderItem {
   order Order @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   orderId Int
   quantity Int
+  price Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -100,6 +103,7 @@ model CartItem {
   cart Cart @relation(fields: [cartId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   cartId Int
   quantity Int
+  price Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

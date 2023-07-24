@@ -63,7 +63,7 @@ export class CartItemsRepository {
      * @param cartId - Id del carrito
      */
     async remove(productId: number, cartId: number) {
-        await this.prisma.cartItem.delete({
+        return await this.prisma.cartItem.delete({
             where: {
                 productId_cartId: {
                     productId: productId,

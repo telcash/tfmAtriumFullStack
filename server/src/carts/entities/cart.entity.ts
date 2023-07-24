@@ -11,6 +11,8 @@ export class CartEntity implements Cart{
     id: number;
     userId: number;
 
+    total: number;
+
     @Exclude()
     createdAt: Date;
 

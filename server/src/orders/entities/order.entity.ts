@@ -8,6 +8,7 @@ export class OrderEntity implements Order{
 
     id: number;
     userId: number;
+    total: number;
     addressId: number;
     createdAt: Date;
     updatedAt: Date;

@@ -7,6 +7,7 @@ import { SetRequestUserCartInterceptor } from '../interceptors/set-request-user-
 import { CartItemPipe } from './pipes/cart-item.pipe';
 import { CartItemEntity } from './entities/cart-item.entity';
 import { User } from 'src/users/decorators/user.decorator';
+import { UpdateTotalInterceptor } from '../interceptors/update-total.interceptor';
 
 @Controller('carts/mycart/items')
 export class CartItemsController {
@@ -28,10 +29,11 @@ export class CartItemsController {
    * Dto validado por class-validator y {@link CartItemPipe}
    * {@link SetRequestUserInterceptor} agrega la entidad user al request
    * {@link SetRequestUserCartInterceptor} determina el carrito correspondiente al usuario
+   * {@link UpdateTotalInterceptor} actualiza la propiedad total del carrito
    * @param {CreateCartItemDto} createCartItemDto 
    * @returns {CartItemEntity} - Item creado
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
   @Post()
   async create(@Body(CartItemPipe) createCartItemDto: CreateCartItemDto): Promise<CartItemEntity> {
     return new CartItemEntity(await this.cartItemsService.create(createCartItemDto));
@@ -43,10 +45,11 @@ export class CartItemsController {
    * Dto validado por class-validator y {@link CartItemPipe}
    * {@link SetRequestUserInterceptor} agrega la entidad user al request
    * {@link SetRequestUserCartInterceptor} determina el carrito correspondiente al usuario
+   * {@link UpdateTotalInterceptor} actualiza la propiedad total del carrito
    * @param {UpdateCartItemDto} updateCartItemDto 
    * @returns {CartItemEntity} - Item actualizado
   */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
   @Patch()
   async update(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
     return new CartItemEntity(await this.cartItemsService.update(updateCartItemDto));
@@ -54,12 +57,16 @@ export class CartItemsController {
 
   /**
    * Endpoint para eliminar un item de un carrito
+   * Dto validado por class-validator y {@link CartItemPipe}
+   * {@link SetRequestUserInterceptor} agrega la entidad user al request
+   * {@link SetRequestUserCartInterceptor} determina el carrito correspondiente al usuario
+   * {@link UpdateTotalInterceptor} actualiza la propiedad total del carrito
    * @param {UpdateCartItemDto} updateCartItemDto 
-   * @returns 
+   * @returns {CartItemEntity} - Item eliminado
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
   @Delete()
-  async remove(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto) {
+  async remove(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
     return await this.cartItemsService.remove(updateCartItemDto);
   }
 }

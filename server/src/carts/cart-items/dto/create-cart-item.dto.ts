@@ -16,4 +16,9 @@ export class CreateCartItemDto {
     @IsNumber()
     @Min(1)
     quantity: number;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    price: number;
 }

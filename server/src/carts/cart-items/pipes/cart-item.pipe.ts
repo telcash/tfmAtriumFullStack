@@ -58,6 +58,6 @@ export class CartItemPipe implements PipeTransform {
     // En cualquier otro caso se puede agregar el item al carrito
 
     // Devuelve el Dto agregándole el id del carrito correspondiente
-    return {...dto, cartId: cartId};
+    return {...dto, cartId: cartId, price: product.price};
   }
 }

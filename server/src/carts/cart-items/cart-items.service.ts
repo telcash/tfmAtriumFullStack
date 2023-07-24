@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 import { CartItemsRepository } from './cart-items.repository';
+import { CartsService } from '../carts.service';
 
 @Injectable()
 export class CartItemsService {
-  constructor(private readonly cartItemsRepository: CartItemsRepository) {}
+  constructor(
+    private readonly cartItemsRepository: CartItemsRepository,
+  ) {}
 
   /**
    * Agrega un item a un carrito

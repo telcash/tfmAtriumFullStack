@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
@@ -62,8 +62,34 @@ export class CartsService {
   async emptyCart(cartId: number) {
     // Eliminamos todos los items en el carrito
     await this.cartItemsService.removeAll(cartId);
-    // Devolvemos el carrito vacío
-    return await this.findOne(cartId);
+    // Devolvemos el carrito vacío con una propiedad total de cero
+    return await this.cartsRepository.update(cartId, { total: 0 });
+  }
+
+  /**
+   * Actualiza la propiedad total del carrito
+   * Calcula el total del carrito iterando en todos los productos que contiene
+   * Invoca el método update() de {@link CartsRepository} para actualizar el carrito con su nuevo total en la base de datos
+   * @param cartId - Id del carrito
+   * @returns - Nuevo total actualizado
+   */
+  async updateTotal(cartId: number): Promise<number> {
+    // Busca el carrito por su id
+    let cart = await this.cartsRepository.findOne(cartId);
+
+    // Inicia el total en cero
+    let total = 0;
+
+    // Para cada producto en el carrito multiplica su precio por la cantidad y lo agrega al total
+    for (const product of cart.products) {
+      total += product.price * product.quantity
+    }
+
+    // Actualiza el carrito en la base de datos
+    cart = await this.cartsRepository.update(cartId, { total: total })
+
+    // Devuelve el total
+    return total;
   }
 
   checkout(cart) {

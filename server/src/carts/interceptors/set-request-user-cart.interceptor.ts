@@ -25,8 +25,9 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
    */
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
 
-    // Inicializamos el Dto de creacion de carrito
-    const createCartDto: CreateCartDto = {};
+    // Inicializamos el Dto de creacion de carrito con un total de cero
+    const createCartDto: CreateCartDto = { total: 0}
+;
 
     // Extrae el request del contexto
     const req = context.switchToHttp().getRequest();

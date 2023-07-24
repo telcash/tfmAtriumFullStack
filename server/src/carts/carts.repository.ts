@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCartDto } from "./dto/create-cart.dto";
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 
 @Injectable()
@@ -47,7 +48,7 @@ export class CartsRepository {
             },
             include: {
                 products: true,
-            }
+            },
         })
     }
 
@@ -60,6 +61,18 @@ export class CartsRepository {
         return await this.prisma.cart.findUnique({
             where: {
                 userId: userId,
+            },
+            include: {
+                products: true,
+            }
+        });
+    }
+
+    async update(cartId: number, updateCartDto: UpdateCartDto) {
+        return await this.prisma.cart.update({
+            data: updateCartDto,
+            where: {
+                id: cartId,
             },
             include: {
                 products: true,
