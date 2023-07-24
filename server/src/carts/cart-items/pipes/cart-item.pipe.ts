@@ -6,14 +6,14 @@ import { UpdateCartItemDto } from '../dto/update-cart-item.dto';
 import { CreateCartItemDto } from '../dto/create-cart-item.dto';
 
 /**
- * Valida CreateCartDtp o UpdateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada
- * Verifica que el producto esté disponible para la venta (Verificación de seguridad, los productos no disponibles no son visibles a un usuario tipo CLIENT)
- * Verifica que la cantidad del producto solicitada es válida: hay suficiente stock
- * Si el producto tiene un valor de ALWAYS para la propiedad availability se considera disponible en cualquier cantidad (TODO: fijar un máximo)
- * Si el producto tiene un valor de NEVER para la propiedad availability no está disponible para la venta. El producto no debe ser visible en las peticiones de usuario tipo CLIENT
- * Si el producto tiene un valor de STOCK para la propiedad availability está disponible para la venta según valor de la cantidad en propiedad STOCK
- * Si no se cumplen las verificaciones se generan errores BadRequestException
- * Si se cumplen las verificaciones se devuelve el DTO verificado
+ * Valida CreateCartItemDto o UpdateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada.
+ * Verifica que el producto esté disponible para la venta (Verificación de seguridad, los productos no disponibles no son visibles a un usuario tipo CLIENT).
+ * Verifica que la cantidad del producto solicitada es válida: hay suficiente stock.
+ * Si el producto tiene un valor de ALWAYS para la propiedad availability se considera disponible en cualquier cantidad (TODO: fijar un máximo).
+ * Si el producto tiene un valor de NEVER para la propiedad availability no está disponible para la venta. El producto no debe ser visible en las peticiones de usuario tipo CLIENT.
+ * Si el producto tiene un valor de STOCK para la propiedad availability está disponible para la venta según valor de la cantidad en propiedad STOCK.
+ * Si no se cumplen las verificaciones se generan errores BadRequestException.
+ * Si se cumplen las verificaciones se devuelve el DTO verificado.
  */
 @Injectable({ scope: Scope.REQUEST})
 export class CartItemPipe implements PipeTransform {

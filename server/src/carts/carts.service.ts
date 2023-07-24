@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class CartsService {
   constructor(
     private readonly cartsRepository: CartsRepository,
     private readonly cartItemsService: CartItemsService,
+    private readonly stripeService: StripeService,
   ) {}
 
   /**
@@ -62,6 +64,12 @@ export class CartsService {
     await this.cartItemsService.removeAll(cartId);
     // Devolvemos el carrito vacío
     return await this.findOne(cartId);
+  }
+
+  checkout(cart) {
+    const amount = 10000
+    console.log(cart.products);
+    const paymentIntent = this.stripeService.createPaymentIntent(amount)
   }
 }
 

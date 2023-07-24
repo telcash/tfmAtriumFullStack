@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, UseInterceptors, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Delete, UseInterceptors, UseGuards, Post } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
 import { SetRequestUserCartInterceptor } from './interceptors/set-request-user-cart.interceptor';
@@ -31,6 +31,34 @@ export class CartsController {
   }
 
   /**
+   * Endpoint para la solicitud de un carrito para un usuario
+   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor} 
+   * @returns {CartEntity} - Carrito de compras
+   */
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @Get('/mycart')
+  async findMyCart(@User('cart') cart): Promise<CartEntity> {
+    return new CartEntity(cart);
+  }
+
+  /**
+   * Endpoint para solicitud de vaciado (eliminación de todos los items) de carrito de compras de un usuario
+   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor}
+   * @returns - Carrito de compras vacío
+  */
+ @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+ @Delete('/mycart')
+ async emptyCart(@User('cart') cart): Promise<CartEntity>{
+   return new CartEntity(await this.cartsService.emptyCart(+cart.id));
+  }
+  
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @Post('/mycart/checkout')
+  checkout(@User('cart') cart) {
+    this.cartsService.checkout(cart);
+  }
+  
+  /**
    * Endpoint para solicitar un carrito por su id
    * Accesible solo para usuarios Admin
    * @param id - Id del carrito
@@ -42,27 +70,4 @@ export class CartsController {
   findOne(@Param('id') id: string) {
     return this.cartsService.findOne(+id);
   }
-
-  /**
-   * Endpoint para la solicitud de un carrito para un usuario
-   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor} 
-   * @returns {CartEntity} - Carrito de compras
-   */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
-  @Get('/mycart')
-  async findMyCart(@User('cart') cart): Promise<CartEntity> {
-    return new CartEntity(cart);
-  }
-  
-  /**
-   * Endpoint para solicitud de vaciado (eliminación de todos los items) de carrito de compras de un usuario
-   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor}
-   * @returns - Carrito de compras vacío
-   */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
-  @Delete('/mycart')
-  async emptyCart(@User('cart') cart): Promise<CartEntity>{
-    return new CartEntity(await this.cartsService.emptyCart(+cart.id));
-  }
-
 }

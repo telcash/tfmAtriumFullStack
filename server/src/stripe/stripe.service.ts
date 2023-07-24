@@ -8,14 +8,10 @@ export class StripeService {
 
 
     async createPaymentIntent(orderAmount: number) {
-      const paymentIntent = await stripe.paymentIntents.create({
+      return await stripe.paymentIntents.create({
         amount: orderAmount,
         currency: 'eur',
         payment_method_types: ['card'],
       });
-
-      return {
-        clientSecret: paymentIntent.client_secret,
-      }
     }
 }
