@@ -102,4 +102,13 @@ export class ProductsService {
     }
     return product;
   }
+
+
+  async updateOnCartCheckout(products) {
+    return await this.productsRepository.updateOnCartCheckout(products);
+  }
+
+  async rollbackCartCheckout(products) {
+    return await this.productsRepository.rollbackCartCheckout(products);
+  }
 }

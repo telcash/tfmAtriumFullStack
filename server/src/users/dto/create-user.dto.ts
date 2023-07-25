@@ -10,9 +10,6 @@ export class CreateUserDto {
     
     @IsOptional()
     @IsEnum(UserRole)
-    @Exclude({
-        toClassOnly: true,
-    })
     role: UserRole;
 
     @IsNotEmpty()

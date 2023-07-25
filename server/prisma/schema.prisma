@@ -29,8 +29,8 @@ model User {
 // Modelo para la representación de direcciones
 model Address {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  userId Int
+  user User? @relation(fields: [userId], references: [id])
+  userId Int?
   street String
   postalCode String @db.VarChar(10)
   city String @db.VarChar(20)
@@ -44,9 +44,10 @@ model Address {
 // Modelo para la representación de una orden
 model Order {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
+  user User? @relation(fields: [userId], references: [id])
+  userId Int? @unique
   total Float
+  status String @db.VarChar(20)
   address Address @relation(fields: [addressId], references: [id])
   addressId Int
   createdAt DateTime @default(now())

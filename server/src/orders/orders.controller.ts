@@ -10,15 +10,10 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  /**
-   * 
-   * @param createOrderDto 
-   * @returns 
-   */
-  @Post()
+  /* @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
-  }
+  } */
 
   @Get()
   findAll() {

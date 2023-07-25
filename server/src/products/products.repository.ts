@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { Prisma } from '@prisma/client';
@@ -106,6 +106,66 @@ export class ProductsRepository {
                 id: id,
             }
         })
+    }
+
+    /**
+     * Transacción que actualiza en la base de datos el stock de todos los productos cuando usuario hace checkout
+     * @param products - Listado de productos
+     * @returns - Transacción
+     */
+    async updateOnCartCheckout(products) {
+        let operations = [];
+
+        for(const product of products) {
+            const updateProduct = this.prisma.product.update({
+                data: {
+                    stock: {
+                        decrement: product.quantity,
+                    },
+                },
+                where: {
+                    id: product.productId,
+                    OR: [
+                        {
+                            availability: 'ALWAYS'
+                        },
+                        {
+                            AND: [
+                                {
+                                    stock: {
+                                        gte: product.quantity,
+                                    }
+                                },
+                                {
+                                    availability: 'STOCK'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            })
+            operations.push(updateProduct);
+        }
+        return await this.prisma.$transaction(operations);
+    }
+
+    async rollbackCartCheckout(products) {
+        let operations = [];
+
+        for(const product of products) {
+            const updateProduct = this.prisma.product.update({
+                data: {
+                    stock: {
+                        increment: product.quantity,
+                    },
+                },
+                where: {
+                    id: product.productId,
+                }
+            })
+            operations.push(updateProduct);
+        }
+        return await this.prisma.$transaction(operations);
     }
 
     /**

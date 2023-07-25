@@ -39,7 +39,7 @@ export class AddressesRepository {
      * @param {number} userId - id del usuario
      * @returns - Dirección buscada
      */
-    async findOne(id: number, userId: number) {
+    async findOne(id: number, userId?: number) {
         return await this.prisma.address.findUnique({
             where: {
                 id: id,

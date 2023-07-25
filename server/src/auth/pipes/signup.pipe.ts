@@ -26,10 +26,14 @@ export class SignupPipe implements PipeTransform {
     // Se realiza el hash de la contraseña recibida en el DTO antes de crear el usuario en la base de datos
     const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
 
+    // Verificamos que no se esté intentando registrar como Admin un usuario
+    if(createUserDto.role === UserRole.ADMIN) {
+      createUserDto.role = UserRole.CLIENT;
+    }
+
     // Actualizamos los datos en el DTO con los datos correspondientes a un nuevo usuario tipo CLIENT que se registra
     createUserDto = {
       ...createUserDto,
-      role: UserRole.CLIENT,
       password: hashedPassword,
       refreshToken: null,
     };

@@ -5,10 +5,10 @@ export class OrderEntity implements Order{
     constructor(partial: Partial<OrderEntity>) {
         Object.assign(this, partial);
     }
-
     id: number;
     userId: number;
     total: number;
+    status: string;
     addressId: number;
     createdAt: Date;
     updatedAt: Date;

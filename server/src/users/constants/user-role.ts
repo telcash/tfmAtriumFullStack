@@ -3,6 +3,7 @@
  */
 export const UserRole = {
   CLIENT: "CLIENT",
+  GUEST: "GUEST",
   ADMIN: "ADMIN",
 } as const;
 

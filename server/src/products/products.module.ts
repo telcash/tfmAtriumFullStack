@@ -10,7 +10,7 @@ import { CategoriesModule } from './categories/categories.module';
 @Module({
   controllers: [ProductsController],
   providers: [ProductsService, ProductsRepository],
-  exports: [ProductsService],
   imports: [CategoriesModule],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

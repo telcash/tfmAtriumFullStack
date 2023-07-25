@@ -1,14 +1,23 @@
-import { Injectable} from '@nestjs/common';
+import { BadRequestException, Injectable, ServiceUnavailableException} from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { StripeService } from 'src/stripe/stripe.service';
+import { ProductsService } from 'src/products/products.service';
+import { OrdersService } from 'src/orders/orders.service';
+import { CreateOrderDto } from 'src/orders/dto/create-order.dto';
+import { OrderStatus } from 'src/orders/constants/order-status';
+import { AddressesService } from 'src/addresses/addresses.service';
+import { CheckoutCartDto } from './dto/checkout-cart.dto';
 
 @Injectable()
 export class CartsService {
   constructor(
     private readonly cartsRepository: CartsRepository,
     private readonly cartItemsService: CartItemsService,
+    private readonly productsService: ProductsService,
+    private readonly ordersService: OrdersService,
+    private readonly addressesService: AddressesService,
     private readonly stripeService: StripeService,
   ) {}
 
@@ -92,10 +101,34 @@ export class CartsService {
     return total;
   }
 
-  checkout(cart) {
-    const amount = 10000
-    console.log(cart.products);
-    const paymentIntent = this.stripeService.createPaymentIntent(amount)
+  /**
+   * Checkout
+   * @param checkoutCartDto 
+   * @returns 
+   */
+  async checkout(checkoutCartDto: CheckoutCartDto) {
+    // Actualiza el stock de todos los productos comprados
+    await this.productsService.updateOnCartCheckout(checkoutCartDto.cart.products);
+    
+    // Envía a Stripe la solicitud de intento de pago
+    const amount = checkoutCartDto.cart.total * 100;
+    const paymentIntent = await this.stripeService.createPaymentIntent(amount)
+      
+      // Si hay un error en la solicitud revertimos el stock de los productos
+      // Devolvemos un error
+      .catch(async () => {
+        await this.productsService.rollbackCartCheckout(checkoutCartDto.cart.products);
+        throw new ServiceUnavailableException("Can't connect to payment gateway")
+    });
+
+    // Creamos una nueva orden para el cliente
+    await this.ordersService.create(checkoutCartDto.createOrderDto, checkoutCartDto.items);
+    
+    // Vaciamos el carrito
+    await this.emptyCart(checkoutCartDto.cart.id);
+    
+    // Enviamos al cliente el secreto del paymentIntent
+    return { clientSecret: paymentIntent.client_secret}
   }
 }
 
