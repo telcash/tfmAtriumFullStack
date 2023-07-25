@@ -48,6 +48,7 @@ model Order {
   userId Int? @unique
   total Float
   status String @db.VarChar(20)
+  stripeClientSecret String
   address Address @relation(fields: [addressId], references: [id])
   addressId Int
   createdAt DateTime @default(now())

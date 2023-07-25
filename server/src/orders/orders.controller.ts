@@ -1,7 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRole } from 'src/users/constants/user-role';
+import { User } from 'src/users/decorators/user.decorator';
 
 /**
  * Controlador del modulo {@link OrdersModule}
@@ -10,29 +14,78 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  /* @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
-  } */
-
+  /**
+   * Endpoint para solicitar un listado de todas las ordenes
+   * Disponible solo para Admins
+   * @returns - Listado de ordenes
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  async findAll() {
+    return await this.ordersService.findAll();
   }
 
+  /**
+   * Endppoint para solicitar una orden por su id
+   * Disponible solo para Admins
+   * @param id 
+   * @returns 
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.ordersService.findOne(+id);
   }
 
+  /**
+   * Endpoint para modificar una orden por su id
+   * Disponible solo para Admins
+   * @param id 
+   * @param updateOrderDto 
+   * @returns 
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(+id, updateOrderDto);
+  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return await this.ordersService.update(+id, updateOrderDto);
   }
 
+  /**
+   * Endpoint para eliminar una orden por su id
+   * Disponible solo para Admins
+   * @param id 
+   * @returns 
+   */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.ordersService.remove(+id);
   }
+
+  /**
+   * Endpoint para obtener todas las ordenes de un usuario autenticado
+   */
+  @UseGuards(JwtAccessGuard)
+  @Get('/myorders')
+  async findAllForUser(@User('sub') userId: number) {
+    return await this.ordersService.findAllForUser(userId);
+  }
+
+  /**
+   * Endpoint para obtener una orden por su id para un usuario autenticado
+   * @param id 
+   * @param userId 
+   * @returns 
+   */
+  @UseGuards(JwtAccessGuard)
+  @Get('/myorders/:id')
+  async findOneForUser(@Param('id') id: string, @User('sub') userId: number) {
+    return await this.ordersService.findOneForUser(+id, userId);
+  }
+
 
 }

@@ -1,12 +1,10 @@
-import { BadRequestException, Injectable, ServiceUnavailableException} from '@nestjs/common';
+import { Injectable, ServiceUnavailableException} from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { ProductsService } from 'src/products/products.service';
 import { OrdersService } from 'src/orders/orders.service';
-import { CreateOrderDto } from 'src/orders/dto/create-order.dto';
-import { OrderStatus } from 'src/orders/constants/order-status';
 import { AddressesService } from 'src/addresses/addresses.service';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
 
@@ -17,7 +15,6 @@ export class CartsService {
     private readonly cartItemsService: CartItemsService,
     private readonly productsService: ProductsService,
     private readonly ordersService: OrdersService,
-    private readonly addressesService: AddressesService,
     private readonly stripeService: StripeService,
   ) {}
 
@@ -122,6 +119,7 @@ export class CartsService {
     });
 
     // Creamos una nueva orden para el cliente
+    checkoutCartDto.createOrderDto.stripeClientSecret = paymentIntent.client_secret;
     await this.ordersService.create(checkoutCartDto.createOrderDto, checkoutCartDto.items);
     
     // Vaciamos el carrito

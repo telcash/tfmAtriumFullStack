@@ -12,6 +12,8 @@ export class CreateOrderDto {
 
     status: string;
 
+    stripeClientSecret: string;
+
     @IsNumber()
     addressId: number;
 }
