@@ -55,7 +55,7 @@ export class ProductsService {
    */
   async findOne(id: number, role?: UserRole) {
     // Retorna un producto buscado sin restricciones
-    if (role === UserRole.ADMIN) {
+    if (role && role === UserRole.ADMIN) {
       return await this.productsRepository.findOne(id);
     }
     // Retorna un producto buscado con restricciones
@@ -102,7 +102,6 @@ export class ProductsService {
     }
     return product;
   }
-
 
   async updateOnCartCheckout(products) {
     return await this.productsRepository.updateOnCartCheckout(products);

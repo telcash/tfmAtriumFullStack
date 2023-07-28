@@ -39,7 +39,7 @@ let ProductsController = exports.ProductsController = class ProductsController {
         return products.map((product) => new product_entity_1.ProductEntity(product));
     }
     async findOne(id, role) {
-        return new product_entity_1.ProductEntity(await this.productsService.findOne(+id, role));
+        return await new product_entity_1.ProductEntity(await this.productsService.findOne(+id, role));
     }
     async update(id, file, updateProductDto) {
         return new product_entity_1.ProductEntity(await this.productsService.update(+id, updateProductDto, file));

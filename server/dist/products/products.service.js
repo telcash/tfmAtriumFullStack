@@ -29,7 +29,7 @@ let ProductsService = exports.ProductsService = class ProductsService {
         return await this.productsRepository.findAllForClients();
     }
     async findOne(id, role) {
-        if (role === user_role_1.UserRole.ADMIN) {
+        if (role && role === user_role_1.UserRole.ADMIN) {
             return await this.productsRepository.findOne(id);
         }
         return await this.productsRepository.findOneForClients(id);

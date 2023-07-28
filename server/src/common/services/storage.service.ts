@@ -4,14 +4,15 @@ import { diskStorage } from 'multer';
 import path = require('path');
 import { v4 as uuidv4 } from 'uuid'
 
-const imagesDestination: string = './uploads/img/products/';
+const imagesDestination: string = './img/products/';
 
 /**
  * Servicio encargado de las funciones de almacenamiento
  */
 @Injectable()
 export class StorageService {
-    // Carpeta destino de imágenes
+
+    // Carpeta destino de imágeness
     imagesDestination: string = imagesDestination;
 
     // Opciones de almacenamiento de imágenes

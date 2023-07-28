@@ -15,12 +15,21 @@ import { AddressesModule } from './addresses/addresses.module';
 import { CartsModule } from './carts/carts.module';
 import { OrdersModule } from './orders/orders.module';
 import { StripeModule } from './stripe/stripe.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 /**
  * Modulo raiz de la app
  */
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'img/products'),
+      serveRoot: '/img/products' ,
+      serveStaticOptions: {
+        index: false,
+      }
+    }),
     JwtModule.register({
       global: true,
     }),

@@ -23,11 +23,20 @@ const addresses_module_1 = require("./addresses/addresses.module");
 const carts_module_1 = require("./carts/carts.module");
 const orders_module_1 = require("./orders/orders.module");
 const stripe_module_1 = require("./stripe/stripe.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'img/products'),
+                serveRoot: '/img/products',
+                serveStaticOptions: {
+                    index: false,
+                }
+            }),
             jwt_1.JwtModule.register({
                 global: true,
             }),
