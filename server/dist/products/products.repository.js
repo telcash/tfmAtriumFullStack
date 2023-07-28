@@ -58,8 +58,8 @@ let ProductsRepository = exports.ProductsRepository = class ProductsRepository {
         });
     }
     async findOneForClients(id) {
-        return await this.prisma.product.findUnique({
-            where: Object.assign(Object.assign({}, this.productConditionsForClients), { id: id }),
+        return await this.prisma.product.findFirst({
+            where: Object.assign({ id: id }, this.productConditionsForClients),
         });
     }
     async update(id, updateProductDto) {

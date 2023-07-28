@@ -1,5 +1,6 @@
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { StorageService } from '../services/storage.service';
+const sizeOf = require('image-size');
 
 /**
  * Pipe para la validación de imágenes subidas por el cliente
@@ -31,6 +32,7 @@ export class ImageValidationPipe implements PipeTransform {
 
     // Tamaño máximo de la imagen en Kb
     const fileMaxSize = 10000000;
+
     // Tipos de archivos de imagen permitidos
     const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpeg'];
 
@@ -47,9 +49,20 @@ export class ImageValidationPipe implements PipeTransform {
       errors.push('File extension not allowed');
     }
 
-    // Validación del tipo de archivo según analisis de StorageService
-    if(!allowedMimeTypes.includes(fileType.mime)) {
+    // Validación del tipo de archivo según su magic number
+    if (!allowedMimeTypes.includes(fileType.mime)) {
       errors.push('File extension invalid')
+    }
+
+    // Validación de las dimensiones admitadas
+    // El archivo debe ser cuadrado(ancho=alto) y de mínimo 400px x 400px
+    // Hacemos está comprobación sólo si no hay ningún error de validación antes
+    if(errors.length === 0) {
+      const minDimension = 400;
+      const dimensions = sizeOf(file.path);
+      if (dimensions.width !== dimensions.height || dimensions.width < minDimension) {
+        errors.push('File dimensions invalids');
+      } 
     }
 
     // Si hay errores el archivo no es válido, se elimina el archivo y se lanza error

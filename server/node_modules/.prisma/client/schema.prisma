@@ -70,7 +70,7 @@ model Cart {
 // Modelo para la representación de un producto
 model Product {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique
   description String?
   price Float? @default(0)
   image String?

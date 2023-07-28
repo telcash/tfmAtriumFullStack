@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { Prisma } from '@prisma/client';
@@ -15,7 +15,7 @@ export class ProductsRepository {
     /**
      * Condición para filtrar la busqueda de productos en peticiones de clientes (No ADMIN)
      */
-    private productConditionsForClients:Prisma.ProductWhereInput = {
+    private productConditionsForClients: Prisma.ProductWhereInput = {
         price: {
             gt: 0,
         },
@@ -85,11 +85,11 @@ export class ProductsRepository {
      * @returns - Producto buscado
      */
     async findOneForClients(id: number) {
-        return await this.prisma.product.findUnique({
+        return await this.prisma.product.findFirst({
             where: {
-                ...this.productConditionsForClients,
                 id: id,
-              },
+                ...this.productConditionsForClients
+            },
         });
     }
 

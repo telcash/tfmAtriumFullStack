@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageValidationPipe = void 0;
 const common_1 = require("@nestjs/common");
 const storage_service_1 = require("../services/storage.service");
+const sizeOf = require('image-size');
 let ImageValidationPipe = exports.ImageValidationPipe = class ImageValidationPipe {
     constructor(storageService) {
         this.storageService = storageService;
@@ -33,6 +34,13 @@ let ImageValidationPipe = exports.ImageValidationPipe = class ImageValidationPip
         }
         if (!allowedMimeTypes.includes(fileType.mime)) {
             errors.push('File extension invalid');
+        }
+        if (errors.length === 0) {
+            const minDimension = 400;
+            const dimensions = sizeOf(file.path);
+            if (dimensions.width !== dimensions.height || dimensions.width < minDimension) {
+                errors.push('File dimensions invalids');
+            }
         }
         if (errors.length > 0) {
             this.storageService.deleteFile(file.destination, file.filename);
