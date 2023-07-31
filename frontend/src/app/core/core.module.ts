@@ -4,22 +4,25 @@ import { HeaderComponent } from './header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { HomeComponent } from './home/home.component';
+import { ProductsModule } from '../products/products.module';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,
+    ProductsModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    MatTabsModule,
   ],
   exports: [
     HeaderComponent,
+    HomeComponent,
   ]
 })
 export class CoreModule { }

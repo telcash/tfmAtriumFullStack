@@ -24,7 +24,7 @@ export class CategoriesRepository {
      * @returns - Listado de categorías
      */
     async findAll() {
-        return await this.prisma.address.findMany();
+        return await this.prisma.category.findMany();
     }
 
     /**
@@ -33,7 +33,7 @@ export class CategoriesRepository {
      * @returns - Categoría buscada
      */
     async findOne(id: number) {
-        return await this.prisma.address.findUnique({
+        return await this.prisma.category.findUnique({
             where: {
                 id: id,
             }
@@ -47,7 +47,7 @@ export class CategoriesRepository {
      * @returns - Categoría actualizada
      */
     async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-        return await this.prisma.address.update({
+        return await this.prisma.category.update({
             data: updateCategoryDto,
             where: {
                 id: id,

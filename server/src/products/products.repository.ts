@@ -66,17 +66,36 @@ export class ProductsRepository {
      * Busca todos los productos en la base de datos
      * @returns - Listado de productos
      */
-    async findAll() {
-        return await this.prisma.product.findMany();
+    async findAll(categoryId?: number) {
+        return await this.prisma.product.findMany({
+            where: {
+                categories: {
+                    every: {
+                        categoryId: categoryId,
+                    }
+                }
+            }
+        });
     }
 
     /**
      * Busca todos los productos en la base de datos, filtrado con las condiciones para clientes
      * @returns - Listado de productos
      */
-    async findAllForClients() {
+    async findAllForClients(categoryId?: number) {
         return await this.prisma.product.findMany({
-            where: this.productConditionsForClients,
+            where: {
+                AND: [
+                    this.productConditionsForClients,
+                    {
+                        categories: {
+                            every: {
+                                categoryId: categoryId,
+                            }
+                        }
+                    }
+                ]
+            }
         })
     }
 

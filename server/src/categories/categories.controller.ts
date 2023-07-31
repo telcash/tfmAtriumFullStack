@@ -14,8 +14,6 @@ import { CategoryEntity } from './entities/category.entity';
  * Acceso solo para usuarios tipo Admin
  */
 @Controller('categories')
-@UseGuards(JwtAccessGuard, RoleGuard)
-@Roles(UserRole.ADMIN)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -24,6 +22,8 @@ export class CategoriesController {
    * @param createCategoryDto - Dto para la creación de la categoría
    * @returns {CategoryEntity} - Categoría creada
    */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto): Promise<CategoryEntity> {
     return new CategoryEntity(await this.categoriesService.create(createCategoryDto));
@@ -55,6 +55,8 @@ export class CategoriesController {
    * @param {UpdateCategoryDto} updateCategoryDto - Dto con los datos de actualización de la categoría
    * @returns {CategoryEntity} - Categoría actualizada
    */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto): Promise<CategoryEntity> {
     return new CategoryEntity(await this.categoriesService.update(+id, updateCategoryDto));
@@ -65,6 +67,8 @@ export class CategoriesController {
    * @param {number} id - Id de la categoría
    * @returns {CategoryEntity} - Categoría eliminada
    */
+  @UseGuards(JwtAccessGuard, RoleGuard)
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return new CategoryEntity(await this.categoriesService.remove(+id));

@@ -35,13 +35,13 @@ export class ProductsService {
    * Invoca al método findAllForClients() de {@link ProductsRep≤ository} para generar el listado para los usuarios que no sean tipo Admin
    * @returns - Listado de productos
    */
-  async findAll(role: UserRole) {
+  async findAll(role: UserRole, categoryId?: number) {
     // Retorna un listado de todos los productos sin restricciones
     if (role === UserRole.ADMIN) {
-      return await this.productsRepository.findAll();
+      return await this.productsRepository.findAll(categoryId);
     }
     // Retorna un listado de todos los productos con restricciones
-    return await this.productsRepository.findAllForClients();
+    return await this.productsRepository.findAllForClients(categoryId);
   }
 
   /**

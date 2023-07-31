@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button>
     <mat-icon>menu</mat-icon>
   </button>
   <span>Charlie Sabores</span>
@@ -9,10 +9,3 @@
     <mat-icon>shopping_cart</mat-icon>
   </button>
 </mat-toolbar>
-<ng-container *ngIf="(asyncTabs | async) === null"></ng-container>
-<mat-tab-group>
-    <mat-tab *ngFor="let tab of asyncTabs | async">
-        <ng-template mat-tab-label>{{tab.label}}</ng-template>
-        {{tab.content}}
-    </mat-tab>
-</mat-tab-group>
