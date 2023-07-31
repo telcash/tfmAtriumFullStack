@@ -16,23 +16,37 @@ export class ProductsRepository {
      * Condición para filtrar la busqueda de productos en peticiones de clientes (No ADMIN)
      */
     private productConditionsForClients: Prisma.ProductWhereInput = {
-        price: {
-            gt: 0,
-        },
-        image: {
-            not: null,
-        },
-        availability: {
-            not: 'NEVER',
-        },
-        OR: [
+        AND: [
             {
-                stock: {
+                price: {
                     gt: 0,
+                },
+            },
+            {
+                image: {
+                    not: null,
                 }
             },
             {
-                availability: 'ALWAYS',
+                OR: [
+                    {
+                        availability: {
+                            not: 'NEVER',
+                        }
+                    },
+                    {
+                        OR: [
+                            {
+                                stock: {
+                                    gt: 0,
+                                }
+                            },
+                            {
+                                availability: 'ALWAYS',
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

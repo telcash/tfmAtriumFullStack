@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, BadRequestException, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -12,8 +12,6 @@ import { ProductEntity } from './entities/product.entity';
 import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
-import { createReadStream } from 'fs';
-import { join } from 'path';
 
 /**
  * Controlador del Módulo {@link ProductsModule}

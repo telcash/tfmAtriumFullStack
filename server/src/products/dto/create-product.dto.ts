@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsNumber, IsOptional, IsString, MinLength, ValidateNested } from "class-validator";
 import { ProductAvailability } from "../constants/product-availability";
 
 /**
@@ -36,4 +36,5 @@ export class CreateProductDto {
     @IsOptional()
     @IsString()
     availability?: ProductAvailability;
+
 }
