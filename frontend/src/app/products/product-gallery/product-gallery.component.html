@@ -2,8 +2,10 @@
 <mat-tab-group>
     <mat-tab *ngFor="let category of categories">
         <ng-template mat-tab-label>{{category.name}}</ng-template>
-        <div *ngFor="let product of category.products">
-            <app-product-card [product]="product"></app-product-card>
+        <div class="product-gallery">
+            <div *ngFor="let product of category.products">
+                <app-product-card [product]="product"></app-product-card>
+            </div>
         </div>
     </mat-tab>
 </mat-tab-group>
