@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateCategoryDto {
     @IsOptional()
@@ -10,6 +10,6 @@ export class CreateCategoryDto {
     id: number;
 
     @IsString()
-    @MinLength(20)
+    @MaxLength(20)
     name: string;
 }

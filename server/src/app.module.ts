@@ -17,6 +17,7 @@ import { OrdersModule } from './orders/orders.module';
 import { StripeModule } from './stripe/stripe.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CategoriesModule } from './categories/categories.module';
 
 /**
  * Modulo raiz de la app
@@ -35,7 +36,7 @@ import { join } from 'path';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CommonModule, AddressesModule, CartsModule, OrdersModule, StripeModule
+    }), PrismaModule, AuthModule, UsersModule, ProductsModule, CommonModule, AddressesModule, CartsModule, OrdersModule, StripeModule, CategoriesModule,
   ],
   controllers: [AppController],
   providers: [

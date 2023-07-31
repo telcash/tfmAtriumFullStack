@@ -7,14 +7,13 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/constants/user-role';
 import { CategoryEntity } from './entities/category.entity';
-import { CartEntity } from 'src/carts/entities/cart.entity';
 
 /**
  * Controlador del modulo {@link CategoriesModule}
  * Procesa las peticiones al endpoint 'products/categories'
  * Acceso solo para usuarios tipo Admin
  */
-@Controller('products/categories')
+@Controller('categories')
 @UseGuards(JwtAccessGuard, RoleGuard)
 @Roles(UserRole.ADMIN)
 export class CategoriesController {
