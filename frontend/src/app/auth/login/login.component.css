@@ -1,0 +1,36 @@
+.login-container {
+    margin-top: 50px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .login-content {
+    width: 400px;
+    display: block;
+  }
+
+  form {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    row-gap: 10px;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-toolbar {
+    justify-content: center;
+  }
+  
+  .form-field {
+    width: 80%;
+  }
+
+  .mat-raised-button {
+    width: 100%;
+    height: 60px;
+  }

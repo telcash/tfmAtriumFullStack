@@ -1,0 +1,22 @@
+<div class="login-container">
+    <div class="login-content">
+        <mat-toolbar class="login-toolbar" color="primary">Charlie Sabores</mat-toolbar>
+        <mat-card>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <mat-form-field class="form-field">
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input autofocus type="text" matInput placeholder="email"
+                    formControlName="email">
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-icon matPrefix>lock_outline</mat-icon>
+                    <input type="password" autocomplete="false" matInput
+                    placeholder="Contraseña" formControlName="password">
+                </mat-form-field>
+                <div>
+                    <button type="submit" mat-raised-button color="primary">INICIAR SESIÓN</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>

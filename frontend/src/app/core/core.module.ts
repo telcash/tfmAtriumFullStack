@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HomeComponent } from './home/home.component';
 import { ProductsModule } from '../products/products.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ProductsModule } from '../products/products.module';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     ProductsModule,
     MatIconModule,
     MatButtonModule,
