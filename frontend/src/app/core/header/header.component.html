@@ -4,7 +4,7 @@
   </button>
   <span routerLink="">Charlie Sabores</span>
   <span class="spacer"></span>
-  <button *ngIf="!isUserLogged" mat-raised-button>Registrarse</button>
+  <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
   <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
   <mat-menu #account>
     <button mat-menu-item>Datos</button>

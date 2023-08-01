@@ -3,13 +3,13 @@
         <mat-toolbar class="login-toolbar" color="primary">Charlie Sabores</mat-toolbar>
         <mat-card>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <mat-form-field class="form-field">
+                <mat-form-field>
                     <mat-icon matPrefix>email</mat-icon>
                     <input autofocus type="text" matInput placeholder="email"
                     formControlName="email" required>
                     <mat-error *ngIf="loginForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
                 </mat-form-field>
-                <mat-form-field class="form-field">
+                <mat-form-field>
                     <mat-icon matPrefix>lock_outline</mat-icon>
                     <input type="password" autocomplete="false" matInput
                     placeholder="Contraseña" formControlName="password" required>

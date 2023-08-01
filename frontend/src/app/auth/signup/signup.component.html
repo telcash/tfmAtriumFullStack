@@ -1,0 +1,41 @@
+<div class="signup-container">
+    <div class="signup-content">
+        <mat-toolbar class="signup-toolbar" color="primary">Charlie Sabores</mat-toolbar>
+        <mat-card>
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input type="text" matInput placeholder="Nombres"
+                    formControlName="firstName" required>
+                    <mat-error *ngIf="signupForm.controls.firstName.invalid">{{getFirstNameErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input type="text" matInput placeholder="Apellidos"
+                    formControlName="lastName" required>
+                    <mat-error *ngIf="signupForm.controls.lastName.invalid">{{getLastNameErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input type="text" matInput placeholder="email"
+                    formControlName="email" required>
+                    <mat-error *ngIf="signupForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-icon matPrefix>lock_outline</mat-icon>
+                    <input type="password" autocomplete="false" matInput
+                    placeholder="Contraseña" formControlName="password" required>
+                    <mat-error *ngIf="signupForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>contact_phone</mat-icon>
+                    <input type="text" matInput placeholder="Teléfono de contacto"
+                    formControlName="mobile" required>
+                </mat-form-field>
+                <div>
+                    <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">REGISTRARSE</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>
