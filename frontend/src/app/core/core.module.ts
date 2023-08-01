@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HomeComponent } from './home/home.component';
 import { ProductsModule } from '../products/products.module';
 import { RouterModule } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu'
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     ProductsModule,
     MatIconModule,
+    MatMenuModule,
     MatButtonModule,
     MatToolbarModule,
   ],

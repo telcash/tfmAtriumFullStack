@@ -6,15 +6,17 @@
                 <mat-form-field class="form-field">
                     <mat-icon matPrefix>email</mat-icon>
                     <input autofocus type="text" matInput placeholder="email"
-                    formControlName="email">
+                    formControlName="email" required>
+                    <mat-error *ngIf="loginForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-field">
                     <mat-icon matPrefix>lock_outline</mat-icon>
                     <input type="password" autocomplete="false" matInput
-                    placeholder="Contraseña" formControlName="password">
+                    placeholder="Contraseña" formControlName="password" required>
+                    <mat-error *ngIf="loginForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
                 </mat-form-field>
                 <div>
-                    <button type="submit" mat-raised-button color="primary">INICIAR SESIÓN</button>
+                    <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">INICIAR SESIÓN</button>
                 </div>
             </form>
         </mat-card>

@@ -4,8 +4,14 @@
   </button>
   <span routerLink="">Charlie Sabores</span>
   <span class="spacer"></span>
-  <button mat-raised-button>Registrarse</button>
-  <button mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
+  <button *ngIf="!isUserLogged" mat-raised-button>Registrarse</button>
+  <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+  <mat-menu #account>
+    <button mat-menu-item>Datos</button>
+    <button mat-menu-item>Pedidos</button>
+    <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+  </mat-menu>
+  <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
   <button mat-icon-button>
     <mat-icon>shopping_cart</mat-icon>
   </button>
