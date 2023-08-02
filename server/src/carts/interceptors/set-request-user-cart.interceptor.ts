@@ -1,6 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { CartsService } from '../carts.service';
 import { CreateCartDto } from '../dto/create-cart.dto';
+import { Response } from 'express';
 
 /**
  * Asigna un carrito a un usuario registrado en sistema o a un invitado
@@ -73,9 +74,10 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
     };
 
     // Extraemos la response de context y le agregamos una cookie con el id del carrito del invitado
-    const res = context.switchToHttp().getResponse();
+    const res: Response = context.switchToHttp().getResponse();
 
     res.cookie('cartId', cart.id, {
+      expires: new Date(Date.now() + 3600*1000),
       httpOnly: true,
       signed: true,
       sameSite: true,

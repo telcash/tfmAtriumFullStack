@@ -1,8 +1,7 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 import { CartItemsRepository } from './cart-items.repository';
-import { CartsService } from '../carts.service';
 
 @Injectable()
 export class CartItemsService {
@@ -15,8 +14,8 @@ export class CartItemsService {
    * @param {CreateCartItemDto} createCartItemDto - DTO
    * @returns - CartItem creado 
    */
-  async create(createCartItemDto: CreateCartItemDto) {
-    return await this.cartItemsRepository.create(createCartItemDto);
+  async upsert(createCartItemDto: CreateCartItemDto) {
+    return await this.cartItemsRepository.upsert(createCartItemDto);
   }
 
   async findAll(cartId: number) {
@@ -44,5 +43,9 @@ export class CartItemsService {
    */
   async removeAll(cartId: number) {
     return await this.cartItemsRepository.removeAll(cartId);
+  }
+
+  async findOne(productId: number, cartId: number) {
+    return await this.cartItemsRepository.findOne(productId, cartId);
   }
 }

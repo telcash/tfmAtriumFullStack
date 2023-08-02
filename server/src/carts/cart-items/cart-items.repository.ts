@@ -27,6 +27,17 @@ export class CartItemsRepository {
         })
     }
 
+    async findOne(productId: number, cartId: number) {
+        return await this.prisma.cartItem.findUnique({
+            where: {
+                productId_cartId: {
+                    productId: productId,
+                    cartId: cartId,
+                }
+            }
+        })
+    }
+
     /**
      * Crea un CartItem en la base de datos
      * @param {CreateCartItemDto} createCartItemDto - DTO del CartItem
@@ -54,6 +65,24 @@ export class CartItemsRepository {
                     cartId: updateCartItemDto.cartId,
                 }
             }
+        })
+    }
+
+    async upsert(createCartItemDto: CreateCartItemDto) {
+        return await this.prisma.cartItem.upsert({
+            where: {
+                productId_cartId: {
+                    productId: createCartItemDto.productId,
+                    cartId: createCartItemDto.cartId,
+                },
+            },
+            update: {
+                quantity: {
+                    increment: createCartItemDto.quantity,
+                }
+            },
+            create: createCartItemDto,
+            
         })
     }
 

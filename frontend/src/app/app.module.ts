@@ -10,12 +10,15 @@ import { CoreModule } from './core/core.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { CartsComponent } from './carts/carts.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
  
 @NgModule({
   declarations: [
     AppComponent,
+    CartsComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
+    CookieService,
   ],
   bootstrap: [AppComponent]
 })

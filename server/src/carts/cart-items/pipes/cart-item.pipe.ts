@@ -4,6 +4,7 @@ import { ProductAvailability } from 'src/products/constants/product-availability
 import { REQUEST } from '@nestjs/core';
 import { UpdateCartItemDto } from '../dto/update-cart-item.dto';
 import { CreateCartItemDto } from '../dto/create-cart-item.dto';
+import { CartItemsService } from '../cart-items.service';
 
 /**
  * Valida CreateCartItemDto o UpdateCartItemDto: Valida si se puede actualizar el item en el carrito a la cantidad solicitada.
@@ -19,25 +20,26 @@ import { CreateCartItemDto } from '../dto/create-cart-item.dto';
 export class CartItemPipe implements PipeTransform {
   constructor(
     @Inject(REQUEST) private readonly req,
-    private readonly productsService: ProductsService,  
+    private readonly productsService: ProductsService,
+    private readonly cartItemsService: CartItemsService,  
   ) {}
 
   /**
    * Implementación del método transform() del pipe
-   * @param updateCartItemDto - DTO con los datos a validar
+   * @param dto - DTO con los datos a validar
    * @param metadata 
    * @returns - DTO validado
    */
   async transform(dto: CreateCartItemDto | UpdateCartItemDto, metadata: ArgumentMetadata) {
     // Extraemos del request el id del carrito
     const cartId = this.req.user.cart.id;
-    
 
+    
     // Si es una solicitud de borrado, se agrega el id del carrito al dto y se devuelve
     if(this.req.method === 'DELETE') {
       return {...dto, cartId: cartId};
     }
-
+    
     // Busca si el producto que se quiere agregar al carrito está disponible para venta
     const product = await this.productsService.findOne(dto.productId);
     
@@ -46,9 +48,21 @@ export class CartItemPipe implements PipeTransform {
       throw new BadRequestException("Product not available");
     }
     
+    // Si es una solicitud POST (la cual invoca un upsert  en la base de datos), buscamos
+    // si el producto está o no incluido en el carrito para calcular la máxima cantidad que se puede agregar
     // Si el producto está disponible según stock, pero el stock es menor que lo
     // solicitado, lanzamos error
+    if(this.req.method === 'POST') {
+      const cartItem = await this.cartItemsService.findOne(dto.productId, cartId);
+      if (cartItem && (cartItem.quantity + dto.quantity) > product.stock) {
+        throw new BadRequestException("Insufficient product stock");
+      }
+    }
+
+    // Si el metodo es PATCH, y el producto está disponible según stock, pero el stock es menor que la
+    // cantidad a actualizar lanzamos error
     if (
+      this.req.method === 'PATCH' &&
       product.availability === ProductAvailability.STOCK && 
       product.stock < dto.quantity
     ) {

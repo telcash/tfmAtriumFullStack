@@ -8,6 +8,7 @@ import { CartItemPipe } from './pipes/cart-item.pipe';
 import { CartItemEntity } from './entities/cart-item.entity';
 import { User } from 'src/users/decorators/user.decorator';
 import { UpdateTotalInterceptor } from '../interceptors/update-total.interceptor';
+import { SetCartItemCookieInterceptor } from '../interceptors/set-cart-item-cookie.interceptor';
 
 @Controller('carts/mycart/items')
 export class CartItemsController {
@@ -33,10 +34,15 @@ export class CartItemsController {
    * @param {CreateCartItemDto} createCartItemDto 
    * @returns {CartItemEntity} - Item creado
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
+  @UseInterceptors(
+    SetRequestUserInterceptor,
+    SetRequestUserCartInterceptor,
+    UpdateTotalInterceptor,
+    SetCartItemCookieInterceptor,
+  )
   @Post()
-  async create(@Body(CartItemPipe) createCartItemDto: CreateCartItemDto): Promise<CartItemEntity> {
-    return new CartItemEntity(await this.cartItemsService.create(createCartItemDto));
+  async upsert(@Body(CartItemPipe) createCartItemDto: CreateCartItemDto): Promise<CartItemEntity> {
+    return new CartItemEntity(await this.cartItemsService.upsert(createCartItemDto));
   }
   
   /**
@@ -49,7 +55,12 @@ export class CartItemsController {
    * @param {UpdateCartItemDto} updateCartItemDto 
    * @returns {CartItemEntity} - Item actualizado
   */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
+  @UseInterceptors(
+    SetRequestUserInterceptor,
+    SetRequestUserCartInterceptor,
+    UpdateTotalInterceptor,
+    SetCartItemCookieInterceptor,
+  )
   @Patch()
   async update(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
     return new CartItemEntity(await this.cartItemsService.update(updateCartItemDto));
@@ -64,7 +75,12 @@ export class CartItemsController {
    * @param {UpdateCartItemDto} updateCartItemDto 
    * @returns {CartItemEntity} - Item eliminado
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, UpdateTotalInterceptor)
+  @UseInterceptors(
+    SetRequestUserInterceptor,
+    SetRequestUserCartInterceptor,
+    UpdateTotalInterceptor,
+    SetCartItemCookieInterceptor,
+  )
   @Delete()
   async remove(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
     return await this.cartItemsService.remove(updateCartItemDto);

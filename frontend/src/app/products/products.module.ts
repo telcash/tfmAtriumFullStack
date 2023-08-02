@@ -6,6 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ProductGalleryComponent } from './product-gallery/product-gallery.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProductsService } from './products.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -22,6 +25,10 @@ import { ProductsService } from './products.service';
     MatButtonModule,
     MatCardModule,
     MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     ProductGalleryComponent,

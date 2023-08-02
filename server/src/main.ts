@@ -10,7 +10,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Middleware para la configuración de CORS (Actualmente configuración por defecto)
-  app.enableCors();
+  app.enableCors({
+    credentials: true,
+    origin: "http://localhost:4200",
+  });
 
   // Validación de los datos en dto recibidos del cliente
   app.useGlobalPipes(new ValidationPipe({
