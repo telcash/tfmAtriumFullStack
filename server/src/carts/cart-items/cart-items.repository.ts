@@ -20,10 +20,6 @@ export class CartItemsRepository {
             where: {
                 cartId: cartId,
             },
-            select: {
-                productId: true,
-                quantity: true,
-            }
         })
     }
 

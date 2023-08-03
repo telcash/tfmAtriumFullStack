@@ -41,9 +41,7 @@ export class ProductCardComponent implements OnInit{
     const itemsOnCart = this.cookieService.get(`pId_${this.product?.id}`) 
       ? parseInt(this.cookieService.get(`pId_${this.product?.id}`))
       : 0;
-    console.log(this.product?.id);
-    console.log(stock);
-    console.log(itemsOnCart);
+
     return (stock - itemsOnCart);
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
@@ -13,15 +13,16 @@ export interface CategoriesTab {
   templateUrl: './product-gallery.component.html',
   styleUrls: ['./product-gallery.component.css']
 })
-export class ProductGalleryComponent {
+export class ProductGalleryComponent implements OnInit {
 
   categories!: Category[];
 
 
   constructor(
     private productsService: ProductsService
-  ) {
+  ) {}
 
+  ngOnInit(): void {
     this.productsService.getCategories().subscribe(
       (data: Category[]) => {
         this.categories = data;

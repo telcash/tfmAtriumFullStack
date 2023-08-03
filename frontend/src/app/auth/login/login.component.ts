@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { JwtTokens } from '../models/jwt-tokens';
 import { Router } from '@angular/router';
+import { CartsService } from 'src/app/carts/carts.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,11 @@ export class LoginComponent {
     ]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private cartsService: CartsService,
+    private router: Router
+  ) {}
 
   onSubmit() {
     const email: string = this.loginForm.value.email ? this.loginForm.value.email : '';
@@ -29,6 +34,7 @@ export class LoginComponent {
       (data: JwtTokens) => {
         this.authService.setTokens(data);
         this.authService.userLoggedIn.next();
+        this.cartsService.findAllItems().subscribe();
         this.router.navigate(['']);
       }
     );

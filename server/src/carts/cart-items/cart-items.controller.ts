@@ -17,7 +17,7 @@ export class CartItemsController {
   /**
    * Endpoint para solicitar todos los items en un carrito
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, SetCartItemCookieInterceptor)
   @Get()
   async findAllItems(@User('cart') cart): Promise<CartItemEntity[]> {
     const items = await this.cartItemsService.findAll(cart.id);

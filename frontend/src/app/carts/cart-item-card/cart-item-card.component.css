@@ -1,0 +1,13 @@
+.cart-item-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+img {
+    width: 120px;
+    aspect-ratio: 1/1;
+}
+
+.cart-item-info {
+    height: 100%;
+}

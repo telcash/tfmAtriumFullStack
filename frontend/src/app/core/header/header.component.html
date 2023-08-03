@@ -12,7 +12,7 @@
     <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
   </mat-menu>
   <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
-  <button mat-icon-button>
+  <button mat-icon-button routerLink="/mycart">
     <mat-icon>shopping_cart</mat-icon>
   </button>
 </mat-toolbar>

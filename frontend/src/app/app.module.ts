@@ -10,15 +10,13 @@ import { CoreModule } from './core/core.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CartsComponent } from './carts/carts.component';
 import { CookieService } from 'ngx-cookie-service';
-
+import { CartsModule } from './carts/carts.module';
 
  
 @NgModule({
   declarations: [
     AppComponent,
-    CartsComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +26,7 @@ import { CookieService } from 'ngx-cookie-service';
     ProductsModule,
     CoreModule,
     AuthModule,
+    CartsModule,
   ],
   providers: [
     {

@@ -1,0 +1,15 @@
+<mat-card class="cart-item-container">
+    <img src="{{imgUrl}}">
+    <div class="card-info">
+        <mat-card-header>
+            <mat-card-title>{{product?.name}}</mat-card-title>
+            <mat-card-subtitle>{{cartItem.price}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" min="1" max="{{product?.stock}}"
+            [formControl]="quantity">
+            <button mat-button (click)="delete()">ELIMINAR</button>
+        </mat-card-actions>
+    </div>
+<mat-card>
