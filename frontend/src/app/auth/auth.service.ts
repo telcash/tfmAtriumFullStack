@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { JwtTokens } from './models/jwt-tokens';
@@ -28,6 +28,10 @@ export class AuthService {
 
   logout() {
     return this.http.get('http://localhost:3000/auth/logout');
+  }
+
+  refresh(): Observable<JwtTokens> {
+    return this.http.get<JwtTokens>('http://localhost:3000/auth/refresh');
   }
 
   isUserLogged(): boolean {

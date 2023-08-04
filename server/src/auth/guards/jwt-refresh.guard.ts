@@ -6,4 +6,9 @@ import { AuthGuard } from "@nestjs/passport";
  * Usa la estrategia {@link JwtRefreshStrategy}
  */
 @Injectable()
-export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {}
+export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {
+    constructor() {
+        console.log('test');
+        super()
+    }
+}

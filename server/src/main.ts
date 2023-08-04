@@ -28,6 +28,7 @@ async function bootstrap() {
   // Middleware para parseo de cookies
   app.use(cookieParser(process.env.COOKIE_SECRET));
   
+
   // Puerto de escucha del servidor
   await app.listen(3000);
 }
