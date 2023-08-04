@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { ProductsService } from 'src/app/products/products.service';
 import { Product } from 'src/app/products/models/product';
-import { CookieService } from 'ngx-cookie-service';
 import { FormControl } from '@angular/forms';
 import { CartsService } from '../carts.service';
 
@@ -15,6 +14,7 @@ export class CartItemCardComponent implements OnInit {
   
   
   @Input() cartItem!: CartItem;
+  @Output() itemDeleted = new EventEmitter();
   imgUrl!: string;
   maxItems?: number;
   product?: Product;
@@ -39,6 +39,7 @@ export class CartItemCardComponent implements OnInit {
 
   delete() {
     this.cartsService.deleteItem(this.cartItem.productId).subscribe();
+    this.itemDeleted.emit();
   }
 
 

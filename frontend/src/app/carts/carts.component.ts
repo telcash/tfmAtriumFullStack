@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItem } from './models/cart-item';
 import { CartsService } from './carts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carts',
@@ -9,9 +10,12 @@ import { CartsService } from './carts.service';
 })
 export class CartsComponent implements OnInit {
 
-  cartItems!: CartItem[];
+  cartItems?: CartItem[];
 
-  constructor(private cartsService: CartsService) {}
+  constructor(
+    private cartsService: CartsService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.cartsService.findAllItems().subscribe(
@@ -21,4 +25,11 @@ export class CartsComponent implements OnInit {
     )
   }
   
+  itemDeleted() {
+    const url = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true}).then(() => {
+      this.router.navigate([`/${url}`])
+    })
+  }
+
 }
