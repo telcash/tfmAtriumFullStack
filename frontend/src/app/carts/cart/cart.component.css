@@ -1,0 +1,21 @@
+.cart-container {
+    display: flex;
+    flex-flow: row-reverse wrap;
+    column-gap: 10px;
+}
+
+.cart-list-container {
+    flex: 4;
+    order: 2
+}
+
+.cart-list {
+    display: flex;
+    flex-flow: column wrap;
+    row-gap: 10px;
+}
+
+.cart-info-container {
+    flex: 1;
+    order: 1;
+}

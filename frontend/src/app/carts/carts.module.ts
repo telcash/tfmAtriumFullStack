@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartsComponent } from './carts.component';
+import { CartComponent } from './cart/cart.component';
 import { CartsService } from './carts.service';
 import { CartItemCardComponent } from './cart-item-card/cart-item-card.component';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    CartsComponent,
+    CartComponent,
     CartItemCardComponent
   ],
   imports: [

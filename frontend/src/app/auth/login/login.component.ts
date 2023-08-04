@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { JwtTokens } from '../models/jwt-tokens';
 import { Router } from '@angular/router';
 import { CartsService } from 'src/app/carts/carts.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private cartsService: CartsService,
+    private cookieService: CookieService,
     private router: Router
   ) {}
 
@@ -32,6 +34,7 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe(
       (data: JwtTokens) => {
+        this.cookieService.deleteAll();
         this.authService.setTokens(data);
         this.authService.userLoggedIn.next();
         this.cartsService.findAllItems().subscribe();

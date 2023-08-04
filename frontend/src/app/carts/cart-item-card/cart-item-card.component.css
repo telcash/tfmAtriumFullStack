@@ -8,6 +8,6 @@ img {
     aspect-ratio: 1/1;
 }
 
-.cart-item-info {
-    height: 100%;
+.card-info {
+    flex: 1;
 }

@@ -2,11 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartItem } from './models/cart-item';
+import { Cart } from './models/cart';
 
 @Injectable()
 export class CartsService {
 
   constructor(private http: HttpClient) { }
+
+  findCart(): Observable<Cart> {
+    return this.http.get<Cart>('http://localhost:3000/carts/mycart', {
+      withCredentials: true,
+    })
+  }
 
   findAllItems(): Observable<CartItem[]> {
     return this.http.get<CartItem[]>('http://localhost:3000/carts/mycart/items', {

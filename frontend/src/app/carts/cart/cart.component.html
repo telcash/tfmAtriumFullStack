@@ -1,0 +1,18 @@
+<div class="cart-container">
+    <div class="cart-list-container">
+        <mat-list class="cart-list" *ngFor="let cartItem of cartItems">
+            <app-cart-item-card (itemDeleted)="itemDeleted()" [cartItem]="cartItem"></app-cart-item-card>
+            <mat-divider [vertical]="true"></mat-divider>
+        </mat-list>
+    </div>
+    <div class="cart-info-container">
+        <mat-card class="cart-info">
+            <mat-card-header>
+                <mat-card-title>{{total}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-button>TRAMITAR PEDIDO</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

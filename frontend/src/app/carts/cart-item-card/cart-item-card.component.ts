@@ -42,6 +42,4 @@ export class CartItemCardComponent implements OnInit {
     this.itemDeleted.emit();
   }
 
-
-
 }

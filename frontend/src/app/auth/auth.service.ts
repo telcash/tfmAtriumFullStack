@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { JwtTokens } from './models/jwt-tokens';
@@ -13,7 +13,6 @@ export class AuthService {
   getUserLoggedIn() {
     return this.userLoggedIn.asObservable();
   }
-
 
   signup(user: User): Observable<any> {
     return this.http.post<any>('http://localhost:3000/auth/signup', user);
