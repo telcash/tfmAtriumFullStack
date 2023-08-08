@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { User } from '../models/user';
+import { concatMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { JwtTokens } from '../models/jwt-tokens';
+import { CookieService } from 'ngx-cookie-service';
+import { CartsService } from 'src/app/carts/carts.service';
 
 @Component({
   selector: 'app-signup',
@@ -35,7 +39,14 @@ export class SignupComponent {
     ])
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cookieService: CookieService,
+    private cartsService: CartsService,
+  ) {}
 
   onSubmit() {
     const user: User = {
@@ -45,11 +56,16 @@ export class SignupComponent {
       password: this.signupForm.value.password ?? '',
       mobile: this.signupForm.value.mobile ?? '',
     }
-
-    this.authService.signup(user).subscribe(
-      (data) => {
-        console.log(data);
-      }
+    this.authService.signup(user).pipe((concatMap(
+      data => {return this.authService.login(user.email, user.password)}
+    ))).subscribe(
+      (data: JwtTokens) => {
+        this.cookieService.deleteAll();
+        this.authService.setTokens(data);
+        this.authService.userLoggedIn.next();
+        this.cartsService.findAllItems().subscribe();
+        this.router.navigate(['']);
+      } 
     );
   }
 

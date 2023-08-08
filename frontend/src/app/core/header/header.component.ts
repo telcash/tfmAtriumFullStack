@@ -26,9 +26,7 @@ export class HeaderComponent implements OnInit {
     }
 
     this.userLoggedSubscription = this.authService.getUserLoggedIn().subscribe(
-      () => {
-        this.isUserLogged = true
-      } 
+      () => this.isUserLogged = true
     )
   }
 

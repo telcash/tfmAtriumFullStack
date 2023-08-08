@@ -3,7 +3,7 @@
     <div class="card-info">
         <mat-card-header>
             <mat-card-title>{{product?.name}}</mat-card-title>
-            <mat-card-subtitle>{{cartItem.price}}</mat-card-subtitle>
+            <mat-card-subtitle>{{cartItem.price | currency: 'EUR':'symbol'}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions>
             <mat-label>Cantidad</mat-label>

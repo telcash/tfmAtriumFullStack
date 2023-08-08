@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class LoginComponent {
 
+
   loginForm = new FormGroup({
     'email': new FormControl('', [Validators.required, Validators.email]),
     'password': new FormControl('',[
@@ -27,6 +28,7 @@ export class LoginComponent {
     private cookieService: CookieService,
     private router: Router
   ) {}
+  
 
   onSubmit() {
     const email: string = this.loginForm.value.email ? this.loginForm.value.email : '';

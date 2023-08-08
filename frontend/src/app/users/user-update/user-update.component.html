@@ -1,0 +1,32 @@
+<div class="user-update-container">
+    <div class="user-update-content">
+        <mat-toolbar class="user-update-toolbar" color="primary">Mis datos personales</mat-toolbar>
+        <mat-card>
+            <form [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input type="text" matInput formControlName="firstName">
+                    <mat-error *ngIf="userUpdateForm.controls.firstName.invalid">{{getFirstNameErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input type="text" matInput formControlName="lastName">
+                    <mat-error *ngIf="userUpdateForm.controls.lastName.invalid">{{getLastNameErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input type="text" matInput  formControlName="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-icon matPrefix>contact_phone</mat-icon>
+                    <input type="text" matInput formControlName="mobile">
+                </mat-form-field>
+                <div>
+                    <button *ngIf="!isEditable" (click)="enableEdit()" mat-raised-button color="primary">EDITAR DATOS</button>
+                    <button *ngIf="isEditable" type="submit" mat-raised-button color="primary">ACTUALIZAR DATOS</button>
+                    <button *ngIf="isEditable" (click)="cancelEdit()"  mat-raised-button color="primary">CANCELAR</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>

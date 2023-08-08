@@ -1,4 +1,19 @@
-<ng-container *ngIf="categories === null"></ng-container>
+<ng-container *ngIf="tabs.length === 0">Cargando productos ...</ng-container>
+<mat-tab-group>
+    <mat-tab *ngFor="let tab of tabs">
+        <ng-template mat-tab-label>{{tab.label}}</ng-template>
+        <div class="product-gallery">
+            <div *ngFor="let product of tab.content">
+                <app-product-card [product]="product"></app-product-card>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+
+
+
+<!-- <ng-container *ngIf="categories === null"></ng-container>
 <mat-tab-group>
     <mat-tab *ngFor="let category of categories">
         <ng-template mat-tab-label>{{category.name}}</ng-template>
@@ -8,4 +23,4 @@
             </div>
         </div>
     </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->

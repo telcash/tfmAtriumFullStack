@@ -33,6 +33,16 @@ export class AuthService {
     return this.http.get<JwtTokens>('http://localhost:3000/auth/refresh');
   }
 
+  updatePassword(password: string, newPassword: string, passwordConfirmation: string) {
+    return this.http.patch('http://localhost:3000/auth/password',
+    {
+      password: password,
+      newPassword: newPassword,
+      newPasswordConfirmation: passwordConfirmation,
+    })
+  }
+
+
   isUserLogged(): boolean {
     return localStorage.getItem('accessToken') ? true : false;
   }

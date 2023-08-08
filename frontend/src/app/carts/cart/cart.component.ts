@@ -3,6 +3,7 @@ import { CartItem } from '../models/cart-item';
 import { CartsService } from '../carts.service';
 import { Router } from '@angular/router';
 import { Cart } from '../models/cart';
+import { concat, concatMap, flatMap, map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-carts',
@@ -20,16 +21,16 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cartsService.findAllItems().subscribe(
-      (data: CartItem[]) => {
-        this.cartItems = data;
-      }
-    )
-    this.cartsService.findCart().subscribe(
-      (data: Cart) => {
+    this.cartsService.findAllItems().pipe(
+      concatMap((items) => {
+        this.cartItems = items;
+        return this.cartsService.findCart()
+      })
+    ).subscribe(
+      (data) => {
         this.total = data.total;
       }
-    )
+    );
   }
   
   itemDeleted() {

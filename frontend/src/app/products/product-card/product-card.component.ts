@@ -29,7 +29,7 @@ export class ProductCardComponent implements OnInit{
     const productId = this.product?.id ?? 0;
     const qt = this.quantity.value ?? 0;
     this.cartsService.addItemToCart(productId, qt).subscribe(
-      (data: any) => {
+      () => {
         this.maxItems = this.getMaxItems();
         this.quantity.setValue(1);
       }

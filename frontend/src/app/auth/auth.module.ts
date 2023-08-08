@@ -4,12 +4,13 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from './auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { UpdatePasswordComponent } from './update-password/update-password.component';
 
 
 
@@ -17,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   declarations: [
     SignupComponent,
     LoginComponent,
+    UpdatePasswordComponent,
   ],
   providers: [
     AuthService
@@ -29,12 +31,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
-    FormsModule,
     ReactiveFormsModule,
   ],
   exports: [
     LoginComponent,
     SignupComponent,
+    UpdatePasswordComponent,
   ]
 })
 export class AuthModule { }

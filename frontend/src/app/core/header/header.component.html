@@ -7,8 +7,8 @@
   <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
   <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
   <mat-menu #account>
-    <button mat-menu-item>Datos</button>
-    <button mat-menu-item>Pedidos</button>
+    <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
+    <button mat-menu-item>Mis Pedidos</button>
     <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
   </mat-menu>
   <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
