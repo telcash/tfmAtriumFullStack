@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 export const passwordRelationsValidator : ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  //const password = control.get('password');
   const newPassword = control.get('newPassword');
   const confirmationPassword = control.get('confirmationPassword');
   return newPassword && confirmationPassword && newPassword.value === confirmationPassword.value ? null : {passwordRelations: true}
@@ -15,11 +14,8 @@ export const passwordRelationsValidator : ValidatorFn = (control: AbstractContro
   templateUrl: './update-password.component.html',
   styleUrls: ['./update-password.component.css']
 })
-export class UpdatePasswordComponent implements OnInit {
-
-  password: string = '';
-  //newPassword: string = '';
-  confirmationPassword: string = '';
+export class UpdatePasswordComponent {
+  
   updateFormActive: boolean = false;
 
   passwordValidators = [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*¿)([^\s]){8,16}$/)];
@@ -34,14 +30,12 @@ export class UpdatePasswordComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-
-  }
-
-
-
   onSubmit() {
-    //this.authService.updatePassword(this.password, this.newPassword, this.confirmationPassword).subscribe();
+    this.authService.updatePassword(
+      this.updatePasswordForm.controls.password.value ?? '',
+      this.updatePasswordForm.controls.newPassword.value ?? '',
+      this.updatePasswordForm.controls.confirmationPassword.value ?? '',
+    ).subscribe();
   }
 
   cancelPasswordUpdate() {

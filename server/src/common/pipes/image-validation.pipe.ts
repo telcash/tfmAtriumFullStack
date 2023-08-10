@@ -20,12 +20,12 @@ export class ImageValidationPipe implements PipeTransform {
    * @returns {Express.Multer.File} - Imagen validada
    */
   async transform(file: Express.Multer.File, metadata: ArgumentMetadata): Promise<string> {
-
+    
     let fileName: string = null;
-
+    
     // Array de errores en la validación
     const errors: string[] = [];
-
+    
     if(!file) {
       return fileName;
     }
@@ -68,6 +68,7 @@ export class ImageValidationPipe implements PipeTransform {
     // Si hay errores el archivo no es válido, se elimina el archivo y se lanza error
     if (errors.length > 0) {
       this.storageService.deleteFile(file.destination, file.filename);
+      console.log(errors);
       throw new BadRequestException(`Image validation failed: ${errors}`)
     }
 

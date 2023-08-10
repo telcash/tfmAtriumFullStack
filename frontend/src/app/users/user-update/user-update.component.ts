@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/auth/models/user';
 import { UsersService } from '../users.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-user-update',

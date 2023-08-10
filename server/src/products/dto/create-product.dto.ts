@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { IsArray, IsNumber, IsOptional, IsString, MinLength, ValidateNested } from "class-validator";
+import { IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 import { ProductAvailability } from "../constants/product-availability";
 
 /**
@@ -18,7 +18,7 @@ export class CreateProductDto {
 
     @IsOptional()
     @Type(() => Number)
-    @IsNumber()
+    //@IsNumber()
     price?: number;
     
     @IsOptional()
@@ -30,11 +30,10 @@ export class CreateProductDto {
 
     @IsOptional()
     @Type(() => Number)
-    @IsNumber()
+    //@IsNumber()
     stock?: number;
 
     @IsOptional()
-    @IsString()
+    @IsEnum(ProductAvailability)
     availability?: ProductAvailability;
-
 }

@@ -9,13 +9,17 @@ import { ProductsService } from './products.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { ProductCreateComponent } from './product-create/product-create.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [
     ProductCardComponent,
-    ProductGalleryComponent
+    ProductGalleryComponent,
+    ProductCreateComponent
   ],
   providers: [
     ProductsService,
@@ -27,11 +31,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
   ],
   exports: [
     ProductGalleryComponent,
+    ProductCreateComponent,
   ]
 })
 export class ProductsModule { }

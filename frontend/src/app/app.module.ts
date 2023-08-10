@@ -13,6 +13,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
+import { AdminModule } from './admin/admin.module';
 
  
 @NgModule({
@@ -29,6 +30,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     CartsModule,
     UsersModule,
+    AdminModule,
   ],
   providers: [
     {

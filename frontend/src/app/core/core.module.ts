@@ -7,7 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductsModule } from '../products/products.module';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
-import { HomeComponent } from './home/home.component'
+import { HomeComponent } from './home/home.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { HomeComponent } from './home/home.component'
     MatMenuModule,
     MatButtonModule,
     MatToolbarModule,
+    MatCardModule,
   ],
   exports: [
     HeaderComponent,

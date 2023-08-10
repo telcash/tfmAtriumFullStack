@@ -4,13 +4,15 @@
         <mat-card>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
+                    <mat-label>email</mat-label>
                     <mat-icon matPrefix>email</mat-icon>
-                    <input autofocus type="text" matInput placeholder="email" formControlName="email">
+                    <input autofocus type="text" matInput formControlName="email">
                     <mat-error *ngIf="loginForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Contraseña</mat-label>
                     <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput placeholder="Contraseña" formControlName="password">
+                    <input type="password" autocomplete="false" matInput formControlName="password">
                     <mat-error *ngIf="loginForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
                 </mat-form-field>
                 <div>
