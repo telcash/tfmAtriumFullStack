@@ -5,7 +5,6 @@ import { CartItemsService } from './cart-items/cart-items.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { ProductsService } from 'src/products/products.service';
 import { OrdersService } from 'src/orders/orders.service';
-import { AddressesService } from 'src/addresses/addresses.service';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
 
 @Injectable()

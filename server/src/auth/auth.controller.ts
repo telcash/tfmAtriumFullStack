@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService, JwtTokens } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -9,6 +9,7 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { SignupPipe } from './pipes/signup.pipe';
 import { PasswordUpdatePipe } from './pipes/password-update.pipe';
 import { User } from 'src/users/decorators/user.decorator';
+import { SetLoginCookiesInterceptor } from './interceptors/set-login-cookies.interceptor';
 
 /**
  * Controlador del Módulo {@link AuthModule}
@@ -34,6 +35,7 @@ export class AuthController {
      * @param user - Usuario validado y agregado al request por {@link LocalAuthGuard}
      * @returns {JwtTokens} - JSON Web Tokens de acceso y de refrescamiento
      */
+    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@User() user: UserEntity): Promise<JwtTokens> {

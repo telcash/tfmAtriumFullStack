@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Query, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -46,8 +46,13 @@ export class ProductsController {
    */
   @UseInterceptors(SetRequestUserInterceptor)
   @Get()
-  async findAll(@User('role') role: UserRole, @Query('category') categoryId): Promise<ProductEntity[]> {
-    const products = await this.productsService.findAll(role, +categoryId);
+  async findAll(@User('role') role: UserRole, @Query('category') categoryId?): Promise<ProductEntity[]> {
+    let products;
+    if (categoryId) {
+      products = await this.productsService.findAll(role, +categoryId);
+    } else {
+      products = await this.productsService.findAll(role);
+    }
     return products.map((product) => new ProductEntity(product));
   }
 

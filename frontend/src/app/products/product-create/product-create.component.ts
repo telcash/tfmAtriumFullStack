@@ -24,28 +24,20 @@ export class ProductCreateComponent {
 
   onSubmit() {
     const formData: FormData = new FormData();
-    console.log(this.productCreateForm.value.availability);
-    console.log(this.productCreateForm.controls.availability.value);
-    formData.append('name', this.productCreateForm.value.name ?? '');
-    formData.append('description', this.productCreateForm.value.description ?? '');
-    formData.append('price', this.productCreateForm.value.price ?? '0');
-    formData.append('stock', this.productCreateForm.value.stock ?? '0');
-    formData.append('availability', this.productCreateForm.value.availability ?? 'STOCK');
+    Object.keys(this.productCreateForm.controls).forEach(key => {
+      const value = this.productCreateForm.get(key)?.value;
+      if(value && typeof value === 'string' ) {
+        formData.append(key, value);
+      }
+    })
+
     if (this.file) {
       formData.append('file', this.file);
     }
-
     this.productsService.createProduct(formData).subscribe();
   }
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
-    //if (this.file) {
-      //this.fileName = this.file.name;
-      /* const formData = new FormData();
-      formData.append("thumbnail", file);
-      const upload$ = this.http.post("/api/thumbnail-upload", formData);
-      upload$.subscribe(); */
-    //}
   }
 }

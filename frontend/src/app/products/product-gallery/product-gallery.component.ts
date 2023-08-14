@@ -22,8 +22,6 @@ export class ProductGalleryComponent implements OnInit {
   constructor(
     private productsService: ProductsService
   ) {}
-  
-  //categories!: Category[];
 
   ngOnInit(): void {
 
@@ -43,31 +41,6 @@ export class ProductGalleryComponent implements OnInit {
       }
     })
 
-    /* this.productsService.getCategories().pipe(
-      concatMap((data) => {
-        this.categories = data;
-        const items = data.map(item => this.productsService.getProductsByCategory(item.id));
-        return forkJoin([...items]);
-      })
-    ).subscribe(allItems => {
-      for (const [index, category] of this.categories.entries()) {
-        category.products = allItems[index];
-      }
-    }) */
-
-
-    /* this.productsService.getCategories().subscribe(
-      (data: Category[]) => {
-        this.categories = data;
-        for(const category of this.categories) {
-          this.productsService.getProductsByCategory(category.id).subscribe(
-            (data: Product[]) => {
-              category.products = data;
-            }
-          )
-        }
-      }
-    ) */
   }
 
 }

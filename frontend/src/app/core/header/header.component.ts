@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   isUserLogged: boolean = false;
+  isUserAdmin: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -25,8 +26,17 @@ export class HeaderComponent implements OnInit {
       this.isUserLogged = true;
     }
 
+    if(this.authService.isUserAdmin()) {
+      this.isUserAdmin = true;
+    }
+
     this.userLoggedSubscription = this.authService.getUserLoggedIn().subscribe(
-      () => this.isUserLogged = true
+      (data) => {
+        this.isUserLogged = true;
+        if(data === 'ADMIN') {
+          this.isUserAdmin = true;
+        }
+      }
     )
   }
 
@@ -35,6 +45,7 @@ export class HeaderComponent implements OnInit {
       () => {
         this.authService.deleteTokens();
         this.isUserLogged = false;
+        this.isUserAdmin = false;
         this.router.navigate(['/']);
       }
     )

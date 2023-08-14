@@ -31,14 +31,14 @@ export class LoginComponent {
   
 
   onSubmit() {
+    this.cookieService.deleteAll();
     const email: string = this.loginForm.value.email ? this.loginForm.value.email : '';
     const password: string = this.loginForm.value.password ? this.loginForm.value.password : '';
-
     this.authService.login(email, password).subscribe(
       (data: JwtTokens) => {
-        this.cookieService.deleteAll();
         this.authService.setTokens(data);
-        this.authService.userLoggedIn.next();
+        const role = this.cookieService.get('role') ?? '';
+        this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
         this.router.navigate(['']);
       }

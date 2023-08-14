@@ -62,7 +62,8 @@ export class SignupComponent {
       (data: JwtTokens) => {
         this.cookieService.deleteAll();
         this.authService.setTokens(data);
-        this.authService.userLoggedIn.next();
+        const role = this.cookieService.get('role') ?? '';
+        this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
         this.router.navigate(['']);
       } 

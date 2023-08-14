@@ -1,5 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { isArray } from 'class-validator';
+import { Response } from 'express';
 import { map } from 'rxjs';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class SetCartItemCookieInterceptor implements NestInterceptor {
     return next.handle().pipe(map((data) => {
       
       const req = context.switchToHttp().getRequest();
-      const res = context.switchToHttp().getResponse();
+      const res: Response = context.switchToHttp().getResponse();
       
       if(req.method === 'DELETE') {
         res.cookie(`pId_${data.productId}`, data.quantity, {

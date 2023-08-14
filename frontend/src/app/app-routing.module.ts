@@ -6,6 +6,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { CartComponent } from './carts/cart/cart.component';
 import { HomeComponent } from './core/home/home.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { ProductsTableComponent } from './products/products-table/products-table.component';
 import { ProductCreateComponent } from './products/product-create/product-create.component';
 
 const routes: Routes = [
@@ -35,7 +37,17 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: ProductCreateComponent,
+    component: AdminHomeComponent,
+    children: [
+      {
+        path: 'products',
+        component: ProductsTableComponent
+      },
+      {
+        path: 'product-create',
+        component: ProductCreateComponent
+      }
+    ]
   }
 ];
 

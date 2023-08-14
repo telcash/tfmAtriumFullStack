@@ -55,7 +55,7 @@ export class AuthService {
        
        // Actualiza en la base de datos el token de refrescamiento del usuario autenticado
        await this.updateRefreshToken(user.id, tokens.refreshToken);
-       
+
        return tokens;
     }
     

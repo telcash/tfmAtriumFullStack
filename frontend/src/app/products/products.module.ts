@@ -13,13 +13,16 @@ import { ProductCreateComponent } from './product-create/product-create.componen
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select'
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ProductsTableComponent } from './products-table/products-table.component'
+import { MatTableModule } from '@angular/material/table'
 
 @NgModule({
   declarations: [
     ProductCardComponent,
     ProductGalleryComponent,
-    ProductCreateComponent
+    ProductCreateComponent,
+    ProductsTableComponent
   ],
   providers: [
     ProductsService,
@@ -35,12 +38,14 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatTableModule,
     FormsModule,
     ReactiveFormsModule,
   ],
   exports: [
     ProductGalleryComponent,
     ProductCreateComponent,
+    ProductsTableComponent,
   ]
 })
 export class ProductsModule { }

@@ -1,0 +1,21 @@
+<mat-toolbar>
+    <button mat-raised-button [matMenuTriggerFor]="productsMenu">Productos</button>
+    <mat-menu #productsMenu="matMenu">
+      <button routerLink="products" mat-menu-item>Listado de productos</button>
+      <button routerLink="product-create" mat-menu-item>Crear producto</button>
+    </mat-menu>
+    
+    <button mat-raised-button [matMenuTriggerFor]="usersMenu">Usuarios</button>
+    <mat-menu #usersMenu="matMenu">
+      <button mat-menu-item>Listado de usuarios</button>
+      <button mat-menu-item>Crear nuevo usuario</button>
+    </mat-menu>
+    
+    <button mat-raised-button [matMenuTriggerFor]="ordersMenu">Órdenes</button>
+    <mat-menu #ordersMenu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

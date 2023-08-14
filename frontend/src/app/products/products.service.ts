@@ -11,10 +11,14 @@ export class ProductsService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {}
 
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${id}`);
+  }
+
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseUrl);
   }
 
   createProduct(product: any) {
@@ -29,5 +33,9 @@ export class ProductsService {
     return this.http.get<Product[]>(this.baseUrl, {
       params: new HttpParams().set('category', categoryId)
     })
+  }
+
+  deleteProduct(id: number): Observable<Product> {
+    return this.http.delete<Product>(`${this.baseUrl}/${id}`)
   }
 }

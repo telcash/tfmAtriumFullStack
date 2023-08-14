@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { JwtTokens } from './models/jwt-tokens';
 import { User } from './models/user';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
-  userLoggedIn = new Subject<void>();
+  userLoggedIn = new Subject<string>();
   getUserLoggedIn() {
     return this.userLoggedIn.asObservable();
   }
@@ -22,6 +23,9 @@ export class AuthService {
     return this.http.post<JwtTokens>('http://localhost:3000/auth/login', {
       email: email,
       password: password,
+    },
+    {
+      withCredentials: true,
     })
   }
 
@@ -45,6 +49,14 @@ export class AuthService {
 
   isUserLogged(): boolean {
     return localStorage.getItem('accessToken') ? true : false;
+  }
+
+  isUserAdmin(): boolean {
+    const role = this.cookieService.get('role') ?? '';
+    if (role === 'ADMIN') {
+      return true
+    }
+    return false;
   }
 
   setTokens(tokens: JwtTokens) {
