@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { CartsService } from '../carts.service';
 import { Router } from '@angular/router';
-import { Cart } from '../models/cart';
-import { concat, concatMap, flatMap, map, mergeMap } from 'rxjs';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-carts',

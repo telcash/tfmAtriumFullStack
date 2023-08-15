@@ -1,0 +1,59 @@
+<div class="product-edit-container">
+    <div class="product-edit-content">
+        <mat-toolbar class="product-edit-toolbar" color="primary">EDITAR PRODUCTO</mat-toolbar>
+        <mat-card class="product-edit-card">
+            <form [formGroup]="productEditForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <mat-icon matPrefix>title</mat-icon>
+                    <input type="text" matInput formControlName="name">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Descripción</mat-label>
+                    <mat-icon matPrefix>description</mat-icon>
+                    <textarea type="text" matInput formControlName="description"></textarea>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Precio de venta</mat-label>
+                    <mat-icon matPrefix>euro</mat-icon>
+                    <input type="text" matInput formControlName="price">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Inventario</mat-label>
+                    <mat-icon matPrefix>inventory</mat-icon>
+                    <input type="text" matInput formControlName="stock">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Disponibilidad</mat-label>
+                    <mat-icon matPrefix>sell</mat-icon>
+                    <mat-select formControlName="availability">
+                        <mat-option value="STOCK">INVENTARIO</mat-option>
+                        <mat-option value="ALWAYS">SIEMPRE</mat-option>
+                        <mat-option value="NEVER">NUNCA</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <div *ngIf="product?.image" class="image-container">
+                        <img src="{{imgUrl + '/' + product.image}}">
+                        <button mat-raised-button (click)="updateImage()">Cambiar/eliminar</button>
+                    </div>
+                    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+                    <input matInput formControlName="image" class="file-input">
+                    <div *ngIf="!product?.image">
+                        <button type="button" mat-mini-fab color="primary" (click)="fileUpload.click()">
+                            <mat-icon>attach_file</mat-icon>
+                        </button>
+                        {{file?.name || "Ninguna imagen cargada aún"}}
+                    </div>
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="primary" type="submit">Actualizar producto</button>
+                    <button type="button" mat-raised-button color="primary" routerLink="/admin/products">Cancelar</button>
+                </div>
+                <div *ngIf="!productEditForm.pristine">
+                    <button type="button" mat-raised-button color="primary" (click)="loadInitialValues()">Deshacer cambios</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>

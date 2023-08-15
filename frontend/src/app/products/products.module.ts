@@ -14,15 +14,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select'
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ProductsTableComponent } from './products-table/products-table.component'
-import { MatTableModule } from '@angular/material/table'
+import { ProductsTableComponent } from './products-table/products-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ProductDeleteDialogComponent } from './product-delete-dialog/product-delete-dialog.component';
+import { ProductEditComponent } from './product-edit/product-edit.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     ProductCardComponent,
     ProductGalleryComponent,
     ProductCreateComponent,
-    ProductsTableComponent
+    ProductsTableComponent,
+    ProductDeleteDialogComponent,
+    ProductEditComponent,
   ],
   providers: [
     ProductsService,
@@ -39,8 +45,10 @@ import { MatTableModule } from '@angular/material/table'
     MatToolbarModule,
     MatTooltipModule,
     MatTableModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
   ],
   exports: [
     ProductGalleryComponent,

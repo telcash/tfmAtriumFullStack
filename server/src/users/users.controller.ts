@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, UseGuards, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Delete, Post, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -45,6 +45,13 @@ export class UsersController {
     async findAll(): Promise<UserEntity[]> {
         const users = await this.usersService.findAll();
         return users.map((user) => new UserEntity(user));
+    }
+
+    @UseGuards(LastAdminGuard, RoleGuard)
+    @Roles(UserRole.ADMIN)
+    @Delete(':id')
+    async removeById(@Param('id') id: string): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.remove(+id));
     }
 
     /**

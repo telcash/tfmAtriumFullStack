@@ -46,7 +46,7 @@ export class UserUpdateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.userUpdateForm.value);
+    this.usersService.updateUser(this.userUpdateForm.value).subscribe();
   }
 
   enableEdit() {

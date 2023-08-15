@@ -68,7 +68,6 @@ export class ImageValidationPipe implements PipeTransform {
     // Si hay errores el archivo no es válido, se elimina el archivo y se lanza error
     if (errors.length > 0) {
       this.storageService.deleteFile(file.destination, file.filename);
-      console.log(errors);
       throw new BadRequestException(`Image validation failed: ${errors}`)
     }
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import { ProductsService } from '../products.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductDeleteDialogComponent } from '../product-delete-dialog/product-delete-dialog.component';
+import { GlobalConstants } from 'src/app/config/global-constants';
 
 @Component({
   selector: 'app-products-table',
@@ -10,8 +13,12 @@ import { ProductsService } from '../products.service';
 export class ProductsTableComponent implements OnInit {
   displayedColumns = ['id', 'name', 'description', 'price', 'stock', 'availability', 'image', 'edit', 'delete'];
   products!: Product[];
+  imgUrl: string = GlobalConstants.API_STATIC_PRODUCTS_IMG;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.getproductList();
@@ -29,5 +36,19 @@ export class ProductsTableComponent implements OnInit {
         this.products = data;
       }
     ))
+  }
+
+  openDeleteDialog(productId: number) {
+    const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration: '250ms',
+      exitAnimationDuration: '250ms',
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteProduct(productId);
+      }
+    })
   }
 }

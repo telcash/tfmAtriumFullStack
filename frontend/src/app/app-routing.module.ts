@@ -9,6 +9,8 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { ProductsTableComponent } from './products/products-table/products-table.component';
 import { ProductCreateComponent } from './products/product-create/product-create.component';
+import { ProductEditComponent } from './products/product-edit/product-edit.component';
+import { UsersTableComponent } from './users/users-table/users-table.component';
 
 const routes: Routes = [
   {
@@ -41,18 +43,26 @@ const routes: Routes = [
     children: [
       {
         path: 'products',
-        component: ProductsTableComponent
+        component: ProductsTableComponent,
       },
       {
         path: 'product-create',
-        component: ProductCreateComponent
+        component: ProductCreateComponent,
+      },
+      {
+        path: 'product-edit/:id',
+        component: ProductEditComponent,
+      },
+      {
+        path: 'users',
+        component: UsersTableComponent,
       }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

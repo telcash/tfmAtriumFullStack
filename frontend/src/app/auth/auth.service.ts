@@ -4,9 +4,12 @@ import { Observable, Subject } from 'rxjs';
 import { JwtTokens } from './models/jwt-tokens';
 import { User } from './models/user';
 import { CookieService } from 'ngx-cookie-service';
+import { GlobalConstants } from '../config/global-constants';
 
 @Injectable()
 export class AuthService {
+
+  url = GlobalConstants.API_URL + '/auth';
 
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
@@ -16,11 +19,11 @@ export class AuthService {
   }
 
   signup(user: User): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/auth/signup', user);
+    return this.http.post<any>(this.url + '/signup', user);
   }
 
   login(email: string, password: string): Observable<JwtTokens> {
-    return this.http.post<JwtTokens>('http://localhost:3000/auth/login', {
+    return this.http.post<JwtTokens>(this.url + '/login', {
       email: email,
       password: password,
     },
@@ -30,15 +33,15 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.get('http://localhost:3000/auth/logout');
+    return this.http.get(this.url + '/logout');
   }
 
   refresh(): Observable<JwtTokens> {
-    return this.http.get<JwtTokens>('http://localhost:3000/auth/refresh');
+    return this.http.get<JwtTokens>(this.url + '/refresh');
   }
 
   updatePassword(password: string, newPassword: string, passwordConfirmation: string) {
-    return this.http.patch('http://localhost:3000/auth/password',
+    return this.http.patch(this.url + '/password',
     {
       password: password,
       newPassword: newPassword,

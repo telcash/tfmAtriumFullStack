@@ -2,19 +2,29 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../auth/models/user';
 import { Observable } from 'rxjs';
+import { GlobalConstants } from '../config/global-constants';
 
 @Injectable()
 export class UsersService {
 
-  constructor(private http: HttpClient) { }
+  url = GlobalConstants.API_URL + '/users';
+
+  constructor(private http: HttpClient) {}
+
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.url);
+  }
 
   getUser(): Observable<User> {
-    return this.http.get<User>('http://localhost:3000/users/profile');
+    return this.http.get<User>(this.url + '/profile');
   }
 
-  updateUser(user: Partial<User>): Observable<User> {
-    return this.http.patch<User>('http://localhost:3000/users/profile', user);
+  updateUser(user: any): Observable<User> {
+    return this.http.patch<User>(this.url + '/profile', user);
   }
 
+  deleteUser(id: number): Observable<User> {
+    return this.http.delete<User>(this.url + '/' + id);
+  }
 
 }

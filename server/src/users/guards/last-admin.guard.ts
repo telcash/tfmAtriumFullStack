@@ -19,8 +19,9 @@ export class LastAdminGuard implements CanActivate {
    */
   async canActivate(context: ExecutionContext,): Promise<boolean> {
 
-    // Determinamos el rol del usuario
-    const role = context.switchToHttp().getRequest().user.role;
+    // Determinamos el rol del usuario a eliminar
+    const id = context.switchToHttp().getRequest().params.id;
+    const role = (await this.usersService.findUserById(+id)).role;
 
     // Si el usuario es el único Admin del sistema lanzamos un error
     if (role === UserRole.ADMIN && await this.usersService.countUsersByRole(UserRole.ADMIN) === 1) {

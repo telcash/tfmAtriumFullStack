@@ -3,26 +3,30 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartItem } from './models/cart-item';
 import { Cart } from './models/cart';
+import { GlobalConstants } from '../config/global-constants';
 
 @Injectable()
 export class CartsService {
 
+  myCartUrl: string = GlobalConstants.API_URL + '/carts/mycart'
+  itemsUrl: string = this.myCartUrl + '/items'
+
   constructor(private http: HttpClient) { }
 
   findCart(): Observable<Cart> {
-    return this.http.get<Cart>('http://localhost:3000/carts/mycart', {
+    return this.http.get<Cart>(this.myCartUrl, {
       withCredentials: true,
     })
   }
 
   findAllItems(): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>('http://localhost:3000/carts/mycart/items', {
+    return this.http.get<CartItem[]>(this.itemsUrl, {
       withCredentials: true,
     })
   }
 
   addItemToCart(productId: number, quantity: number) {
-    return this.http.post('http://localhost:3000/carts/mycart/items', {
+    return this.http.post(this.itemsUrl, {
       productId: productId,
       quantity: quantity,
     },
@@ -32,7 +36,7 @@ export class CartsService {
   }
 
   deleteItem(productId: number) {
-    return this.http.delete('http://localhost:3000/carts/mycart/items',{
+    return this.http.delete(this.itemsUrl,{
       body: {
         productId: productId,
       },

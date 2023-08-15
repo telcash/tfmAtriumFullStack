@@ -3,6 +3,7 @@ import { Product } from '../models/product';
 import { FormControl } from '@angular/forms';
 import { CartsService } from 'src/app/carts/carts.service';
 import { CookieService } from 'ngx-cookie-service';
+import { GlobalConstants } from 'src/app/config/global-constants';
 
 @Component({
   selector: 'app-product-card',
@@ -11,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ProductCardComponent implements OnInit{
 
-  imgUrl: string = 'http://localhost:3000/img/products'
+  imgUrl: string = GlobalConstants.API_STATIC_PRODUCTS_IMG;
   @Input() product?: Product;
 
   quantity = new FormControl(1);

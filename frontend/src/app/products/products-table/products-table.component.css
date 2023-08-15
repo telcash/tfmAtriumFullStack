@@ -1,8 +1,13 @@
-.example-container {
+.products-table-container {
     height: 800px;
     overflow: auto;
 }
 
 table {
     width: 100%;
+}
+
+img {
+    max-width: 60px;
+    aspect-ratio: 1/1;
 }
