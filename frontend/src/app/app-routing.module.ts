@@ -11,6 +11,8 @@ import { ProductsTableComponent } from './products/products-table/products-table
 import { ProductCreateComponent } from './products/product-create/product-create.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
+import { AddressCreateComponent } from './addresses/address-create/address-create.component';
+import { AddressGalleryComponent } from './addresses/address-gallery/address-gallery.component';
 
 const routes: Routes = [
   {
@@ -32,6 +34,14 @@ const routes: Routes = [
   {
     path: 'users/myprofile',
     component: UserProfileComponent,
+  },
+  {
+    path: 'users/myprofile/addresses',
+    component: AddressGalleryComponent,
+  },
+  {
+    path: 'users/myprofile/addresses/add-address',
+    component: AddressCreateComponent,
   },
   {
     path: 'mycart',

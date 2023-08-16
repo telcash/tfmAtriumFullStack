@@ -1,0 +1,14 @@
+<mat-card class="address-card">
+    <mat-card-content>
+        <ul>
+            <li>{{address.street}}</li>
+            <li>{{address.city}}</li>
+            <li>{{address.postalCode}}</li>
+            <li>{{address.country}}</li>
+        </ul>
+    </mat-card-content>
+    <mat-card-actions>
+        <button type="button" mat-button>Editar</button>
+        <button type="button" mat-button (click)="openDeleteDialog()">Eliminar</button>
+    </mat-card-actions>
+</mat-card>

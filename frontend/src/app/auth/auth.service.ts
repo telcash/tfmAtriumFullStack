@@ -14,6 +14,7 @@ export class AuthService {
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   userLoggedIn = new Subject<string>();
+  
   getUserLoggedIn() {
     return this.userLoggedIn.asObservable();
   }

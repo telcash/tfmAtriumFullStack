@@ -14,6 +14,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddressesModule } from './addresses/addresses.module';
 
  
 @NgModule({
@@ -26,11 +33,18 @@ import { AdminModule } from './admin/admin.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     ProductsModule,
+    AddressesModule,
     CoreModule,
     AuthModule,
     CartsModule,
     UsersModule,
     AdminModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

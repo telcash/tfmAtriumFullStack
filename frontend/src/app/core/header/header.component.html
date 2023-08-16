@@ -10,6 +10,7 @@
   <mat-menu #account>
     <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
     <button mat-menu-item>Mis Pedidos</button>
+    <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
     <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
   </mat-menu>
   <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>

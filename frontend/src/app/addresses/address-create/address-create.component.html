@@ -1,0 +1,29 @@
+<div class="address-create-container">
+    <div class="address-create-content">
+        <mat-toolbar class="address-create-toolbar" color="primary">AGREGAR DIRECCIÓN</mat-toolbar>
+        <mat-card class="address-create-card">
+            <form [formGroup]="addressCreateForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-label>Calle</mat-label>
+                    <input type="text" matInput formControlName="street"> 
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Código Postal</mat-label>
+                    <input type="text" matInput formControlName="postalCode"> 
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Ciudad</mat-label>
+                    <input type="text" matInput formControlName="city"> 
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Pais</mat-label>
+                    <input type="text" matInput formControlName="country"> 
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="primary" type="submit">Agregar dirección</button>
+                    <button mat-raised-button color="primary" type="button" routerLink="..">Cancelar</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>

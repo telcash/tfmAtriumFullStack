@@ -35,7 +35,7 @@ export class AddressesService {
    * Invoca el metodo findOne() de {@link AddressesRepository} para buscar la dirección en la base de datos
    * @returns - Dirección buscada 
    */
-  async findOne(id: number, userId?: number) {
+  async findOne(id: number, userId: number) {
     return await this.addressesRepository.findOne(id, userId);
   }
 

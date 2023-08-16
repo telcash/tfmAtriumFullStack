@@ -1,0 +1,8 @@
+<mat-toolbar>
+    <button mat-raised-button routerLink="add-address">Agregar dirección</button>
+</mat-toolbar>
+<div class="address-gallery">
+    <div *ngFor="let address of addresses">
+        <app-address-card [address]="address"></app-address-card>
+    </div>
+</div>
