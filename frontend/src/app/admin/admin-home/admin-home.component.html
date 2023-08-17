@@ -4,6 +4,12 @@
       <button routerLink="products" mat-menu-item>Listado de productos</button>
       <button routerLink="product-create" mat-menu-item>Crear producto</button>
     </mat-menu>
+
+    <button mat-raised-button [matMenuTriggerFor]="categoriesMenu">Categorías</button>
+    <mat-menu #categoriesMenu="matMenu">
+      <button routerLink="categories" mat-menu-item>Listado de categorías</button>
+      <button routerLink="category-create" mat-menu-item>Crear categoría</button>
+    </mat-menu>
     
     <button mat-raised-button [matMenuTriggerFor]="usersMenu">Usuarios</button>
     <mat-menu #usersMenu="matMenu">

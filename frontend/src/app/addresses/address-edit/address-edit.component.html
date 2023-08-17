@@ -1,8 +1,8 @@
-<div class="address-create-container">
-    <div class="address-create-content">
-        <mat-toolbar class="address-create-toolbar" color="primary">AGREGAR DIRECCIÓN</mat-toolbar>
-        <mat-card class="address-create-card">
-            <form [formGroup]="addressCreateForm" (ngSubmit)="onSubmit()">
+<div class="address-edit-container">
+    <div class="address-edit-content">
+        <mat-toolbar class="address-edit-toolbar" color="primary">EDITAR DIRECCIÓN</mat-toolbar>
+        <mat-card class="address-edit-card">
+            <form [formGroup]="addressEditForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Calle</mat-label>
                     <input type="text" matInput formControlName="street"> 
@@ -20,7 +20,7 @@
                     <input type="text" matInput formControlName="country"> 
                 </mat-form-field>
                 <div>
-                    <button mat-raised-button color="primary" type="submit">Agregar dirección</button>
+                    <button mat-raised-button color="primary" type="submit">Actualizar dirección</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
                 </div>
             </form>

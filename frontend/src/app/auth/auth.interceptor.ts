@@ -9,11 +9,12 @@ import {
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { JwtTokens } from './models/jwt-tokens';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private cookieService: CookieService) {
 
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -39,6 +40,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.refresh().pipe(switchMap(
       (tokens: JwtTokens) => {
         this.authService.setTokens(tokens);
+        const role = this.cookieService.get('role') ?? '';
+        this.authService.userLoggedIn.next(role);
         return next.handle(req.clone({ headers: req.headers.set("Authorization", "Bearer " + tokens.accessToken) }));
       }),
       catchError((err) => {

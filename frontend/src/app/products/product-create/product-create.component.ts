@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductsService } from '../products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-create',
@@ -20,7 +21,10 @@ export class ProductCreateComponent {
 
   file: File | null = null;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private router: Router,
+  ) {}
 
   onSubmit() {
     const formData: FormData = new FormData();
@@ -34,10 +38,18 @@ export class ProductCreateComponent {
     if (this.file) {
       formData.append('file', this.file);
     }
-    this.productsService.createProduct(formData).subscribe();
+    this.productsService.createProduct(formData).subscribe(
+      () => {
+        this.goToProducts();
+      }
+    );
   }
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
+  }
+
+  goToProducts() {
+    this.router.navigateByUrl('admin/products');
   }
 }

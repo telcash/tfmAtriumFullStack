@@ -8,7 +8,7 @@
         </ul>
     </mat-card-content>
     <mat-card-actions>
-        <button type="button" mat-button>Editar</button>
+        <button type="button" mat-button [routerLink]="['edit-address/',address.id]">Editar</button>
         <button type="button" mat-button (click)="openDeleteDialog()">Eliminar</button>
     </mat-card-actions>
 </mat-card>

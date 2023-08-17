@@ -21,16 +21,16 @@ export class ProductsTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getproductList();
+    this.getProductList();
   }
 
   deleteProduct(productId: number) {
     this.productsService.deleteProduct(productId).subscribe(() => {
-      this.getproductList();
+      this.getProductList();
     });
   }
 
-  getproductList() {
+  getProductList() {
     this.productsService.getAllProducts().subscribe((
       data  => {
         this.products = data;

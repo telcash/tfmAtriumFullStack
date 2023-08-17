@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { Product } from '../models/product';
-import { concatMap, forkJoin } from 'rxjs';
+import { concat, concatMap } from 'rxjs';
+import { CategoriesService } from 'src/app/categories/categories.service';
 
 export interface CategoryTab {
   label: string;
@@ -20,12 +21,30 @@ export class ProductGalleryComponent implements OnInit {
   labels: string[] = [];
 
   constructor(
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private categoriesService: CategoriesService,
   ) {}
 
   ngOnInit(): void {
+    let index = 0;
+    this.categoriesService.getCategories().pipe(
+      concatMap((categories) => {
+        categories.map(category => this.labels.push(category.name));
+        const products = categories.map(category => this.productsService.getProductsByCategory(category.id));
+        return concat(...products);
+      })
+    ).subscribe(productsByCategory => {
+        if(productsByCategory.length > 0) {
+          const tab: CategoryTab = {
+            label: this.labels[index],
+            content: productsByCategory,
+          }
+          this.tabs.push(tab);
+        }
+        index++;
+    })
 
-    this.productsService.getCategories().pipe(
+    /* this.categoriesService.getCategories().pipe(
       concatMap((categories) => {
         categories.map(category => this.labels.push(category.name));
         const products = categories.map(category => this.productsService.getProductsByCategory(category.id));
@@ -33,14 +52,14 @@ export class ProductGalleryComponent implements OnInit {
       })
     ).subscribe(allProducts => {
       for (const [index, productsByCategory] of allProducts.entries()) {
-        const tab: CategoryTab = {
-          label: this.labels[index],
-          content: productsByCategory,
+        if(productsByCategory.length > 0) {
+          const tab: CategoryTab = {
+            label: this.labels[index],
+            content: productsByCategory,
+          }
+          this.tabs.push(tab);
         }
-        this.tabs.push(tab);
       }
-    })
-
+    }) */
   }
-
 }

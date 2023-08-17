@@ -1,0 +1,18 @@
+<div class="category-create-container">
+    <div class="category-create-content">
+        <mat-toolbar class="category-create-toolbar" color="primary">Crear categoría</mat-toolbar>
+        <mat-card class="category-create-card">
+            <form [formGroup]="categoryCreateForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <mat-icon matPrefix>title</mat-icon>
+                    <input type="text" matInput formControlName="name">
+                </mat-form-field>
+                <div>
+                    <button mat-raised-button color="primary" type="submit">Agregar categoría</button>
+                    <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</div>

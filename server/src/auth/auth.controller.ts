@@ -71,6 +71,7 @@ export class AuthController {
      * @param refreshToken - Token de refrescamiento validado y agregado al request por {@link JwtRefreshGuard}
      * @returns {JwtTokens} - Nuevos JSON Web Tokens de acceso y de refrescamiento
      */
+    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
     async refreshTokens(@User('sub') id, @User('refreshToken') refreshToken): Promise<JwtTokens> {

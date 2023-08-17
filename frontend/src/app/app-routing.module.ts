@@ -4,7 +4,6 @@ import { ProductCardComponent } from './products/product-card/product-card.compo
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { CartComponent } from './carts/cart/cart.component';
-import { HomeComponent } from './core/home/home.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { ProductsTableComponent } from './products/products-table/products-table.component';
@@ -13,11 +12,16 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
 import { UsersTableComponent } from './users/users-table/users-table.component';
 import { AddressCreateComponent } from './addresses/address-create/address-create.component';
 import { AddressGalleryComponent } from './addresses/address-gallery/address-gallery.component';
+import { AddressEditComponent } from './addresses/address-edit/address-edit.component';
+import { CategoriesTableComponent } from './categories/categories-table/categories-table.component';
+import { CategoryCreateComponent } from './categories/category-create/category-create.component';
+import { ProductGalleryComponent } from './products/product-gallery/product-gallery.component';
+import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: ProductGalleryComponent,
   },
   {
     path: 'products/:id',
@@ -44,6 +48,10 @@ const routes: Routes = [
     component: AddressCreateComponent,
   },
   {
+    path: 'users/myprofile/addresses/edit-address/:id',
+    component: AddressEditComponent,
+  },
+  {
     path: 'mycart',
     component: CartComponent,
   },
@@ -66,7 +74,19 @@ const routes: Routes = [
       {
         path: 'users',
         component: UsersTableComponent,
-      }
+      },
+      {
+        path: 'categories',
+        component: CategoriesTableComponent,
+      },
+      {
+        path: 'category-create',
+        component: CategoryCreateComponent,
+      },
+      {
+        path: 'category-edit/:id',
+        component: CategoryEditComponent,
+      },
     ]
   }
 ];

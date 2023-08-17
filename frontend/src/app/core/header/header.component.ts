@@ -21,11 +21,11 @@ export class HeaderComponent implements OnInit {
   userLoggedSubscription?: Subscription;
 
   ngOnInit(): void {
-
+    
     if(this.authService.isUserLogged()) {
       this.isUserLogged = true;
     }
-
+    
     if(this.authService.isUserAdmin()) {
       this.isUserAdmin = true;
     }

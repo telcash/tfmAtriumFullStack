@@ -3,6 +3,6 @@
 </mat-toolbar>
 <div class="address-gallery">
     <div *ngFor="let address of addresses">
-        <app-address-card [address]="address"></app-address-card>
+        <app-address-card [address]="address" (addressDeleted)="addressDeleted()"></app-address-card>
     </div>
 </div>

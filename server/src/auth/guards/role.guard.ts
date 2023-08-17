@@ -18,7 +18,6 @@ export class RoleGuard implements CanActivate {
      * @returns {boolean} - True si el rol del usuario está entre los roles exigidos
      */
     canActivate(context: ExecutionContext): boolean {
-        
         // Extrae el listado roles exigidos en el decorador @Role del endpoint
         const roles: string[] = this.reflector.get<string[]>('roles', context.getHandler());
         
@@ -26,7 +25,7 @@ export class RoleGuard implements CanActivate {
         if(!roles) {
             return true;
         }
-
+        
         // Extrae el rol del usuario del request y si esta incluido en el listado de roles exigidos el Guard da acceso
         // El rol se encuantra en user agregado al request por JwtAccessGuard 
         const request = context.switchToHttp().getRequest();

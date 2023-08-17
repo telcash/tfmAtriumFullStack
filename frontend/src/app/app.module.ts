@@ -21,6 +21,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressesModule } from './addresses/addresses.module';
+import { CategoriesModule } from './categories/categories.module';
 
  
 @NgModule({
@@ -37,6 +38,7 @@ import { AddressesModule } from './addresses/addresses.module';
     CoreModule,
     AuthModule,
     CartsModule,
+    CategoriesModule,
     UsersModule,
     AdminModule,
     MatInputModule,

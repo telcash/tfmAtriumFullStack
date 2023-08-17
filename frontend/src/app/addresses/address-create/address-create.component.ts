@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Address } from '../models/address';
 import { AddressesService } from '../addresses.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-address-create',
@@ -17,7 +18,10 @@ export class AddressCreateComponent {
     'country': new FormControl(''),
   });
 
-  constructor(private addressesService: AddressesService) {}
+  constructor(
+    private addressesService: AddressesService,
+    private router: Router,
+  ) {}
 
   onSubmit() {
     const address: Partial<Address> = {
@@ -27,7 +31,15 @@ export class AddressCreateComponent {
       country: this.addressCreateForm.value.country ?? ''
     }
 
-    this.addressesService.createAddress(address).subscribe();
+    this.addressesService.createAddress(address).subscribe(
+      () => {
+        this.goToAddresses()
+      }
+    );
+  }
+
+  goToAddresses() {
+    this.router.navigateByUrl('users/myprofile/addresses');
   }
 
 }

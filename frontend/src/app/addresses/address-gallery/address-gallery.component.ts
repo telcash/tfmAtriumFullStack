@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddressesService } from '../addresses.service';
 import { Address } from '../models/address';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-address-gallery',
@@ -11,7 +12,10 @@ export class AddressGalleryComponent implements OnInit {
 
   addresses!: Address[];
 
-  constructor(private addressesService: AddressesService) {}
+  constructor(
+    private addressesService: AddressesService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.addressesService.getAddresses().subscribe(
@@ -19,5 +23,12 @@ export class AddressGalleryComponent implements OnInit {
         this.addresses = data;
       }
     )
+  }
+
+  addressDeleted() {
+    const url = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true}).then(() => {
+      this.router.navigate([`/${url}`])
+    })
   }
 }

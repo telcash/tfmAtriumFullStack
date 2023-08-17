@@ -11,6 +11,7 @@ import { AddressGalleryComponent } from './address-gallery/address-gallery.compo
 import { AddressDeleteDialogComponent } from './address-delete-dialog/address-delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { AddressEditComponent } from './address-edit/address-edit.component';
 
 
 
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     AddressCardComponent,
     AddressGalleryComponent,
     AddressDeleteDialogComponent,
+    AddressEditComponent,
   ],
   imports: [
     CommonModule,

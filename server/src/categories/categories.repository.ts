@@ -61,7 +61,7 @@ export class CategoriesRepository {
      * @returns - Categoría eliminada
      */
     async remove(id: number) {
-        return await this.prisma.address.delete({
+        return await this.prisma.category.delete({
             where: {
                 id: id,
             }

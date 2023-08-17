@@ -38,7 +38,9 @@ export class AuthService {
   }
 
   refresh(): Observable<JwtTokens> {
-    return this.http.get<JwtTokens>(this.url + '/refresh');
+    return this.http.get<JwtTokens>(this.url + '/refresh', {
+      withCredentials: true,
+    });
   }
 
   updatePassword(password: string, newPassword: string, passwordConfirmation: string) {

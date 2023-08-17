@@ -17,11 +17,19 @@ export class AddressesService {
     return this.http.get<Address[]>(this.url);
   }
 
+  getAddress(id: number): Observable<Address> {
+    return this.http.get<Address>(`${this.url}/${id}`);
+  }
+
   createAddress(address: Partial<Address>): Observable<Address> {
     return this.http.post<Address>(this.url, address);
   }
 
   deleteAddress(id: number): Observable<Address> {
     return this.http.delete<Address>(`${this.url}/${id}`);
+  }
+
+  updateAddress(id: number, address: any): Observable<Address> {
+    return this.http.patch<Address>(`${this.url}/${id}`, address);
   }
 }

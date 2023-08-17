@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Address } from '../models/address';
 import { AddressesService } from '../addresses.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { AddressDeleteDialogComponent } from '../address-delete-dialog/address-d
 })
 export class AddressCardComponent {
   @Input() address!: Address;
+  @Output() addressDeleted = new EventEmitter();
 
   constructor(
     private addressesService: AddressesService,
@@ -20,6 +21,7 @@ export class AddressCardComponent {
 
   deleteAddress() {
     this.addressesService.deleteAddress(this.address.id).subscribe();
+    this.addressDeleted.emit();
   }
 
   openDeleteDialog() {
