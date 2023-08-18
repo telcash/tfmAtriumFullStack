@@ -9,7 +9,7 @@ export class SetLoginCookiesInterceptor implements NestInterceptor {
       const role = req.user.role;
       const res = context.switchToHttp().getResponse();
       res.cookie('role', role, {
-        expires: new Date(Date.now() + 3600*1000 ),
+        expires: new Date(Date.now() + 3600 * 1000 ),
         sameSite: true,
       });
       return data;

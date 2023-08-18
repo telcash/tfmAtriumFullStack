@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private cookieService: CookieService,
   ) {}
 
   userLoggedSubscription?: Subscription;
@@ -44,6 +46,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout().subscribe(
       () => {
         this.authService.deleteTokens();
+        this.cookieService.delete('role');
         this.isUserLogged = false;
         this.isUserAdmin = false;
         this.router.navigate(['/']);
