@@ -4,6 +4,10 @@ import { ProductsService } from '../products.service';
 import { Product } from '../models/product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalConstants } from 'src/app/config/global-constants';
+import { Category } from 'src/app/categories/models/category';
+import { Observable, concat } from 'rxjs';
+import { ProductCategory } from '../models/product-category';
+import { ProductCategoriesService } from '../product-categories.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -22,11 +26,13 @@ export class ProductEditComponent implements OnInit {
   });
 
   product!: Product;
+  categories: Category[] = [];
   file: File | null = null;
   imgUrl: string = GlobalConstants.API_STATIC_PRODUCTS_IMG;
 
   constructor(
     private productsService: ProductsService,
+    private productCategoriesService: ProductCategoriesService,
     private route: ActivatedRoute,
     private router: Router,
   ) {}
@@ -40,6 +46,7 @@ export class ProductEditComponent implements OnInit {
     this.productsService.getProduct(productId).subscribe(
       (data) => {
         this.product = data;
+        this.categories = [...this.product.categories];
         this.setFormValues(this.product);
         this.productEditForm.markAsPristine();
       }
@@ -59,6 +66,23 @@ export class ProductEditComponent implements OnInit {
     if (this.file) {
       formData.append('file', this.file);
     }
+
+    const obs: Observable<ProductCategory>[] = [];
+
+    for(const category of this.product.categories) {
+      if(this.categories.map(category => category.id).includes(category.id)) {
+        this.categories.splice(this.categories.indexOf(category), 1)
+      } else {
+        obs.push(this.productCategoriesService.removeCategoryOfProduct({productId: this.product.id, categoryId: category.id}))
+      }
+    }
+
+    for(const category of this.categories) {
+      obs.push(this.productCategoriesService.addCategoryToProduct({productId: this.product.id, categoryId: category.id}))
+    }
+
+    concat(...obs).subscribe();
+      
     this.productsService.updateProduct(productId, formData).subscribe(
       () => {
         this.router.navigateByUrl('/admin/products');

@@ -67,15 +67,31 @@ export class ProductsRepository {
      * @returns - Listado de productos
      */
     async findAll(categoryId?: number) {
-        return await this.prisma.product.findMany({
+        const products = await this.prisma.product.findMany({
             where: {
                 categories: {
                     every: {
                         categoryId: categoryId,
                     }
                 }
+            },
+            include: {
+                categories: {
+                    select: {
+                        category: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        },
+                    }
+                }
             }
-        });
+        })
+        const result = products.map((product) => {
+            return {...product, categories: product.categories.map((category) => category.category)}
+        })
+        return result;
     }
 
     /**
@@ -105,11 +121,24 @@ export class ProductsRepository {
      * @returns - Producto buscado
      */
     async findOne(id: number) {
-        return await this.prisma.product.findUnique({
-          where: {
-            id: id,
-          },
+        const product = await this.prisma.product.findUnique({
+            where: {
+                id: id,
+            },
+            include: {
+                categories: {
+                    select: {
+                        category: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
+            }
         });
+        return {...product, categories: product.categories.map((category) => category.category)}
     }
 
     /**
@@ -210,7 +239,7 @@ export class ProductsRepository {
         return await this.prisma.product.delete({
             where: {
               id: id
-            }
+            },
         });
     }
 

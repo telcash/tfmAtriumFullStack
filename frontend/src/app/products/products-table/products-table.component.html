@@ -31,6 +31,15 @@
             <td mat-cell *matCellDef="let element"> {{element.availability}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="categories">
+            <th mat-header-cell *matHeaderCellDef> Categorías </th>
+            <td mat-cell *matCellDef="let element">
+                <div *ngFor="let category of element.categories">
+                        {{category.name}} 
+                </div>
+            </td>
+        </ng-container>
+
         <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef> Imagen </th>
             <td mat-cell *matCellDef="let element">

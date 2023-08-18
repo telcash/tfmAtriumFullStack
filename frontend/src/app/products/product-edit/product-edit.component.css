@@ -36,6 +36,10 @@ mat-form-field {
     width: 80%;
 }
 
+.categories-field {
+    width: 80%;
+}
+
 .image-container {
     display: flex;
     align-items: center;

@@ -17,6 +17,8 @@ export class ProductCategoriesController {
     return this.productCategoriesService.create(createProductCategoryDto);
   }
 
+  
+
   @Delete()
   async remove(@Body() createProductCategoryDto: CreateProductCategoryDto) {
     return this.productCategoriesService.remove(createProductCategoryDto);

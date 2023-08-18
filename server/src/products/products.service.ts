@@ -36,6 +36,10 @@ export class ProductsService {
    * @returns - Listado de productos
    */
   async findAll(role: UserRole, categoryId?: number) {
+    // Si no hay categoryId lo convertimos a undefined
+    // Prisma genera un error con NaN
+    // Otra opcion es crear un Pipe que realice esta comprobación y el parsing a Int
+    categoryId = categoryId ? categoryId : undefined;
     // Retorna un listado de todos los productos sin restricciones
     if (role === UserRole.ADMIN) {
       return await this.productsRepository.findAll(categoryId);
@@ -77,13 +81,11 @@ export class ProductsService {
       if (oldImage) {
         this.storageService.deleteFile(this.storageService.imagesDestination, oldImage);
       }
+      updateProductDto = {...updateProductDto, image: fileName}
     }
 
     // Peticion para actualizar el producto en la base de datos
-    return await this.productsRepository.update(id, {
-      ...updateProductDto,
-      image: fileName,
-    });
+    return await this.productsRepository.update(id, updateProductDto);
   }
 
   /**

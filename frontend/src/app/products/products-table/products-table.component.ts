@@ -11,7 +11,7 @@ import { GlobalConstants } from 'src/app/config/global-constants';
   styleUrls: ['./products-table.component.css']
 })
 export class ProductsTableComponent implements OnInit {
-  displayedColumns = ['id', 'name', 'description', 'price', 'stock', 'availability', 'image', 'edit', 'delete'];
+  displayedColumns = ['id', 'name', 'description', 'price', 'stock', 'availability', 'categories', 'image', 'edit', 'delete'];
   products!: Product[];
   imgUrl: string = GlobalConstants.API_STATIC_PRODUCTS_IMG;
 
@@ -32,7 +32,7 @@ export class ProductsTableComponent implements OnInit {
 
   getProductList() {
     this.productsService.getAllProducts().subscribe((
-      data  => {
+      (data)  => {
         this.products = data;
       }
     ))
