@@ -5,6 +5,7 @@ import { StorageService } from 'src/common/services/storage.service';
 import { ProductsRepository } from './products.repository';
 import { ProductEntity } from './entities/product.entity';
 import { UserRole } from 'src/users/constants/user-role';
+import { UpdateCartItemDto } from 'src/carts/cart-items/dto/update-cart-item.dto';
 
 @Injectable()
 export class ProductsService {
@@ -105,11 +106,11 @@ export class ProductsService {
     return product;
   }
 
-  async updateOnCartCheckout(products) {
+  async updateOnCartCheckout(products: UpdateCartItemDto[]) {
     return await this.productsRepository.updateOnCartCheckout(products);
   }
 
-  async rollbackCartCheckout(products) {
+  async rollbackCartCheckout(products: UpdateCartItemDto[]) {
     return await this.productsRepository.rollbackCartCheckout(products);
   }
 }

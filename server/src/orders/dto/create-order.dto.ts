@@ -1,4 +1,5 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { OrderStatus } from "../constants/order-status";
 
 export class CreateOrderDto {
     @IsOptional()
@@ -10,8 +11,10 @@ export class CreateOrderDto {
 
     total: number;
 
+    @IsEnum(OrderStatus)
     status: string;
 
+    @IsString()
     stripeClientSecret: string;
 
     @IsNumber()

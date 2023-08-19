@@ -5,6 +5,7 @@ import { JwtTokens } from './models/jwt-tokens';
 import { User } from './models/user';
 import { CookieService } from 'ngx-cookie-service';
 import { GlobalConstants } from '../config/global-constants';
+import decode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
@@ -73,5 +74,16 @@ export class AuthService {
   deleteTokens() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+  }
+
+  userHasRole(role: string): boolean {
+    const token = localStorage.getItem('refreshToken');
+    if(token) {
+      const tokenPayload: any = decode(token);
+      if(tokenPayload.role === role) {
+        return true;
+      }
+    }
+    return false;
   }
 }

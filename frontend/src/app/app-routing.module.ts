@@ -17,6 +17,7 @@ import { CategoriesTableComponent } from './categories/categories-table/categori
 import { CategoryCreateComponent } from './categories/category-create/category-create.component';
 import { ProductGalleryComponent } from './products/product-gallery/product-gallery.component';
 import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
+import { roleGuard } from './auth/guards/role-guard';
 
 const routes: Routes = [
   {
@@ -58,6 +59,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminHomeComponent,
+    canActivate: [roleGuard('ADMIN', '/')],
     children: [
       {
         path: 'products',

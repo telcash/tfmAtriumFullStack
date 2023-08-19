@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -21,7 +22,7 @@ import { UpdatePasswordComponent } from './update-password/update-password.compo
     UpdatePasswordComponent,
   ],
   providers: [
-    AuthService
+    AuthService,
   ],
   imports: [
     CommonModule,
@@ -32,6 +33,7 @@ import { UpdatePasswordComponent } from './update-password/update-password.compo
     MatToolbarModule,
     MatButtonModule,
     ReactiveFormsModule,
+    RouterModule,
   ],
   exports: [
     LoginComponent,

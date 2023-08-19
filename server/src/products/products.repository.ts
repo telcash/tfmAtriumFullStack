@@ -3,6 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { Prisma } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
+import { UpdateCartItemDto } from "src/carts/cart-items/dto/update-cart-item.dto";
 
 /**
  * Repositorio para manejar entidades Product en la base de datos
@@ -175,7 +176,7 @@ export class ProductsRepository {
      * @param products - Listado de productos
      * @returns - Transacción
      */
-    async updateOnCartCheckout(products) {
+    async updateOnCartCheckout(products: UpdateCartItemDto[]) {
         let operations = [];
 
         for(const product of products) {
@@ -211,7 +212,7 @@ export class ProductsRepository {
         return await this.prisma.$transaction(operations);
     }
 
-    async rollbackCartCheckout(products) {
+    async rollbackCartCheckout(products: UpdateCartItemDto[]) {
         let operations = [];
 
         for(const product of products) {

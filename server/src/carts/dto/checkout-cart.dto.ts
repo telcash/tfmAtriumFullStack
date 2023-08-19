@@ -6,7 +6,7 @@ import { CreateOrderDto } from "src/orders/dto/create-order.dto";
  * Dto para el checkout de un carrito
  */
 export class CheckoutCartDto {
-    [x: string]: {};
+    
     @IsOptional()
     @IsNumber()
     userId?: number;
