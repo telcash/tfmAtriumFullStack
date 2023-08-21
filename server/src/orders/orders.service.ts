@@ -21,28 +21,61 @@ export class OrdersService {
 
   /**
    * Gestiona la busqueda de un listado de todas las ordenes
+   * Invoca al método findAll() de {@link OrdersRepository} para hacer la busqueda
    * @returns - Listado de las ordenes
    */
   async findAll() {
     return await this.ordersRepository.findAll();
   }
 
+  /**
+   * Gestiona la busqueda de una orden en la base de datos
+   * Invoca al método findOne() de {@link OrdersRepository} para hacer la busqueda
+   * @param {number} id - Id de la orden 
+   * @returns - Orden buscada
+   */
   async findOne(id: number) {
     return await this.ordersRepository.findOne(id);
   }
 
+  /**
+   * Gestiona la actualización de una orden en la base de datos
+   * Invoca al método update() de {@link OrdersRepository} para hacer la actualización
+   * @param {number} id - Id de la orden
+   * @param {UpdateOrderDto} updateOrderDto - DTO con los datos para actualizar 
+   * @returns - Orden actualizada
+   */
   async update(id: number, updateOrderDto: UpdateOrderDto) {
     return await this.ordersRepository.update(id, updateOrderDto);
   }
 
+  /**
+   * Gestiona la eliminación de una orden de la base de datos
+   * Invoca al método remove() de {@link OrdersRepository} para eliminar la orden
+   * @param {number} id - Id de la orden 
+   * @returns - Orden eliminada
+   */
   async remove(id: number) {
     return await this.ordersRepository.remove(id);
   }
 
+  /**
+   * Gestiona la busqueda de todas las ordenes de un usuario
+   * Invoca al método findAllForUser() de {@link OrdersRepository} para gestionar la busqueda
+   * @param {number} userId - Id del usuario
+   * @returns - Listado de ordenes buscadas
+   */
   async findAllForUser(userId: number) {
     return await this.ordersRepository.findAllForUser(userId);
   }
 
+  /**
+   * Gestiona la busqueda de una orden para un usuario
+   * Invoca al método findOneForUser() de {@link OrdersRepository} para gestionar la busqueda
+   * @param {number} id - Id de la orden 
+   * @param {number} userId - Id del usuario 
+   * @returns - Orden buscada
+   */
   async findOneForUser(id: number, userId: number) {
     return await this.ordersRepository.findOneForUser(id, userId);
   }

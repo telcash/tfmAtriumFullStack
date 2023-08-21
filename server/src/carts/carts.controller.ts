@@ -54,6 +54,11 @@ export class CartsController {
    return new CartEntity(await this.cartsService.emptyCart(+cart.id));
   }
 
+  /**
+   * Endpoint para solicitud de checkout de un carrito
+   * @param {CheckoutCartDto} checkoutCartDto - Dto con los datos para el checkout
+   * @returns - Objecto con propiedad clientSecret con la clave de Stripe para el pago
+   */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Post('/mycart/checkout')
   async checkout(@Body(CheckoutPipe) checkoutCartDto: CheckoutCartDto) {

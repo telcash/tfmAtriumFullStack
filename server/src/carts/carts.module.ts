@@ -9,6 +9,9 @@ import { OrdersModule } from 'src/orders/orders.module';
 import { AddressesModule } from 'src/addresses/addresses.module';
 import { UsersModule } from 'src/users/users.module';
 
+/**
+ * Modulo encargado de las funciones del carrito de compras
+ */
 @Module({
   controllers: [CartsController],
   providers: [CartsService, CartsRepository],

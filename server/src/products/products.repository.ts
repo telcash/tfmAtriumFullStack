@@ -212,6 +212,11 @@ export class ProductsRepository {
         return await this.prisma.$transaction(operations);
     }
 
+    /**
+     * Transacción que actualiza en la base de datos el stock de todos los productos cuando se revierte un checkout
+     * @param products 
+     * @returns 
+     */
     async rollbackCartCheckout(products: UpdateCartItemDto[]) {
         let operations = [];
 

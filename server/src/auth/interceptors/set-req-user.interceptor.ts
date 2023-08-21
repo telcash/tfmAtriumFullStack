@@ -42,6 +42,7 @@ export class SetRequestUserInterceptor implements NestInterceptor {
       })
     } 
 
+    // LLamado al siguiente manejador de la solictud
     return next.handle();
   }
 }

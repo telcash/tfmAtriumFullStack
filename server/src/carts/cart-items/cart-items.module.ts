@@ -5,6 +5,9 @@ import { CartsModule } from '../carts.module';
 import { ProductsModule } from 'src/products/products.module';
 import { CartItemsRepository } from './cart-items.repository';
 
+/**
+ * Modulo encargado de las funciones relacionadas con los items en un carrito
+ */
 @Module({
   controllers: [CartItemsController],
   providers: [CartItemsService, CartItemsRepository],

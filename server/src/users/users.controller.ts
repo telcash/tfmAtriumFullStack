@@ -47,6 +47,11 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
+    /**
+     * Endpoint para la eliminación de un usuario
+     * @param {string} id - Parámetro con el id del usuario a eliminar 
+     * @returns {UserEntity} - Usuario eliminado
+     */
     @UseGuards(LastAdminGuard, RoleGuard)
     @Roles(UserRole.ADMIN)
     @Delete(':id')

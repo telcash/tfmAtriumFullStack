@@ -39,9 +39,9 @@ export class OrdersRepository {
     }
     
     /**
-     * 
-     * @param id 
-     * @returns 
+     * Busca en la base de datos una orden por su id
+     * @param {number} id - Id de la orden
+     * @returns - Orden buscada
      */
     async findOne(id: number) {
         return await this.prisma.order.findUnique({
@@ -51,6 +51,12 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Actualiza en la base de datos una orden
+     * @param {number} id - Id de la orden
+     * @param {UpdateOrderDto} updateOrderDto - Dto con los datos para actualizar la orden 
+     * @returns - Orden actualizada
+     */
     async update(id: number, updateOrderDto: UpdateOrderDto) {
         return await this.prisma.order.update({
             where: {
@@ -60,6 +66,11 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Elimina una orden de la base de datos
+     * @param {number} id - Id de la orden 
+     * @returns - Orden eliminada
+     */
     async remove(id: number) {
         return await this.prisma.order.delete({
             where: {
@@ -68,6 +79,11 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Busca en la base de datos todas las ordenes pertenecientes a un usuario
+     * @param {number} userId - Id del usuario
+     * @returns - Listado de ordenes
+     */
     async findAllForUser(userId: number) {
         return await this.prisma.order.findMany({
             where: {
@@ -76,6 +92,12 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Busca en la base de datos una orden de un usuario
+     * @param {number} id - Id de la orden 
+     * @param {number} userId - Id del usuario
+     * @returns - Orden buscada
+     */
     async findOneForUser(id: number, userId: number) {
         return await this.prisma.order.findUnique({
             where: {

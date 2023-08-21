@@ -12,7 +12,7 @@ export class CartItemsRepository {
 
     /**
      * Busca todos los items en un carrito
-     * @param cartId - Id del carrito
+     * @param {number} cartId - Id del carrito
      * @returns - Listado de items
      */
     async findAll(cartId: number) {
@@ -23,6 +23,12 @@ export class CartItemsRepository {
         })
     }
 
+    /**
+     * Encuentra un item en un carrito
+     * @param {number} productId - Id del producto
+     * @param {number} cartId - Id del carrito
+     * @returns - Item buscado
+     */
     async findOne(productId: number, cartId: number) {
         return await this.prisma.cartItem.findUnique({
             where: {
@@ -64,6 +70,11 @@ export class CartItemsRepository {
         })
     }
 
+    /**
+     * Actualiza, o crea si no existe, un item en un carrito
+     * @param {CreateCartItemDto} createCartItemDto - Dto para creación/actualización del item
+     * @returns - Item actualizado o creado
+     */
     async upsert(createCartItemDto: CreateCartItemDto) {
         return await this.prisma.cartItem.upsert({
             where: {
@@ -84,8 +95,8 @@ export class CartItemsRepository {
 
     /**
      * Elimina un CartItem de la base de datos
-     * @param productId - Id del producto
-     * @param cartId - Id del carrito
+     * @param {number} productId - Id del producto
+     * @param {number} cartId - Id del carrito
      */
     async remove(productId: number, cartId: number) {
         return await this.prisma.cartItem.delete({

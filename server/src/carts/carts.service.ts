@@ -98,9 +98,9 @@ export class CartsService {
   }
 
   /**
-   * Checkout
-   * @param checkoutCartDto 
-   * @returns 
+   * Realiza el checkout de un carrito
+   * @param {CheckoutCartDto} checkoutCartDto - Dto con los datos para realizar el checkout
+   * @returns - Objecto con propiedad clientSecret con la clave de Stripe para el pago
    */
   async checkout(checkoutCartDto: CheckoutCartDto) {
     // Actualiza el stock de todos los productos comprados
@@ -120,8 +120,10 @@ export class CartsService {
     // Creamos una nueva orden para el cliente
     checkoutCartDto.createOrderDto.stripeClientSecret = paymentIntent.client_secret;
     await this.ordersService.create(checkoutCartDto.createOrderDto, checkoutCartDto.items);
+
     // Vaciamos el carrito
     await this.emptyCart(checkoutCartDto.cart.id);
+    
     // Enviamos al cliente el secreto del paymentIntent
     return { clientSecret: paymentIntent.client_secret}
   }

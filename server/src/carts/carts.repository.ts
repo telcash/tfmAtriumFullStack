@@ -68,6 +68,12 @@ export class CartsRepository {
         });
     }
 
+    /**
+     * Actualiza un carrito en la base de datos
+     * @param {number} cartId - Id del carrito 
+     * @param updateCartDto - Dto para la actualización
+     * @returns - Carrito actualizado
+     */
     async update(cartId: number, updateCartDto: UpdateCartDto) {
         return await this.prisma.cart.update({
             data: updateCartDto,
