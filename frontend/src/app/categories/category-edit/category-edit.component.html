@@ -1,8 +1,8 @@
-<div class="category-edit-container">
-    <div class="category-edit-content">
-        <mat-toolbar class="category-edit-toolbar" color="primary">Editar categoría</mat-toolbar>
-        <mat-card class="category-edit-card">
-            <form [formGroup]="categoryEditForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">Editar categoría</mat-toolbar>
+        <mat-card class="form-card">
+            <form class="form-main" [formGroup]="categoryEditForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Nombre</mat-label>
                     <mat-icon matPrefix>title</mat-icon>

@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { Router } from '@angular/router';
+import { ProductCategory } from '../models/product-category';
+import { Category } from 'src/app/categories/models/category';
+import { Observable, concat } from 'rxjs';
+import { ProductCategoriesService } from '../product-categories.service';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-product-create',
@@ -19,10 +24,12 @@ export class ProductCreateComponent {
     'image': new FormControl(null),
   });
 
+  categories: Category[] = [];
   file: File | null = null;
 
   constructor(
     private productsService: ProductsService,
+    private productCategoriesService: ProductCategoriesService,
     private router: Router,
   ) {}
 
@@ -38,9 +45,24 @@ export class ProductCreateComponent {
     if (this.file) {
       formData.append('file', this.file);
     }
+
+    const obs: Observable<ProductCategory>[] = [];
+
     this.productsService.createProduct(formData).subscribe(
-      () => {
-        this.goToProducts();
+      (data: Product) => {
+        for(const category of this.categories) {
+          obs.push(this.productCategoriesService.addCategoryToProduct(
+            {
+              productId: data.id,
+              categoryId: category.id,
+            }
+          ))
+        }
+        concat(...obs).subscribe(
+          () => {
+            this.goToProducts();
+          }
+        )
       }
     );
   }

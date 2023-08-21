@@ -1,8 +1,8 @@
-<div class="signup-container">
-    <div class="signup-content">
-        <mat-toolbar class="signup-toolbar" color="primary">Charlie Sabores</mat-toolbar>
-        <mat-card>
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">Charlie Sabores</mat-toolbar>
+        <mat-card class="form-card">
+            <form class="form-main" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Nombres</mat-label>
                     <mat-icon matPrefix>person</mat-icon>

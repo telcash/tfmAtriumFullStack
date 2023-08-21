@@ -1,8 +1,8 @@
-<div class="category-create-container">
-    <div class="category-create-content">
-        <mat-toolbar class="category-create-toolbar" color="primary">Crear categoría</mat-toolbar>
-        <mat-card class="category-create-card">
-            <form [formGroup]="categoryCreateForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">Crear categoría</mat-toolbar>
+        <mat-card class="form-card">
+            <form class="form-main" [formGroup]="categoryCreateForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Nombre</mat-label>
                     <mat-icon matPrefix>title</mat-icon>

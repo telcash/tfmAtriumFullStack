@@ -1,8 +1,8 @@
-<div class="product-edit-container">
-    <div class="product-edit-content">
-        <mat-toolbar class="product-edit-toolbar" color="primary">EDITAR PRODUCTO</mat-toolbar>
-        <mat-card class="product-edit-card">
-            <form [formGroup]="productEditForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">EDITAR PRODUCTO</mat-toolbar>
+        <mat-card class="form-card">
+            <form class="form-main" [formGroup]="productEditForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Nombre</mat-label>
                     <mat-icon matPrefix>title</mat-icon>

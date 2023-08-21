@@ -1,8 +1,8 @@
-<div class="product-create-container">
-    <div class="product-create-content">
-        <mat-toolbar class="product-create-toolbar" color="primary">AGREGAR PRODUCTO</mat-toolbar>
-        <mat-card class="product-create-card">
-            <form [formGroup]="productCreateForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">AGREGAR PRODUCTO</mat-toolbar>
+        <mat-card class="form-card">
+            <form class="form-main" [formGroup]="productCreateForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
                     <mat-label>Nombre</mat-label>
                     <mat-icon matPrefix>title</mat-icon>
@@ -42,7 +42,9 @@
                         {{file?.name || "No file uploaded yet."}}
                     </div>
                 </mat-form-field>
-                
+                <div class="categories-field">
+                    <app-product-categories [(categories)]="categories"></app-product-categories>
+                </div>
                 <div>
                     <button mat-raised-button color="primary" type="submit">Agregar producto</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToProducts()">Cancelar</button>

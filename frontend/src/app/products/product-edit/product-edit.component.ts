@@ -78,7 +78,12 @@ export class ProductEditComponent implements OnInit {
     }
 
     for(const category of this.categories) {
-      obs.push(this.productCategoriesService.addCategoryToProduct({productId: this.product.id, categoryId: category.id}))
+      obs.push(this.productCategoriesService.addCategoryToProduct(
+        {
+          productId: this.product.id,
+          categoryId: category.id,
+        }
+      ))
     }
 
     concat(...obs).subscribe();
