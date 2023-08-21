@@ -1,0 +1,53 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="56"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <div class="sidemenu">
+        <button *ngIf="isUserAdmin" mat-raised-button (click)="drawer.toggle()" routerLink="/admin">Admin</button>
+        <button *ngIf="!isUserLogged" mat-raised-button (click)="drawer.toggle()" routerLink="/auth/signup">Registrarse</button>
+        <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+        <mat-menu #account yPosition="below" xPosition="after">
+          <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile">Mi Perfil</button>
+          <button mat-menu-item (click)="drawer.toggle()">Mis Pedidos</button>
+          <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile/addresses">Mis Direcciones</button>
+          <button mat-menu-item (click)="drawer.toggle()" (click)="logout()">Cerrar Sesión</button>
+        </mat-menu>
+        <button *ngIf="!isUserLogged" (click)="drawer.toggle()" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span routerLink="">Charlie Sabores</span>
+      <span class="spacer"></span>
+      <div *ngIf="!(isHandset$ | async)">
+        <button *ngIf="isUserAdmin" mat-raised-button routerLink="/admin">Admin</button>
+        <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
+        <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+        <mat-menu #account yPosition="below">
+          <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
+          <button mat-menu-item>Mis Pedidos</button>
+          <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
+          <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+        </mat-menu>
+        <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
+      </div>
+      <button mat-icon-button routerLink="/mycart">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </mat-toolbar>
+    <section class="home-container">
+      <router-outlet></router-outlet>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

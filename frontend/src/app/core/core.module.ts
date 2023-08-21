@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,11 +7,13 @@ import { ProductsModule } from '../products/products.module';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,
@@ -23,9 +24,11 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   exports: [
-    HeaderComponent,
+    HomeComponent,
   ]
 })
 export class CoreModule { }

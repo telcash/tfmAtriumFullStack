@@ -1,26 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable, Subscription } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class HeaderComponent implements OnInit {
-
+export class HomeComponent implements OnInit, OnDestroy{
+  private breakpointObserver = inject(BreakpointObserver);
   isUserLogged: boolean = false;
   isUserAdmin: boolean = false;
+  userLoggedSubscription?: Subscription;
 
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+  
   constructor(
     private authService: AuthService,
     private router: Router,
     private cookieService: CookieService,
   ) {}
-
-  userLoggedSubscription?: Subscription;
 
   ngOnInit(): void {
     
@@ -59,5 +66,10 @@ export class HeaderComponent implements OnInit {
       this.userLoggedSubscription.unsubscribe();
     }
   }
+
+
+
+
+
 
 }
