@@ -106,11 +106,21 @@ export class ProductsService {
     return product;
   }
 
-  async updateOnCartCheckout(products: UpdateCartItemDto[]) {
-    return await this.productsRepository.updateOnCartCheckout(products);
+  /**
+   * Actualiza el inventario de los productos cuando se genera una orden desde un carrito
+   * @param {UpdateCartItemDto[]} updateCartItemDto - Listado de items en el carrito
+   * @returns - Productos actualizados
+   */
+  async updateOnCartCheckout(updateCartItemDto: UpdateCartItemDto[]) {
+    return await this.productsRepository.updateOnCartCheckout(updateCartItemDto);
   }
 
-  async rollbackCartCheckout(products: UpdateCartItemDto[]) {
-    return await this.productsRepository.rollbackCartCheckout(products);
+  /**
+   * Actualiza el inventario de los productos cuando se revierte una orden desde un carrito
+   * @param {UpdateCartItemDto[]} updateCartItemDto - Listado de items en el carrito 
+   * @returns 
+   */
+  async rollbackCartCheckout(updateCartItemDto: UpdateCartItemDto[]) {
+    return await this.productsRepository.rollbackCartCheckout(updateCartItemDto);
   }
 }

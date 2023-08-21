@@ -10,6 +10,7 @@ import {MatListModule} from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -26,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatListModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
   ],

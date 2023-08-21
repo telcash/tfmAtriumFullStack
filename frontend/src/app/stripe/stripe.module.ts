@@ -1,0 +1,17 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.component';
+import { StripeCompletionComponent } from './stripe-completion/stripe-completion.component';
+
+
+
+@NgModule({
+  declarations: [
+    StripeCheckoutComponent,
+    StripeCompletionComponent
+  ],
+  imports: [
+    CommonModule,
+  ]
+})
+export class StripeModule { }

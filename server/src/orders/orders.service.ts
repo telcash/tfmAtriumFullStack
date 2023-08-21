@@ -16,7 +16,7 @@ export class OrdersService {
    * @returns - Orden creada
    */
   async create(createOrderDto: CreateOrderDto, items) {
-    return this.ordersRepository.create(createOrderDto, items);
+    return await this.ordersRepository.create(createOrderDto, items);
   }
 
   /**

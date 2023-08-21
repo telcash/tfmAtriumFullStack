@@ -85,9 +85,9 @@ export class CartsService {
     // Inicia el total en cero
     let total = 0;
 
-    // Para cada producto en el carrito multiplica su precio por la cantidad y lo agrega al total
-    for (const product of cart.products) {
-      total += product.price * product.quantity
+    // Para cada item(producto) en el carrito multiplica su precio por la cantidad y lo agrega al total
+    for (const item of cart.items) {
+      total += item.price * item.quantity
     }
 
     // Actualiza el carrito en la base de datos
@@ -104,7 +104,7 @@ export class CartsService {
    */
   async checkout(checkoutCartDto: CheckoutCartDto) {
     // Actualiza el stock de todos los productos comprados
-    await this.productsService.updateOnCartCheckout(checkoutCartDto.cart.products);
+    await this.productsService.updateOnCartCheckout(checkoutCartDto.cart.items);
     
     // Envía a Stripe la solicitud de intento de pago
     const amount = checkoutCartDto.cart.total * 100;
@@ -113,17 +113,15 @@ export class CartsService {
       // Si hay un error en la solicitud revertimos el stock de los productos
       // Devolvemos un error
       .catch(async () => {
-        await this.productsService.rollbackCartCheckout(checkoutCartDto.cart.products);
+        await this.productsService.rollbackCartCheckout(checkoutCartDto.cart.items);
         throw new ServiceUnavailableException("Can't connect to payment gateway")
-    });
+    })
 
     // Creamos una nueva orden para el cliente
     checkoutCartDto.createOrderDto.stripeClientSecret = paymentIntent.client_secret;
     await this.ordersService.create(checkoutCartDto.createOrderDto, checkoutCartDto.items);
-    
     // Vaciamos el carrito
     await this.emptyCart(checkoutCartDto.cart.id);
-    
     // Enviamos al cliente el secreto del paymentIntent
     return { clientSecret: paymentIntent.client_secret}
   }

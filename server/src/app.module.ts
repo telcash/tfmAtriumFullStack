@@ -45,7 +45,7 @@ import { CategoriesModule } from './categories/categories.module';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    /* {
+/*     {
       provide: APP_FILTER,
       useClass: PrismaExceptionFilter,
     }, */

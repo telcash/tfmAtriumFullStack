@@ -43,4 +43,10 @@ export class CartsService {
       withCredentials: true,
     })
   }
+
+  checkout(addressId: number): Observable<any> {
+    return this.http.post(this.myCartUrl + '/checkout', {
+      addressId: addressId,
+    });
+  }
 }

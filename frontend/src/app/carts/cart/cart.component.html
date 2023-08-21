@@ -1,5 +1,30 @@
 <div class="cart-container">
     <div class="cart-list-container">
+        <h1 *ngIf="cartItems?.length === 0">No hay productos en el carrito</h1>
+
+        <form>
+            <mat-form-field>
+                <mat-label>Seleccione una dirección de envío</mat-label>
+                <mat-select [formControl]="selectAddress" [(value)]="addressSelectedId">
+                    <mat-option value="0">Ninguna</mat-option>
+                    <mat-option *ngFor="let address of addresses" [value]="address.id">
+                        {{address.street}}, {{address.city}}, {{address.postalCode}}, {{address.country}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+
+        <mat-card *ngIf="addressSelected" class="address-card">
+            <mat-card-content>
+                <ul>
+                    <li>{{addressSelected.street}}</li>
+                    <li>{{addressSelected.city}}</li>
+                    <li>{{addressSelected.postalCode}}</li>
+                    <li>{{addressSelected.country}}</li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
         <mat-list class="cart-list" *ngFor="let cartItem of cartItems">
             <app-cart-item-card (itemDeleted)="itemDeleted()" [cartItem]="cartItem"></app-cart-item-card>
             <mat-divider [vertical]="true"></mat-divider>
@@ -11,7 +36,7 @@
                 <mat-card-title>{{total | currency: 'EUR':'symbol'}}</mat-card-title>
             </mat-card-header>
             <mat-card-actions>
-                <button mat-button>TRAMITAR PEDIDO</button>
+                <button mat-button type="button" (click)="checkout()">TRAMITAR PEDIDO</button>
             </mat-card-actions>
         </mat-card>
     </div>

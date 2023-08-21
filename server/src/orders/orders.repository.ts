@@ -14,14 +14,16 @@ export class OrdersRepository {
      * @returns - Orden creda
      */
     async create(createOrderDto: CreateOrderDto, items) {
+        console.log(createOrderDto)
+        console.log(items)
         return await this.prisma.order.create({
             data: {
-                addressId: createOrderDto.addressId,
+                userId: createOrderDto.userId,
+                total: createOrderDto.total,
                 status: createOrderDto.status,
                 stripeClientSecret: createOrderDto.stripeClientSecret,
-                total: createOrderDto.total,
-                userId: createOrderDto.userId,
-                products: {
+                addressId: createOrderDto.addressId,
+                items: {
                     create: items,
                 }
             }

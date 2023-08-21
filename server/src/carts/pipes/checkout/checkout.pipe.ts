@@ -1,6 +1,7 @@
 import { ArgumentMetadata, BadRequestException, Inject, Injectable, PipeTransform, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { AddressesService } from 'src/addresses/addresses.service';
+import { CreateCartItemDto } from 'src/carts/cart-items/dto/create-cart-item.dto';
 import { CheckoutCartDto } from 'src/carts/dto/checkout-cart.dto';
 import { OrderStatus } from 'src/orders/constants/order-status';
 import { UserRole } from 'src/users/constants/user-role';
@@ -20,7 +21,7 @@ export class CheckoutPipe implements PipeTransform {
     checkoutCartDto.cart = this.req.user.cart;
 
     // Verificamos si el carrito esta vacío, si lo está, lanzamos un error
-    if(checkoutCartDto.cart.products.length === 0) {
+    if(checkoutCartDto.cart.items.length === 0) {
       throw new BadRequestException("Cart is empty");
     }
 
@@ -59,12 +60,12 @@ export class CheckoutPipe implements PipeTransform {
     }
 
     // Mapeamos el listado de productos como items de orden para la creación conjunta con la orden
-    const items: any[] = [];
-    for(const product of checkoutCartDto.cart.products) {
-      const {cartId, createdAt, updatedAt, ...item} = product;
-      items.push(item);
+    const cartItems: CreateCartItemDto[] = [];
+    for(const item of checkoutCartDto.cart.items) {
+      const {cartId, createdAt, updatedAt, ...cartItem} = item;
+      cartItems.push(cartItem);
     }
-    checkoutCartDto.items = items;
+    checkoutCartDto.items = cartItems;
 
     // Devolvemos el dto
     return checkoutCartDto;

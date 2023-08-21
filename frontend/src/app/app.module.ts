@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressesModule } from './addresses/addresses.module';
 import { CategoriesModule } from './categories/categories.module';
+import { StripeModule } from './stripe/stripe.module';
 
  
 @NgModule({
@@ -38,6 +39,7 @@ import { CategoriesModule } from './categories/categories.module';
     CoreModule,
     AuthModule,
     CartsModule,
+    StripeModule,
     CategoriesModule,
     UsersModule,
     AdminModule,

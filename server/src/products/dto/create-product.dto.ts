@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { IsEnum, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEnum, IsOptional, IsString, MinLength } from "class-validator";
 import { ProductAvailability } from "../constants/product-availability";
 
 /**

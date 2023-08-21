@@ -18,6 +18,8 @@ import { CategoryCreateComponent } from './categories/category-create/category-c
 import { ProductGalleryComponent } from './products/product-gallery/product-gallery.component';
 import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
 import { roleGuard } from './auth/guards/role-guard';
+import { StripeCheckoutComponent } from './stripe/stripe-checkout/stripe-checkout.component';
+import { StripeCompletionComponent } from './stripe/stripe-completion/stripe-completion.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,14 @@ const routes: Routes = [
   {
     path: 'mycart',
     component: CartComponent,
+  },
+  {
+    path: 'stripe-checkout',
+    component: StripeCheckoutComponent,
+  },
+  {
+    path: 'stripe-completion',
+    component: StripeCompletionComponent,
   },
   {
     path: 'admin',

@@ -18,7 +18,7 @@ export class CartsRepository {
         return await this.prisma.cart.create({
             data: createCartDto,
             include: {
-                products: true,
+                items: true,
             }
         });
     }
@@ -31,7 +31,7 @@ export class CartsRepository {
         return await this.prisma.cart.findMany({
           include: {
             user: true,
-            products: true,
+            items: true,
           }
         });
     }
@@ -47,7 +47,7 @@ export class CartsRepository {
                 id: id,
             },
             include: {
-                products: true,
+                items: true,
             },
         })
     }
@@ -63,7 +63,7 @@ export class CartsRepository {
                 userId: userId,
             },
             include: {
-                products: true,
+                items: true,
             }
         });
     }
@@ -75,7 +75,7 @@ export class CartsRepository {
                 id: cartId,
             },
             include: {
-                products: true,
+                items: true,
             }
         })
     }
