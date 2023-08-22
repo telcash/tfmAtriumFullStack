@@ -1,18 +1,14 @@
-.home-container {
-  height: 100%;
-  padding: 10px;
-}
-
 .sidenav-container {
   height: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .sidenav {
   width: 200px;
-}
-
-.sidenav-content mat-toolbar{
-  z-index: 2;
 }
 
 .sidenav .mat-toolbar {
@@ -24,12 +20,29 @@
   grid-template-columns: 1fr;
 }
 
-.mat-toolbar.mat-primary {
+.sidenav-content {
+  width: 100%;
+}
+
+.home-toolbar {
+  width: 100%;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 150;
+}
+
+.home-toolbar-menu {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
+
+section {
+  height: 100%;
+  width: 100%;
 }
 
 .spacer {
-  flex: 1 1 auto;
+  flex: 10 1 auto;
 }

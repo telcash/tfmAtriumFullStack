@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { Router } from '@angular/router';
 import { ProductCategory } from '../models/product-category';
@@ -16,10 +16,21 @@ import { Product } from '../models/product';
 export class ProductCreateComponent {
 
   productCreateForm = new FormGroup({
-    'name': new FormControl(''),
-    'description': new FormControl(''),
-    'price': new FormControl(''),
-    'stock': new FormControl(''),
+    'name': new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(20),
+    ]),
+    'description': new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(190),
+    ]),
+    'price': new FormControl('', [
+      Validators.min(0),
+    ]),
+    'stock': new FormControl('', [
+      Validators.min(0),
+    ]),
     'availability': new FormControl(''),
     'image': new FormControl(null),
   });
@@ -58,11 +69,15 @@ export class ProductCreateComponent {
             }
           ))
         }
-        concat(...obs).subscribe(
-          () => {
-            this.goToProducts();
-          }
-        )
+        if(obs.length > 0) {
+          concat(...obs).subscribe(
+            () => {
+              this.goToProducts();
+            }
+          )
+        } else {
+          this.goToProducts();
+        }
       }
     );
   }

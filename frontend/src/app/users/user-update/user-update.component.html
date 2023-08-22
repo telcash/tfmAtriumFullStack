@@ -21,11 +21,11 @@
                     <mat-icon matPrefix>contact_phone</mat-icon>
                     <input type="text" matInput formControlName="mobile">
                 </mat-form-field>
-                <div>
+                <mat-card-actions>
                     <button *ngIf="!isEditable" (click)="enableEdit()" mat-raised-button color="primary">EDITAR DATOS</button>
                     <button *ngIf="isEditable" type="submit" mat-raised-button color="primary">ACTUALIZAR DATOS</button>
                     <button *ngIf="isEditable" (click)="cancelEdit()"  mat-raised-button color="primary">CANCELAR</button>
-                </div>
+                </mat-card-actions>
             </form>
         </mat-card>
     </div>

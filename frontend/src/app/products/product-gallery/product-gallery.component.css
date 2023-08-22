@@ -1,5 +1,12 @@
 .product-gallery {
+    max-width: 100%;
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
     display: flex;
     flex-flow: wrap row;
+    gap: 10px;
+    justify-content: center;
 }
 

@@ -19,7 +19,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar color="primary">
+    <mat-toolbar class="home-toolbar" color="primary">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -30,7 +30,7 @@
       </button>
       <span routerLink="">Charlie Sabores</span>
       <span class="spacer"></span>
-      <div *ngIf="!(isHandset$ | async)">
+      <div class="home-toolbar-menu" *ngIf="!(isHandset$ | async)">
         <button *ngIf="isUserAdmin" mat-raised-button routerLink="/admin">Admin</button>
         <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
         <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
@@ -46,7 +46,7 @@
         <mat-icon>shopping_cart</mat-icon>
       </button>
     </mat-toolbar>
-    <section class="home-container">
+    <section>
       <router-outlet></router-outlet>
     </section>
   </mat-sidenav-content>

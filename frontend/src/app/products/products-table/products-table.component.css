@@ -1,13 +1,25 @@
+.table-container {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
 .products-table-container {
     height: 800px;
-    overflow: auto;
+    width: 100%;
+    overflow: visible;
 }
 
 table {
     width: 100%;
 }
 
+.img-container {
+    max-width: 80px;
+    padding: 10px;
+}
+
 img {
     max-width: 60px;
     aspect-ratio: 1/1;
 }
+

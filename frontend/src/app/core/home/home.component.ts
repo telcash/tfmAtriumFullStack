@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   isUserAdmin: boolean = false;
   userLoggedSubscription?: Subscription;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.HandsetPortrait)
     .pipe(
       map(result => result.matches),
       shareReplay()

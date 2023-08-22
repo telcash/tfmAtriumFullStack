@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { Product } from '../models/product';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,10 +17,20 @@ import { ProductCategoriesService } from '../product-categories.service';
 export class ProductEditComponent implements OnInit {
 
   productEditForm = new FormGroup({
-    'name': new FormControl(''),
-    'description': new FormControl(''),
-    'price': new FormControl(''),
-    'stock': new FormControl(''),
+    'name': new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(20),
+    ]),
+    'description': new FormControl('', [
+      Validators.minLength(2),
+      Validators.maxLength(190),
+    ]),
+    'price': new FormControl('', [
+      Validators.min(0),
+    ]),
+    'stock': new FormControl('', [
+      Validators.min(0),
+    ]),
     'availability': new FormControl(''),
     'image': new FormControl(''),
   });
@@ -99,8 +109,8 @@ export class ProductEditComponent implements OnInit {
     this.productEditForm.setValue({
       name: product.name,
       description: product.description,
-      price: product.price.toString(),
-      stock: product.stock.toString(),
+      price: product.price ? product.price.toString() : null,
+      stock: product.stock ? product.stock.toString() : null,
       availability: product.availability,
       image: product.image,
     })
