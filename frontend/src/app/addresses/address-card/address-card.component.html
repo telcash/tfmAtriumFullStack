@@ -1,5 +1,5 @@
 <mat-card class="address-card">
-    <mat-card-content>
+    <mat-card-content class="address-cart-content">
         <ul>
             <li>{{address.street}}</li>
             <li>{{address.city}}</li>
@@ -7,8 +7,10 @@
             <li>{{address.country}}</li>
         </ul>
     </mat-card-content>
-    <mat-card-actions>
-        <button type="button" mat-button [routerLink]="['edit-address/',address.id]">Editar</button>
-        <button type="button" mat-button (click)="openDeleteDialog()">Eliminar</button>
+    <mat-card-actions class="address-cart-actions">
+        <div class="mat-card-actions">
+            <button type="button" mat-raised-button color="primary" [routerLink]="['edit-address/',address.id]">Editar</button>
+            <button type="button" mat-raised-button color="primary" (click)="openDeleteDialog()">Eliminar</button>
+        </div>
     </mat-card-actions>
 </mat-card>

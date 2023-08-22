@@ -13,6 +13,10 @@
     align-items: center;
 }
 
+.address-card {
+    width: 270px;
+}
+
 .address-container form {
     width: 100%;
 }
@@ -22,4 +26,12 @@
     position: -webkit-sticky;
     top: 75px;
     width: 200px;
+}
+
+ul {
+    padding: unset;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    list-style-type: none;
 }

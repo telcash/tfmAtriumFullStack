@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/auth/auth.service';
+
+
 
 @Component({
   selector: 'app-home',
@@ -17,17 +19,26 @@ export class HomeComponent implements OnInit, OnDestroy{
   isUserAdmin: boolean = false;
   userLoggedSubscription?: Subscription;
 
+  @ViewChild('contentArea') private contentArea!: ElementRef<HTMLElement>;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.HandsetPortrait)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
   
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private cookieService: CookieService,
   ) {}
+
+    onActivate() {
+      if(this.contentArea.nativeElement) {
+        this.contentArea.nativeElement.scrollTop = 0;
+      }
+    }
 
   ngOnInit(): void {
     

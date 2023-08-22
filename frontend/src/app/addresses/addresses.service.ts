@@ -25,11 +25,12 @@ export class AddressesService {
     return this.http.post<Address>(this.url, address);
   }
 
+  updateAddress(id: number, address: any): Observable<Address> {
+    return this.http.patch<Address>(`${this.url}/${id}`, address);
+  }
+  
   deleteAddress(id: number): Observable<Address> {
     return this.http.delete<Address>(`${this.url}/${id}`);
   }
 
-  updateAddress(id: number, address: any): Observable<Address> {
-    return this.http.patch<Address>(`${this.url}/${id}`, address);
-  }
 }

@@ -28,42 +28,40 @@
       </div>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar class="home-toolbar" color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span routerLink="">Charlie Sabores</span>
-      <span class="spacer"></span>
-      <div class="home-toolbar-menu" *ngIf="!(isHandset$ | async)">
-        <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
-        <mat-menu #admin yPosition="below">
-          <button mat-menu-item routerLink="/admin/products">Productos</button>
-          <button mat-menu-item routerLink="/admin/categories">Categorías</button>
-          <button mat-menu-item routerLink="/admin/users">Usuarios</button>
-          <button mat-menu-item>Órdenes</button>
-        </mat-menu>
-        <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
-        <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
-        <mat-menu #account yPosition="below">
-          <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
-          <button mat-menu-item>Mis Pedidos</button>
-          <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
-          <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
-        </mat-menu>
-        <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
-      </div>
-      <button mat-icon-button routerLink="/mycart">
-        <mat-icon>shopping_cart</mat-icon>
-      </button>
-    </mat-toolbar>
-    <section>
-      <router-outlet></router-outlet>
-    </section>
-  </mat-sidenav-content>
+    <mat-sidenav-content class="sidenav-content" #contentArea>
+      <mat-toolbar class="home-toolbar" color="primary">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span routerLink="">Charlie Sabores</span>
+        <span class="spacer"></span>
+        <div class="home-toolbar-menu" *ngIf="!(isHandset$ | async)">
+          <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
+          <mat-menu #admin yPosition="below">
+            <button mat-menu-item routerLink="/admin/products">Productos</button>
+            <button mat-menu-item routerLink="/admin/categories">Categorías</button>
+            <button mat-menu-item routerLink="/admin/users">Usuarios</button>
+            <button mat-menu-item>Órdenes</button>
+          </mat-menu>
+          <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
+          <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+          <mat-menu #account yPosition="below">
+            <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
+            <button mat-menu-item>Mis Pedidos</button>
+            <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
+            <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+          </mat-menu>
+          <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
+        </div>
+        <button mat-icon-button routerLink="/mycart">
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+      </mat-toolbar>
+      <router-outlet (activate)="onActivate()"></router-outlet>
+    </mat-sidenav-content>
 </mat-sidenav-container>

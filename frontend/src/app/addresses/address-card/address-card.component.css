@@ -1,3 +1,27 @@
 .address-card {
-    max-width: 400px;
+    height: 220px;
+    width: 270px;
+}
+
+.address-cart-content {
+    flex: 1;
+}
+
+.address-cart-actions {
+    height: 52px;
+}
+
+.mat-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+
+ul {
+    padding: unset;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    list-style-type: none;
 }

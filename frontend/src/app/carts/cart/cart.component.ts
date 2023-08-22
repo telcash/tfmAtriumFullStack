@@ -17,7 +17,7 @@ export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   total?: number;
   selectAddress = new FormControl('');
-  addresses?: Address[];
+  addresses: Address[] = [];
   addressSelected!: Address | null;
   addressSelectedId?: number;
   cartValid = false;
@@ -40,6 +40,7 @@ export class CartComponent implements OnInit {
         this.addressesService.getAddresses().subscribe(
           (data) => {
             this.addresses = data;
+            this.addressSelected = this.addresses.length > 0 ? this.addresses[0] : null;
             this.selectAddress.valueChanges.pipe(tap(
               (data) => {
                 const id:number = data? +data : 0;
@@ -79,6 +80,10 @@ export class CartComponent implements OnInit {
         }
       );
     }
+  }
+
+  setAddressToNull() {
+    this.addressSelected = null;
   }
 
 }
