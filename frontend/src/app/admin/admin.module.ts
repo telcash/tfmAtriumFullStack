@@ -5,7 +5,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     ProductsModule,
-    RouterModule,
+    AppRoutingModule,
     MatMenuModule,
     MatButtonModule,
     MatToolbarModule,

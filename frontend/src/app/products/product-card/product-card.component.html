@@ -12,7 +12,7 @@
         <mat-form-field>
           <mat-label>Cantidad</mat-label>
           <mat-select [formControl]="quantity">
-            <mat-option *ngFor="let item of [].constructor(maxItems); let i = index" value="i">{{i}}</mat-option>
+            <mat-option *ngFor="let item of [].constructor(maxItems); let i = index" [value]="i+1">{{i+1}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

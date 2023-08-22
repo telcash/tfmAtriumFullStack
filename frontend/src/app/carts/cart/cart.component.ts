@@ -14,12 +14,13 @@ import { FormControl } from '@angular/forms';
 })
 export class CartComponent implements OnInit {
 
-  cartItems?: CartItem[];
+  cartItems: CartItem[] = [];
   total?: number;
   selectAddress = new FormControl('');
   addresses?: Address[];
   addressSelected!: Address | null;
   addressSelectedId?: number;
+  cartValid = false;
 
   constructor(
     private cartsService: CartsService,
@@ -52,6 +53,7 @@ export class CartComponent implements OnInit {
                 {
                   this.addressSelected = null;
                 }
+                this.cartValid = this.addressSelected !== null && this.cartItems.length > 0;
               }
             )).subscribe()
           }

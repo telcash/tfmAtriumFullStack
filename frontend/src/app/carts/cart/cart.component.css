@@ -1,21 +1,25 @@
 .cart-container {
+    padding-top: 15px;
     display: flex;
-    flex-flow: row-reverse wrap;
-    column-gap: 10px;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
-.cart-list-container {
-    flex: 4;
-    order: 2
-}
-
-.cart-list {
+.address-container {
+    width: 400px;
     display: flex;
-    flex-flow: column wrap;
-    row-gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.cart-info-container {
-    flex: 1;
-    order: 1;
+.address-container form {
+    width: 100%;
+}
+
+.cart-payment-container {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 75px;
+    width: 200px;
 }

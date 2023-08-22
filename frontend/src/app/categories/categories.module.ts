@@ -5,7 +5,6 @@ import { CategoriesTableComponent } from './categories-table/categories-table.co
 import { CategoryCreateComponent } from './category-create/category-create.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -14,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryDeleteDialogComponent } from './category-delete-dialog/category-delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -37,7 +37,7 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
     MatInputModule,
     MatDialogModule,
     ReactiveFormsModule,
-    RouterModule,
+    AppRoutingModule,
   ]
 })
 export class CategoriesModule { }

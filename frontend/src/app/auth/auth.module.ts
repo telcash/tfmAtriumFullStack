@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
-import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -33,7 +33,7 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     ReactiveFormsModule,
-    RouterModule,
+    AppRoutingModule,
   ],
   exports: [
     LoginComponent,

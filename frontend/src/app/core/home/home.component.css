@@ -17,7 +17,12 @@
 
 .sidemenu {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 200px;
+  grid-template-rows: 1fr;
+}
+
+.mat-menu-items {
+  width: 200px;
 }
 
 .sidenav-content {

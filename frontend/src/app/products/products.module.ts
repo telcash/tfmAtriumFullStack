@@ -19,12 +19,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductDeleteDialogComponent } from './product-delete-dialog/product-delete-dialog.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
-import { RouterModule } from '@angular/router';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
 
 import { MatChipsModule } from '@angular/material/chips'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { ProductCategoriesService } from './product-categories.service';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -55,8 +55,7 @@ import { ProductCategoriesService } from './product-categories.service';
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-
+    AppRoutingModule,
     MatChipsModule,
     MatAutocompleteModule,    
   ],

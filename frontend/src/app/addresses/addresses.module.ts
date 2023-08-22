@@ -10,8 +10,8 @@ import { AddressCardComponent } from './address-card/address-card.component';
 import { AddressGalleryComponent } from './address-gallery/address-gallery.component';
 import { AddressDeleteDialogComponent } from './address-delete-dialog/address-delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RouterModule } from '@angular/router';
 import { AddressEditComponent } from './address-edit/address-edit.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -31,7 +31,7 @@ import { AddressEditComponent } from './address-edit/address-edit.component';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    RouterModule,
+    AppRoutingModule,
   ]
 })
 export class AddressesModule { }

@@ -1,27 +1,26 @@
-<mat-toolbar>
-    <button mat-raised-button [matMenuTriggerFor]="productsMenu">Productos</button>
-    <mat-menu #productsMenu="matMenu">
-      <button routerLink="products" mat-menu-item>Listado de productos</button>
-      <button routerLink="product-create" mat-menu-item>Crear producto</button>
-    </mat-menu>
+<div class="admin-toolbar-container">
+  <button mat-raised-button [matMenuTriggerFor]="productsMenu">Productos</button>
+  <mat-menu #productsMenu="matMenu">
+    <button routerLink="products" mat-menu-item>Listado de productos</button>
+    <button routerLink="product-create" mat-menu-item>Crear producto</button>
+  </mat-menu>
 
-    <button mat-raised-button [matMenuTriggerFor]="categoriesMenu">Categorías</button>
-    <mat-menu #categoriesMenu="matMenu">
-      <button routerLink="categories" mat-menu-item>Listado de categorías</button>
-      <button routerLink="category-create" mat-menu-item>Crear categoría</button>
-    </mat-menu>
-    
-    <button mat-raised-button [matMenuTriggerFor]="usersMenu">Usuarios</button>
-    <mat-menu #usersMenu="matMenu">
-      <button routerLink="users" mat-menu-item>Listado de usuarios</button>
-      <button mat-menu-item>Crear nuevo usuario</button>
-    </mat-menu>
-    
-    <button mat-raised-button [matMenuTriggerFor]="ordersMenu">Órdenes</button>
-    <mat-menu #ordersMenu="matMenu">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
-</mat-toolbar>
-
+  <button mat-raised-button [matMenuTriggerFor]="categoriesMenu">Categorías</button>
+  <mat-menu #categoriesMenu="matMenu">
+    <button routerLink="categories" mat-menu-item>Listado de categorías</button>
+    <button routerLink="category-create" mat-menu-item>Crear categoría</button>
+  </mat-menu>
+  
+  <button mat-raised-button [matMenuTriggerFor]="usersMenu">Usuarios</button>
+  <mat-menu #usersMenu="matMenu">
+    <button routerLink="users" mat-menu-item>Listado de usuarios</button>
+    <button mat-menu-item>Crear nuevo usuario</button>
+  </mat-menu>
+  
+  <button mat-raised-button [matMenuTriggerFor]="ordersMenu">Órdenes</button>
+  <mat-menu #ordersMenu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+</div>
 <router-outlet></router-outlet>

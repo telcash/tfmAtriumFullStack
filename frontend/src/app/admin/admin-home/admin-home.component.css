@@ -1,0 +1,7 @@
+.admin-toolbar-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

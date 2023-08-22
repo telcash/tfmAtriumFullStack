@@ -12,10 +12,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserUpdateComponent } from './user-update/user-update.component';
 import { AuthModule } from '../auth/auth.module';
 import { UsersTableComponent } from './users-table/users-table.component';
-import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserDeleteDialogComponent } from './user-delete-dialog/user-delete-dialog.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -39,7 +39,7 @@ import { UserDeleteDialogComponent } from './user-delete-dialog/user-delete-dial
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
+    AppRoutingModule,
   ],
   providers: [
     UsersService,
