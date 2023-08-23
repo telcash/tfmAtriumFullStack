@@ -6,6 +6,7 @@ import { StripeService } from 'src/stripe/stripe.service';
 import { ProductsService } from 'src/products/products.service';
 import { OrdersService } from 'src/orders/orders.service';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Injectable()
 export class CartsService {
@@ -95,6 +96,11 @@ export class CartsService {
 
     // Devuelve el total
     return total;
+  }
+
+  async updateMyCart(cartId: number, updateCartDto: UpdateCartDto) {
+    //Actualiza el carrito en la base de datos
+    return await this.cartsRepository.update(cartId, updateCartDto)
   }
 
   /**

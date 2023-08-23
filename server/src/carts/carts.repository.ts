@@ -19,6 +19,7 @@ export class CartsRepository {
             data: createCartDto,
             include: {
                 items: true,
+                address: true,
             }
         });
     }
@@ -32,6 +33,7 @@ export class CartsRepository {
           include: {
             user: true,
             items: true,
+            address: true,
           }
         });
     }
@@ -48,6 +50,7 @@ export class CartsRepository {
             },
             include: {
                 items: true,
+                address: true,
             },
         })
     }
@@ -64,6 +67,7 @@ export class CartsRepository {
             },
             include: {
                 items: true,
+                address: true,
             }
         });
     }
@@ -82,6 +86,7 @@ export class CartsRepository {
             },
             include: {
                 items: true,
+                address: true,
             }
         })
     }

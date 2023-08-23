@@ -38,6 +38,7 @@ model Address {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders Order[]
+  cart Cart?
 }
 
 
@@ -65,6 +66,8 @@ model Cart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   items CartItem[]
+  address Address? @relation(fields: [addressId], references: [id])
+  addressId Int? @unique
 }
 
 // Modelo para la representación de un producto

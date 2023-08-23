@@ -19,6 +19,10 @@ export class CartsService {
     })
   }
 
+  updateCart(cart: Partial<Cart>): Observable<Cart> {
+    return this.http.patch<Cart>(this.myCartUrl, cart)
+  }
+
   findAllItems(): Observable<CartItem[]> {
     return this.http.get<CartItem[]>(this.itemsUrl, {
       withCredentials: true,

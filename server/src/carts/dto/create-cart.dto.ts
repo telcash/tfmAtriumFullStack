@@ -18,4 +18,8 @@ export class CreateCartDto {
     @IsNumber()
     @Min(0)
     total: number;
+
+    @IsOptional()
+    addressId?: number | null;
+
 }

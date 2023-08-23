@@ -13,6 +13,8 @@ export class CartEntity implements Cart{
 
     total: number;
 
+    addressId: number;
+
     @Exclude()
     createdAt: Date;
 

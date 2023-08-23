@@ -1,24 +1,9 @@
 .cart-container {
     padding-top: 15px;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row-reverse wrap;
     justify-content: space-around;
     align-items: flex-start;
-}
-
-.address-container {
-    width: 400px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.address-card {
-    width: 270px;
-}
-
-.address-container form {
-    width: 100%;
 }
 
 .cart-payment-container {
@@ -28,7 +13,34 @@
     width: 200px;
 }
 
-ul {
+.cart-payment-container mat-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select-address-container {
+    width: 400px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select-address-container form {
+    width: 100%;
+}
+
+.address-card {
+    width: 400px;
+}
+
+.cart-info-container ul {
     padding: unset;
     display: flex;
     flex-flow: column;

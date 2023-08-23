@@ -1,21 +1,34 @@
 <div class="cart-container">
-    <mat-card *ngIf="cartItems.length === 0">
-        <mat-card-content>
-            No hay productos en el carrito
-        </mat-card-content>
+    <div class="cart-payment-container">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Total a pagar:</mat-card-title>
+                <mat-card-title>{{total | currency: 'EUR':'symbol'}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="button" (click)="checkout()" [disabled]="!cartValid">PAGAR</button>
+            </mat-card-actions>
+            <button (click)="test()">Test</button>
+        </mat-card>
+    </div>
+    <mat-card class="empty-cart" *ngIf="cartItems.length === 0">
+        <mat-card-header>
+            <mat-card-title>
+                No hay productos en el carrito
+            </mat-card-title>
+        </mat-card-header>
         <mat-card-actions>
             <button mat-raised-button color="primary" routerLink="/">Comprar</button>
         </mat-card-actions>
     </mat-card>
     <mat-card *ngIf="cartItems.length > 0">
-        <div class="cart-info">
             <mat-card-content>
-                <div *ngIf="!addressSelected" class="address-container">
+                <div *ngIf="!selectedAddress" class="select-address-container">
                     <form>
                         <mat-form-field>
                             <mat-label>Seleccione una dirección de envío</mat-label>
-                            <mat-select [formControl]="selectAddress" [(value)]="addressSelectedId">
-                                <mat-option value="0">Ninguna</mat-option>
+                            <mat-select [formControl]="selectAddress" >
+                                <!-- <mat-option value="0">Ninguna</mat-option> -->
                                 <mat-option *ngFor="let address of addresses" [value]="address.id">
                                     {{address.street}}, {{address.city}}, {{address.postalCode}}, {{address.country}}
                                 </mat-option>
@@ -23,21 +36,21 @@
                         </mat-form-field>
                     </form>
                 </div>
-                <div class="cart-items-container">
-                    <mat-card *ngIf="addressSelected" class="address-card">
+                <div class="cart-info-container">
+                    <mat-card *ngIf="selectedAddress" class="address-card">
                         <mat-card-header>
                             <mat-card-title>Dirección de envío</mat-card-title>
                         </mat-card-header>
                         <mat-card-content>
                             <ul>
-                                <li>{{addressSelected.street}}</li>
-                                <li>{{addressSelected.city}}</li>
-                                <li>{{addressSelected.postalCode}}</li>
-                                <li>{{addressSelected.country}}</li>
+                                <li>{{selectedAddress.street}}</li>
+                                <li>{{selectedAddress.city}}</li>
+                                <li>{{selectedAddress.postalCode}}</li>
+                                <li>{{selectedAddress.country}}</li>
                             </ul>
                         </mat-card-content>
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" (click)="setAddressToNull()" [disabled]="(addresses.length <= 1)">Cambiar</button>
+                            <button mat-raised-button color="primary" (click)="setSelectedAddressToNull()" [disabled]="(addresses.length <= 1)">Cambiar</button>
                         </mat-card-actions>
                     </mat-card>
                     <mat-list class="cart-list" *ngFor="let cartItem of cartItems">
@@ -46,16 +59,5 @@
                     </mat-list>
                 </div>
             </mat-card-content>
-        </div>
     </mat-card>
-    <div class="cart-payment-container">
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>{{total | currency: 'EUR':'symbol'}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-actions>
-                <button mat-button type="button" (click)="checkout()" [disabled]="!cartValid">TRAMITAR PEDIDO</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
 </div>

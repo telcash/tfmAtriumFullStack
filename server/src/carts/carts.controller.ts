@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, UseInterceptors, UseGuards, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Delete, UseInterceptors, UseGuards, Post, Body, Patch } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
 import { SetRequestUserCartInterceptor } from './interceptors/set-request-user-cart.interceptor';
@@ -10,6 +10,7 @@ import { CartEntity } from './entities/cart.entity';
 import { User } from 'src/users/decorators/user.decorator';
 import { CheckoutPipe } from './pipes/checkout/checkout.pipe';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 /**
  * Controlador del módulo {@link CartsModule}
@@ -41,6 +42,12 @@ export class CartsController {
   @Get('/mycart')
   async findMyCart(@User('cart') cart): Promise<CartEntity> {
     return new CartEntity(cart);
+  }
+
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
+  @Patch('/mycart')
+  async updateMyCart(@User('cart') cart, @Body() updateCartDto: UpdateCartDto): Promise<CartEntity> {
+    return new CartEntity(await this.cartsService.updateMyCart(cart.id, updateCartDto))
   }
 
   /**
