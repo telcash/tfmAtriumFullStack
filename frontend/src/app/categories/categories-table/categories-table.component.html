@@ -1,36 +1,41 @@
-<section class="categories-table-container mat-elevation-z8" tabindex="0">
-    <table mat-table [dataSource]="categories">
-
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> Id. </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef> Editar </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="primary" [routerLink]="['/admin/category-edit/', element.id]">
-                    <mat-icon class="mat-18">edit</mat-icon>
+<div class="table-container">
+    <mat-toolbar>
+        <span>Listado de categorías</span>
+    </mat-toolbar>
+    <section class="categories-table-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="categories">
+    
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Id. </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Editar </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="primary" [routerLink]="['/admin/category-edit/', element.id]">
+                        <mat-icon class="mat-18">edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+                <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="warn" (click)="openDeleteDialog(element.id)">
+                    <mat-icon class="mat-18">delete</mat-icon>
                 </button>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="delete">
-            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-            <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="warn" (click)="openDeleteDialog(element.id)">
-                <mat-icon class="mat-18">delete</mat-icon>
-            </button>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    </table>
-</section>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+        </table>
+    </section>
+</div>

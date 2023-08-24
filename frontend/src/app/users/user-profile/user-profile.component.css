@@ -1,6 +1,12 @@
 .user-profile-container {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-flow: row wrap;
     column-gap: 10px;
     justify-content: space-evenly;
+}
+
+.user-update-container, .update-password-container {
+    flex: 1;
 }

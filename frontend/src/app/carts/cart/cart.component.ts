@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { CartsService } from '../carts.service';
 import { Router } from '@angular/router';
-import { concat, concatMap, filter, map, tap } from 'rxjs';
+import { Observable, concat, concatMap, filter, map, shareReplay, tap } from 'rxjs';
 import { AddressesService } from 'src/app/addresses/addresses.service';
 import { Address } from 'src/app/addresses/models/address';
 import { FormControl } from '@angular/forms';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-carts',
@@ -14,25 +15,22 @@ import { FormControl } from '@angular/forms';
 })
 export class CartComponent implements OnInit {
 
+  private breakpointObserver = inject(BreakpointObserver);
   cartItems: CartItem[] = [];
   total?: number;
-  selectAddress = new FormControl('');
-  sdasd = new FormControl<Address | null>(null);
+  selectAddress = new FormControl<Address | null>(null);
   addresses: Address[] = [];
-  selectedAddress!: Address | null;
-  selectedAddressId?: number;
-  cartValid = false;
 
+  isSmall: Observable<boolean> = this.breakpointObserver.observe('(max-width: 1024px)').pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
+  
   constructor(
     private cartsService: CartsService,
     private addressesService: AddressesService,
     private router: Router,
   ) {}
-
-  test() {
-    console.log(typeof this.selectAddress.value)
-    console.log(this.selectAddress.value);
-  }
 
   ngOnInit(): void {
 
@@ -40,62 +38,61 @@ export class CartComponent implements OnInit {
       tap(
         cart => {
           this.total = cart.total;
-          this.selectedAddress = cart.address ? cart.address : null;
+          this.selectAddress.setValue(cart.address ? cart.address : null);
           this.cartItems = cart.items;
         }
       )
     );
+
     const addressesObs = this.addressesService.getAddresses().pipe(
       tap(
         addresses => this.addresses = addresses,
       ),
       filter(
-        addresses => addresses.length > 0 && !this.selectedAddress,
+        addresses => addresses.length > 0 && this.selectAddress.value === null,
       ),
       map(
         addresses => {
-          this.selectedAddress = addresses[0];
-          return this.selectedAddress.id;
+          this.selectAddress.setValue(addresses[0]);
+          return this.selectAddress.value?.id;
         } 
       ),
       concatMap(
-        (id) => this.cartsService.updateCart({addressId:id } ) 
+        id => this.cartsService.updateCart({addressId:id}) 
       )
     );
 
     const selectAddressObs = this.selectAddress.valueChanges.pipe(
-      map(
-       id => id === null ? 0 : +id,
-      ),
-      filter(
-        id => id > 0
-      ),
-      map(
-        id => this.addresses.filter((address) => address.id === id )[0],
-      ),
-      tap(
-        address => this.selectedAddress = address,
-      ),
       concatMap(
-        address => this.cartsService.updateCart( {addressId: address.id } )
+        address => this.cartsService.updateCart({addressId: address?.id }),
       )
     )
 
-    concat(cartObs, addressesObs, selectAddressObs).subscribe(
-      () => this.cartValid = this.selectedAddress !== null && this.cartItems.length > 0,
-    )
+    concat(cartObs, addressesObs, selectAddressObs).subscribe();
   }
   
-  itemDeleted() {
-    const url = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true}).then(() => {
-      this.router.navigate([`/${url}`])
-    })
+  itemDeleted(cartItem: CartItem) {
+    this.cartItems.splice(this.cartItems.findIndex(item => item.productId === cartItem.productId), 1);
+    this.updateTotal();
+  }
+
+  itemUpdated(cartItem: CartItem) {
+    const index = this.cartItems.findIndex(item => item.productId === cartItem.productId);
+    this.cartItems[index].quantity = cartItem.quantity;
+    this.updateTotal();
+  }
+
+  updateTotal() {
+    let newTotal = 0;
+    for(const item of this.cartItems) {
+      newTotal += item.quantity * item.price
+    }
+    this.total = newTotal;
   }
 
   checkout() {
-    if(this.selectedAddressId) {
-      this.cartsService.checkout(this.selectedAddressId).subscribe(
+    if(this.selectAddress.value?.id) {
+      this.cartsService.checkout(this.selectAddress.value.id).subscribe(
         (data) => {
           const clientSecret = data.clientSecret;
           localStorage.setItem('client_secret',clientSecret);
@@ -106,7 +103,7 @@ export class CartComponent implements OnInit {
   }
 
   setSelectedAddressToNull() {
-    this.selectedAddress = null;
+    this.selectAddress.setValue(null);
   }
 
 }

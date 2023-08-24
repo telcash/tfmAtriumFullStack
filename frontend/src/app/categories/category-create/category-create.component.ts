@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoriesService } from '../categories.service';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 })
 export class CategoryCreateComponent {
   categoryCreateForm = new FormGroup({
-    'name': new FormControl('')
+    'name': new FormControl('', [
+      Validators.required,
+    ])
   });
 
   constructor(

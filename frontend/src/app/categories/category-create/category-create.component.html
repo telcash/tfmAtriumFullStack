@@ -8,10 +8,10 @@
                     <mat-icon matPrefix>title</mat-icon>
                     <input type="text" matInput formControlName="name">
                 </mat-form-field>
-                <div>
-                    <button mat-raised-button color="primary" type="submit">Agregar categoría</button>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="categoryCreateForm.invalid">Agregar categoría</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
-                </div>
+                </mat-card-actions>
             </form>
         </mat-card>
     </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CategoriesService } from '../categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../models/category';
@@ -12,7 +12,9 @@ import { Category } from '../models/category';
 export class CategoryEditComponent implements OnInit {
 
   categoryEditForm = new FormGroup({
-    'name': new FormControl('')
+    'name': new FormControl('', [
+      Validators.required,
+    ])
   });
 
   category!: Category;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../models/address';
 import { AddressesService } from '../addresses.service';
 import { Router } from '@angular/router';
@@ -12,10 +12,18 @@ import { Router } from '@angular/router';
 export class AddressCreateComponent {
 
   addressCreateForm = new FormGroup({
-    'street': new FormControl(''),
-    'postalCode': new FormControl(''),
-    'city': new FormControl(''),
-    'country': new FormControl(''),
+    'street': new FormControl('', [
+      Validators.required,
+    ]),
+    'postalCode': new FormControl('', [
+      Validators.required,
+    ]),
+    'city': new FormControl('', [
+      Validators.required,
+    ]),
+    'country': new FormControl('', [
+      Validators.required,
+    ]),
   });
 
   constructor(

@@ -19,6 +19,10 @@ export class UsersService {
     return this.http.get<User>(this.url + '/profile');
   }
 
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.url, user);
+  }
+
   updateUser(user: any): Observable<User> {
     return this.http.patch<User>(this.url + '/profile', user);
   }

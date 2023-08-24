@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddressesModule } from './addresses/addresses.module';
 import { CategoriesModule } from './categories/categories.module';
 import { StripeModule } from './stripe/stripe.module';
+import { SharedModule } from './shared/shared.module';
 
  
 @NgModule({
@@ -49,6 +50,7 @@ import { StripeModule } from './stripe/stripe.module';
     MatRadioModule,
     MatCardModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [
     {

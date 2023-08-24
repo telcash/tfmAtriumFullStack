@@ -1,5 +1,5 @@
 import { Exclude, Type } from "class-transformer";
-import { IsEnum, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEnum, IsOptional, IsString, Min, MinLength } from "class-validator";
 import { ProductAvailability } from "../constants/product-availability";
 
 /**
@@ -18,7 +18,7 @@ export class CreateProductDto {
 
     @IsOptional()
     @Type(() => Number)
-    //@IsNumber()
+    @Min(0)
     price?: number;
     
     @IsOptional()

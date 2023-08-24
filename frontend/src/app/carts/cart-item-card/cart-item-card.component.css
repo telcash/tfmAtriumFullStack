@@ -1,13 +1,56 @@
 .cart-item-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+.card-info-container {
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
+}
+
+.card-img-container {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 img {
-    width: 120px;
-    aspect-ratio: 1/1;
+    width: 100%;
+    height: 100%;
 }
 
 .card-info {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.card-info-header{
+    width: 100%;
     flex: 1;
 }
+
+.card-info-actions {
+    flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
+}
+
+.quantity-field-container {
+    width: 120px;
+    display: flex;
+    align-items: flex-end;
+}
+
+::ng-deep .quantity-field-container{
+    margin-bottom: -1.25em;
+ }
+
+ .button-container {
+    padding-bottom: 5px;
+ }

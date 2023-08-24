@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -19,13 +19,11 @@ export class HomeComponent implements OnInit, OnDestroy{
   isUserAdmin: boolean = false;
   userLoggedSubscription?: Subscription;
 
-  @ViewChild('contentArea') private contentArea!: ElementRef<HTMLElement>;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.HandsetPortrait)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.HandsetPortrait).pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
   
 
   constructor(
@@ -33,12 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy{
     private router: Router,
     private cookieService: CookieService,
   ) {}
-
-    onActivate() {
-      if(this.contentArea.nativeElement) {
-        this.contentArea.nativeElement.scrollTop = 0;
-      }
-    }
 
   ngOnInit(): void {
     

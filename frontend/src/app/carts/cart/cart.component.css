@@ -1,4 +1,6 @@
 .cart-container {
+    width: 100%;
+    max-width: 1600px;
     padding-top: 15px;
     display: flex;
     flex-flow: row-reverse wrap;
@@ -7,10 +9,17 @@
 }
 
 .cart-payment-container {
+    width: 100%;
+    margin-bottom: 20px;
+    max-width: 360px;
     position: sticky;
     position: -webkit-sticky;
     top: 75px;
-    width: 200px;
+}
+
+.payment-handset {
+    position: relative;
+    top: 0;
 }
 
 .cart-payment-container mat-card-actions {
@@ -19,14 +28,25 @@
     justify-content: center;
 }
 
+
+.cart-info-container {
+    width: 100%;
+    max-width: 600px;
+}
+
 .empty-cart {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.main-info {
+    width: 100%;
+}
+
 .select-address-container {
-    width: 400px;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -36,14 +56,22 @@
     width: 100%;
 }
 
-.address-card {
-    width: 400px;
+.address-card-container {
+    width: 100%;
 }
 
-.cart-info-container ul {
+.address-card-container ul {
     padding: unset;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     list-style-type: none;
+}
+
+.cart-item-list {
+    width: 100%;
+}
+
+.cart-item {
+    width: 100%;
 }

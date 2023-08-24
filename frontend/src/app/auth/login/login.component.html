@@ -18,6 +18,9 @@
                 <div>
                     <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">INICIAR SESIÓN</button>
                 </div>
+                <div class="form-error-response" *ngIf="loginErrorMessage">
+                    {{loginErrorMessage}}
+                </div>
             </form>
         </mat-card>
     </div>

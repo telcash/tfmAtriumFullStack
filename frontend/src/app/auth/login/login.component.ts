@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class LoginComponent {
 
+  loginErrorMessage = '';
 
   loginForm = new FormGroup({
     'email': new FormControl('', [Validators.required, Validators.email]),
@@ -34,15 +35,17 @@ export class LoginComponent {
     this.cookieService.deleteAll();
     const email: string = this.loginForm.value.email ? this.loginForm.value.email : '';
     const password: string = this.loginForm.value.password ? this.loginForm.value.password : '';
-    this.authService.login(email, password).subscribe(
-      (data: JwtTokens) => {
+    this.authService.login(email, password).subscribe({
+      next: (data: JwtTokens) => {
         this.authService.setTokens(data);
         const role = this.cookieService.get('role') ?? '';
         this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
         this.router.navigate(['']);
-      }
-    );
+      },
+      error: (error) => this.loginErrorMessage = 'Email o contraseña incorrecta'
+    }
+    )
   }
 
   getEmailErrors() {
@@ -58,5 +61,6 @@ export class LoginComponent {
     }
     return this.loginForm.controls.password.hasError('pattern') ? 'No es un password válido' : '';
   }
+
 
 }

@@ -9,6 +9,7 @@ import { UserEntity } from './entities/user.entity';
 import { LastAdminGuard } from './guards/last-admin.guard';
 import { UserRole } from './constants/user-role';
 import { User } from './decorators/user.decorator';
+import { SignupPipe } from 'src/auth/pipes/signup.pipe';
 
 /**
  * Controlador del modulo {@link UsersModule}
@@ -30,7 +31,7 @@ export class UsersController {
     @UseGuards(RoleGuard)
     @Roles(UserRole.ADMIN)
     @Post()
-    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+    async create(@Body(SignupPipe) createUserDto: CreateUserDto): Promise<UserEntity> {
         return new UserEntity(await this.usersService.create(createUserDto));
     }
     

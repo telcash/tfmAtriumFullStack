@@ -9,7 +9,7 @@
                     <input type="text" matInput formControlName="name">
                 </mat-form-field>
                 <div>
-                    <button mat-raised-button color="primary" type="submit">Actualizar categoría</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="categoryEditForm.invalid">Actualizar categoría</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
                 </div>
             </form>

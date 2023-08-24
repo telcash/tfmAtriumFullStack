@@ -14,6 +14,9 @@ import { CartsService } from 'src/app/carts/carts.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
+
+  signupErrorMessage = '';
+
   signupForm = new FormGroup({
     'firstName': new FormControl('', [
       Validators.required,
@@ -39,8 +42,6 @@ export class SignupComponent {
     ])
   });
 
-  
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -56,18 +57,27 @@ export class SignupComponent {
       password: this.signupForm.value.password ?? '',
       mobile: this.signupForm.value.mobile ?? '',
     }
-    this.authService.signup(user).pipe((concatMap(
-      data => {return this.authService.login(user.email, user.password)}
-    ))).subscribe(
-      (data: JwtTokens) => {
+    this.authService.signup(user).pipe(
+      concatMap(
+        data => this.authService.login(user.email, user.password)
+      )
+    ).subscribe({
+      next: (data: JwtTokens) => {
         this.cookieService.deleteAll();
         this.authService.setTokens(data);
         const role = this.cookieService.get('role') ?? '';
         this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
         this.router.navigate(['']);
+      },
+      error: error => {
+        if(error.error.response.code && error.error.response.code === 'P2002') {
+          this.signupErrorMessage = 'El usuario ya se encuentra registrado';
+        } else {
+          this.signupErrorMessage = 'Ha ocurrido un error en el registro, intente nuevamente'
+        }
       } 
-    );
+    });
   }
 
   getFirstNameErrors() {

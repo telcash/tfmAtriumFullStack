@@ -1,11 +1,18 @@
 .product-card {
     display: grid;
-    grid-template-rows: 360px 70px 100px 100px;
-    grid-template-columns: 360px;
+    max-width: 300px;
+    grid-template-rows: 300px 70px 100px 100px;
+    grid-template-columns: 1fr;
+}
+
+.product-image-container {
+    width: 100%;
 }
 
 img {
-    max-width: 360px;
+    width: auto;
+    height: auto;
+    max-width: 300px;
     aspect-ratio: 1/1;
 }
 
@@ -24,6 +31,7 @@ img {
 }
 
 .quantity-field-container {
+    width: 180px;
     padding-bottom: 24px;
     height: 48px;
 }

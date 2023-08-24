@@ -49,10 +49,10 @@
                 <div class="categories-field">
                     <app-product-categories [(categories)]="categories"></app-product-categories>
                 </div>
-                <div>
-                    <button mat-raised-button color="primary" type="submit">Actualizar producto</button>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="productEditForm.invalid">Actualizar producto</button>
                     <button type="button" mat-raised-button color="primary" routerLink="/admin/products">Cancelar</button>
-                </div>
+                </mat-card-actions>
                 <div *ngIf="!productEditForm.pristine">
                     <button type="button" mat-raised-button color="primary" (click)="loadInitialValues()">Deshacer cambios</button>
                 </div>

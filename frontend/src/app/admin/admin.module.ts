@@ -6,6 +6,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppRoutingModule } from '../app-routing.module';
+import { AddAdminComponent } from './add-admin/add-admin.component';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -13,6 +19,7 @@ import { AppRoutingModule } from '../app-routing.module';
 @NgModule({
   declarations: [
     AdminHomeComponent,
+    AddAdminComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +28,11 @@ import { AppRoutingModule } from '../app-routing.module';
     MatMenuModule,
     MatButtonModule,
     MatToolbarModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
   ],
   exports: [
   ]

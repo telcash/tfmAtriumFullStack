@@ -1,4 +1,9 @@
+.address-gallery-container {
+    width: 100%;
+}
+
 .address-gallery {
+    width: 100%;
     padding: 10px;
     display: flex;
     flex-flow: wrap row;

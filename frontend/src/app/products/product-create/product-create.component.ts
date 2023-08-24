@@ -7,6 +7,7 @@ import { Category } from 'src/app/categories/models/category';
 import { Observable, concat } from 'rxjs';
 import { ProductCategoriesService } from '../product-categories.service';
 import { Product } from '../models/product';
+import Validation from 'src/app/shared/validation';
 
 @Component({
   selector: 'app-product-create',
@@ -14,6 +15,8 @@ import { Product } from '../models/product';
   styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent {
+
+  valid: Validation = new Validation()
 
   productCreateForm = new FormGroup({
     'name': new FormControl('', [
@@ -25,11 +28,13 @@ export class ProductCreateComponent {
       Validators.minLength(2),
       Validators.maxLength(190),
     ]),
-    'price': new FormControl('', [
+    'price': new FormControl<number>(0, [
       Validators.min(0),
+      this.valid.numberValidator,
     ]),
-    'stock': new FormControl('', [
+    'stock': new FormControl<number>(0, [
       Validators.min(0),
+      this.valid.numberValidator,
     ]),
     'availability': new FormControl(''),
     'image': new FormControl(null),

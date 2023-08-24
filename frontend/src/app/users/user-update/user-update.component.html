@@ -23,7 +23,7 @@
                 </mat-form-field>
                 <mat-card-actions>
                     <button *ngIf="!isEditable" (click)="enableEdit()" mat-raised-button color="primary">EDITAR DATOS</button>
-                    <button *ngIf="isEditable" type="submit" mat-raised-button color="primary">ACTUALIZAR DATOS</button>
+                    <button *ngIf="isEditable" type="submit" mat-raised-button color="primary" [disabled]="userUpdateForm.invalid">ACTUALIZAR DATOS</button>
                     <button *ngIf="isEditable" (click)="cancelEdit()"  mat-raised-button color="primary">CANCELAR</button>
                 </mat-card-actions>
             </form>

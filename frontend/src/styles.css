@@ -3,7 +3,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
 /* Forms global styles */
 .form-container{
     margin-top: 50px;
@@ -14,7 +13,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .form-content {
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     display: block;
 }
 
@@ -53,4 +53,11 @@ mat-form-field {
 .form-container .mat-raised-button {
     width: 100%;
     height: 60px;
+}
+
+.form-error-response {
+    width: 80%;
+    color: red;
+    font-weight: bold;
+    text-align: center;
 }

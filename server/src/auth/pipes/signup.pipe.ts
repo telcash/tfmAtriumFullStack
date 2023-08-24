@@ -1,4 +1,5 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, Inject, Injectable, PipeTransform, Scope } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { HashService } from 'src/common/services/hash.service';
 import { UserRole } from 'src/users/constants/user-role';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -10,10 +11,13 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
  * Le asigna al Json Web Token de refrescamiento el valor null
  * Retorna el DTO con las modificaciones
  */
-@Injectable()
+@Injectable({ scope: Scope.REQUEST})
 export class SignupPipe implements PipeTransform {
   
-  constructor(private readonly hashService: HashService) {}
+  constructor(
+    @Inject(REQUEST) private readonly req,
+    private readonly hashService: HashService
+  ) {}
 
   /**
    * Implementación del método transform del Pipe
@@ -27,7 +31,8 @@ export class SignupPipe implements PipeTransform {
     const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
 
     // Verificamos que no se esté intentando registrar como Admin un usuario
-    if(createUserDto.role === UserRole.ADMIN) {
+    console.log(this.req.user.role);
+    if(this.req.user.role !== UserRole.ADMIN && createUserDto.role === UserRole.ADMIN) {
       createUserDto.role = UserRole.CLIENT;
     }
 

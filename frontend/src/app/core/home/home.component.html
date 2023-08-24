@@ -28,7 +28,7 @@
       </div>
     </mat-nav-list>
   </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content" #contentArea>
+    <mat-sidenav-content class="sidenav-content">
       <mat-toolbar class="home-toolbar" color="primary">
         <button
           type="button"
@@ -62,6 +62,8 @@
           <mat-icon>shopping_cart</mat-icon>
         </button>
       </mat-toolbar>
-      <router-outlet (activate)="onActivate()"></router-outlet>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
 </mat-sidenav-container>

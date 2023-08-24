@@ -19,7 +19,7 @@ export class CartsService {
     })
   }
 
-  updateCart(cart: Partial<Cart>): Observable<Cart> {
+  updateCart(cart: any): Observable<Cart> {
     return this.http.patch<Cart>(this.myCartUrl, cart)
   }
 
@@ -35,12 +35,22 @@ export class CartsService {
       quantity: quantity,
     },
     {
-      withCredentials: true
+      withCredentials: true,
     })    
   }
 
-  deleteItem(productId: number) {
-    return this.http.delete(this.itemsUrl,{
+  updateItem(productId: number, quantity: number) {
+    return this.http.patch(this.itemsUrl, {
+      productId: productId,
+      quantity: quantity,
+    },
+    {
+      withCredentials: true,
+    })
+  }
+
+  deleteItem(productId: number): Observable<CartItem> {
+    return this.http.delete<CartItem>(this.itemsUrl,{
       body: {
         productId: productId,
       },

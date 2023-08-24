@@ -20,7 +20,7 @@
                     <input type="text" matInput formControlName="country"> 
                 </mat-form-field>
                 <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit">Agregar dirección</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="addressCreateForm.invalid">Agregar dirección</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
                 </mat-card-actions>
             </form>

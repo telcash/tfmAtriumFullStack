@@ -20,7 +20,7 @@
                     <input type="text" matInput formControlName="country"> 
                 </mat-form-field>
                 <div>
-                    <button mat-raised-button color="primary" type="submit">Actualizar dirección</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="addressEditForm.invalid">Actualizar dirección</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
                 </div>
             </form>

@@ -1,12 +1,17 @@
-.table-container {
+/* .table-container {
     white-space: nowrap;
     overflow-x: scroll;
-}
+} */
 
-.products-table-container {
+/* .products-table-container {
     height: 800px;
     width: 100%;
     overflow: visible;
+} */
+
+.products-table-container {
+    height: 600px;
+    overflow: auto;
 }
 
 table {

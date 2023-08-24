@@ -46,7 +46,7 @@
                     <app-product-categories [(categories)]="categories"></app-product-categories>
                 </div>
                 <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit">Agregar producto</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="productCreateForm.invalid">Agregar producto</button>
                     <button mat-raised-button color="primary" type="button" (click)="goToProducts()">Cancelar</button>
                 </mat-card-actions>
 

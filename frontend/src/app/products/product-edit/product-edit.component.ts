@@ -8,6 +8,7 @@ import { Category } from 'src/app/categories/models/category';
 import { Observable, concat } from 'rxjs';
 import { ProductCategory } from '../models/product-category';
 import { ProductCategoriesService } from '../product-categories.service';
+import Validation from 'src/app/shared/validation';
 
 @Component({
   selector: 'app-product-edit',
@@ -15,6 +16,8 @@ import { ProductCategoriesService } from '../product-categories.service';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+
+  valid: Validation = new Validation()
 
   productEditForm = new FormGroup({
     'name': new FormControl('', [
@@ -25,11 +28,13 @@ export class ProductEditComponent implements OnInit {
       Validators.minLength(2),
       Validators.maxLength(190),
     ]),
-    'price': new FormControl('', [
+    'price': new FormControl<number>(0, [
       Validators.min(0),
+      this.valid.numberValidator,
     ]),
-    'stock': new FormControl('', [
+    'stock': new FormControl<number>(0, [
       Validators.min(0),
+      this.valid.numberValidator,
     ]),
     'availability': new FormControl(''),
     'image': new FormControl(''),
@@ -109,8 +114,8 @@ export class ProductEditComponent implements OnInit {
     this.productEditForm.setValue({
       name: product.name,
       description: product.description,
-      price: product.price ? product.price.toString() : null,
-      stock: product.stock ? product.stock.toString() : null,
+      price: product.price,
+      stock: product.stock,
       availability: product.availability,
       image: product.image,
     })
