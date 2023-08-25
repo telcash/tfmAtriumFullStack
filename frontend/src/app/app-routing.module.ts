@@ -21,6 +21,7 @@ import { roleGuard } from './auth/guards/role-guard';
 import { StripeCheckoutComponent } from './stripe/stripe-checkout/stripe-checkout.component';
 import { StripeCompletionComponent } from './stripe/stripe-completion/stripe-completion.component';
 import { AddAdminComponent } from './admin/add-admin/add-admin.component';
+import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
 
 const routes: Routes = [
   {
@@ -103,6 +104,10 @@ const routes: Routes = [
       {
         path: 'category-edit/:id',
         component: CategoryEditComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersTableComponent,
       },
     ]
   }

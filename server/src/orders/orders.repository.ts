@@ -35,7 +35,26 @@ export class OrdersRepository {
      * @returns - Listado de las ordenes
      */
     async findAll() {
-        return await this.prisma.order.findMany();
+        return await this.prisma.order.findMany({
+            include: {
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        mobile: true,
+                    }
+                },
+                address: {
+                    select: {
+                        street: true,
+                        city: true,
+                        postalCode: true,
+                        country: true,
+                    }
+                },
+            }
+        });
     }
     
     /**

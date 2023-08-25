@@ -24,6 +24,7 @@ import { AddressesModule } from './addresses/addresses.module';
 import { CategoriesModule } from './categories/categories.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SharedModule } from './shared/shared.module';
+import { OrdersModule } from './orders/orders.module';
 
  
 @NgModule({
@@ -51,6 +52,7 @@ import { SharedModule } from './shared/shared.module';
     MatCardModule,
     ReactiveFormsModule,
     SharedModule,
+    OrdersModule,
   ],
   providers: [
     {
