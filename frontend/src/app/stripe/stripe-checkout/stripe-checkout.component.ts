@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Appearance, Stripe, StripeElements, loadStripe } from '@stripe/stripe-js';
-import { CartsService } from 'src/app/carts/carts.service';
 import { environment } from 'src/environments/environment.development';
 
 
@@ -17,9 +16,7 @@ export class StripeCheckoutComponent implements OnInit {
   stripe!: Stripe | null;
   elements!: StripeElements;
 
-  constructor(
-    private cartsService: CartsService,
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.initialize();

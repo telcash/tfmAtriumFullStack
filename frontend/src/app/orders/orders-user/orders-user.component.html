@@ -1,0 +1,7 @@
+<div class="orders-container" *ngFor="let order of orders">
+    <mat-card>
+        <mat-card-content>
+            <app-order-card [order]="order"></app-order-card>
+        </mat-card-content>
+    </mat-card>
+</div>

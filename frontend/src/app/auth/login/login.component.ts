@@ -41,7 +41,11 @@ export class LoginComponent {
         const role = this.cookieService.get('role') ?? '';
         this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
-        this.router.navigate(['']);
+        if(role === 'ADMIN') {
+          this.router.navigateByUrl('admin/products')
+        } else {
+          this.router.navigateByUrl('/');
+        }
       },
       error: (error) => this.loginErrorMessage = 'Email o contraseña incorrecta'
     }

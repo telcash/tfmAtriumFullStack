@@ -27,6 +27,15 @@ export class OrdersController {
   }
 
   /**
+   * Endpoint para obtener todas las ordenes de un usuario autenticado
+   */
+  @UseGuards(JwtAccessGuard)
+  @Get('/myorders')
+  async findAllForUser(@User('sub') userId: number) {
+    return await this.ordersService.findAllForUser(userId);
+  }
+
+  /**
    * Endppoint para solicitar una orden por su id
    * Disponible solo para Admins
    * @param id 
@@ -66,14 +75,7 @@ export class OrdersController {
     return await this.ordersService.remove(+id);
   }
 
-  /**
-   * Endpoint para obtener todas las ordenes de un usuario autenticado
-   */
-  @UseGuards(JwtAccessGuard)
-  @Get('/myorders')
-  async findAllForUser(@User('sub') userId: number) {
-    return await this.ordersService.findAllForUser(userId);
-  }
+  
 
   /**
    * Endpoint para obtener una orden por su id para un usuario autenticado

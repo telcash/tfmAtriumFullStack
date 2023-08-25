@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GlobalConstants } from '../config/global-constants';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Order } from './models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +16,9 @@ export class OrdersService {
 
   getAllOrders() {
     return this.http.get<any>(this.url);
+  }
+
+  getAllUserOrders() {
+    return this.http.get<Order[]>(`${this.url}/myorders`)
   }
 }

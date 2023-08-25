@@ -91,15 +91,13 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    if(this.selectAddress.value?.id) {
-      this.cartsService.checkout(this.selectAddress.value.id).subscribe(
-        (data) => {
-          const clientSecret = data.clientSecret;
-          localStorage.setItem('client_secret',clientSecret);
-          this.router.navigateByUrl('/stripe-checkout');
-        }
-      );
-    }
+    this.cartsService.checkout(this.selectAddress.value!.id).subscribe(
+      (data) => {
+        const clientSecret = data.clientSecret;
+        localStorage.setItem('client_secret',clientSecret);
+        this.router.navigateByUrl('/stripe-checkout');
+      }
+    );
   }
 
   setSelectedAddressToNull() {

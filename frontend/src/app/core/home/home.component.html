@@ -11,7 +11,7 @@
               <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/products">Productos</button>
               <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/categories">Categorías</button>
               <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/users">Usuarios</button>
-              <button mat-menu-item (click)="drawer.toggle()">Órdenes</button>
+              <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/orders">Órdenes</button>
             </div>
           </mat-menu>
         <button *ngIf="!isUserLogged" mat-raised-button (click)="drawer.toggle()" routerLink="/auth/signup">Registrarse</button>
@@ -19,7 +19,7 @@
           <mat-menu #account yPosition="below" xPosition="after">
             <div class="mat-menu-items">
               <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile">Mi Perfil</button>
-              <button mat-menu-item (click)="drawer.toggle()">Mis Pedidos</button>
+              <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/orders">Mis órdenes</button>
               <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile/addresses">Mis Direcciones</button>
               <button mat-menu-item (click)="drawer.toggle()" (click)="logout()">Cerrar Sesión</button>
             </div>
@@ -46,13 +46,13 @@
             <button mat-menu-item routerLink="/admin/products">Productos</button>
             <button mat-menu-item routerLink="/admin/categories">Categorías</button>
             <button mat-menu-item routerLink="/admin/users">Usuarios</button>
-            <button mat-menu-item>Órdenes</button>
+            <button mat-menu-item routerLink="/admin/orders">Órdenes</button>
           </mat-menu>
           <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
           <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
           <mat-menu #account yPosition="below">
             <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
-            <button mat-menu-item>Mis Pedidos</button>
+            <button mat-menu-item routerLink="/users/orders">Mis órdenes</button>
             <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
             <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
           </mat-menu>

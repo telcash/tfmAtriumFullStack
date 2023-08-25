@@ -1,0 +1,56 @@
+.order-card-container {
+    width: 100%;
+}
+
+.order-card-header {
+    width: 95%;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+}
+
+.order-date, .order-total, .order-status {
+    flex: 1;
+}
+
+.order-address {
+    flex: 3;
+}
+
+.order-address ul {
+    padding: unset;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    list-style-type: none;
+}
+
+.order-card-content {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+img {
+    width: 75px;
+    height: 75px;
+}
+
+.order-item-container {
+    display: flex;
+    flex-flow: row nowrap;
+    row-gap: 10px;
+    column-gap: 30px;
+}
+
+.item-info {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+.order-card-actions {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+}

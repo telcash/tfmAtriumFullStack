@@ -22,6 +22,7 @@ import { StripeCheckoutComponent } from './stripe/stripe-checkout/stripe-checkou
 import { StripeCompletionComponent } from './stripe/stripe-completion/stripe-completion.component';
 import { AddAdminComponent } from './admin/add-admin/add-admin.component';
 import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
+import { OrdersUserComponent } from './orders/orders-user/orders-user.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'users/myprofile/addresses/edit-address/:id',
     component: AddressEditComponent,
+  },
+  {
+    path: 'users/orders',
+    component: OrdersUserComponent,
   },
   {
     path: 'mycart',

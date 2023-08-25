@@ -53,6 +53,19 @@ export class OrdersRepository {
                         country: true,
                     }
                 },
+                items: {
+                    select: {
+                        quantity: true,
+                        price: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                price: true,
+                            }
+                        }
+                    }
+                }
             }
         });
     }
@@ -107,6 +120,28 @@ export class OrdersRepository {
         return await this.prisma.order.findMany({
             where: {
                 userId: userId,
+            },
+            include: {
+                address: {
+                    select: {
+                        street: true,
+                        city: true,
+                        postalCode: true,
+                        country: true,
+                    }
+                },
+                items: {
+                    select: {
+                        quantity: true,
+                        price: true,
+                        product: {
+                            select: {
+                                name: true,
+                                image: true,
+                            }
+                        }
+                    }
+                }
             }
         })
     }

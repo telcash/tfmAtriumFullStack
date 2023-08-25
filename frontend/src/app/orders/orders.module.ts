@@ -3,17 +3,25 @@ import { CommonModule } from '@angular/common';
 import { OrdersTableComponent } from './orders-table/orders-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { OrdersUserComponent } from './orders-user/orders-user.component';
+import { OrderCardComponent } from './order-card/order-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
 @NgModule({
   declarations: [
-    OrdersTableComponent
+    OrdersTableComponent,
+    OrdersUserComponent,
+    OrderCardComponent
   ],
   imports: [
     CommonModule,
     MatTableModule,
     MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
   ]
 })
 export class OrdersModule { }

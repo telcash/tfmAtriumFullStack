@@ -1,0 +1,44 @@
+<div class="order-card-container">
+    <mat-card class="order-card">
+        <mat-card-header class="order-card-header">
+            <div class="order-date">
+                <h2>Fecha de la orden</h2>
+                <p>{{order.createdAt | date: 'dd/MM/yyyy' }}</p>
+            </div>
+            <div class="order-total">
+                <h2>Total</h2>
+                <p>{{order.total | currency: 'EUR':'symbol'}}</p>
+            </div>
+            <div class="order-status">
+                <h2>Status</h2>
+                <p>{{order.status}}</p>
+            </div>
+            <div class="order-address">
+                <h2>Enviar a</h2>
+                <ul>
+                    <li>{{order.address?.street}}</li>
+                    <li>{{order.address?.city}}, {{order.address?.postalCode}}</li>
+                    <li>{{order.address?.country}}</li>
+                </ul>
+            </div>
+        </mat-card-header>
+        <mat-card-content class="order-card-content">
+            <div class="order-item-container" *ngFor="let item of order.items">
+                <div>
+                    <img mat-card-image src="{{item.product.image}}">
+                </div>
+                <div class="item-info">
+                    <mat-card-title>{{item.product.name}}</mat-card-title>
+                    <mat-card-subtitle>Cantidad: {{item.quantity}}</mat-card-subtitle>
+                </div>
+                <mat-card-actions >
+                    <div class="order-card-actions">
+                        <button mat-raised-button color="primary">PAGAR</button>
+                        <button mat-raised-button color="primary">CANCELAR</button>
+                        <button mat-raised-button color="primary">ELIMINAR</button>
+                    </div>
+                </mat-card-actions>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
