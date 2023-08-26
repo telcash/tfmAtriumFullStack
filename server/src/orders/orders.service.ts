@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersRepository } from './orders.repository';
+
 
 @Injectable()
 export class OrdersService {
@@ -21,6 +22,7 @@ export class OrdersService {
 
   /**
    * Gestiona la busqueda de un listado de todas las ordenes
+   * Disponible solo para Administradores
    * Invoca al método findAll() de {@link OrdersRepository} para hacer la busqueda
    * @returns - Listado de las ordenes
    */
@@ -78,5 +80,13 @@ export class OrdersService {
    */
   async findOneForUser(id: number, userId: number) {
     return await this.ordersRepository.findOneForUser(id, userId);
+  }
+
+  async removeOneForUser(id: number, userId: number) {
+    return await this.ordersRepository.removeOneForUser(id, userId)
+  }
+
+  async findByPaymentIntent(paymentIntent: string) {
+    return await this.ordersRepository.findByPaymentIntent(paymentIntent);
   }
 }

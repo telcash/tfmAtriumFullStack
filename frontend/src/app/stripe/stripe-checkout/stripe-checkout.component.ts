@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Appearance, Stripe, StripeElements, loadStripe } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment.development';
 
@@ -15,6 +15,7 @@ export class StripeCheckoutComponent implements OnInit {
   emailAddress = '';
   stripe!: Stripe | null;
   elements!: StripeElements;
+
 
   constructor() {}
 

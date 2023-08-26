@@ -95,7 +95,7 @@ export class CartComponent implements OnInit {
       (data) => {
         const clientSecret = data.clientSecret;
         localStorage.setItem('client_secret',clientSecret);
-        this.router.navigateByUrl('/stripe-checkout');
+        this.router.navigateByUrl('stripe-checkout');
       }
     );
   }

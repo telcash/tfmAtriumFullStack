@@ -10,6 +10,7 @@ import { User } from 'src/users/decorators/user.decorator';
 /**
  * Controlador del modulo {@link OrdersModule}
  */
+@UseGuards(JwtAccessGuard)
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -19,7 +20,7 @@ export class OrdersController {
    * Disponible solo para Admins
    * @returns - Listado de ordenes
    */
-  @UseGuards(JwtAccessGuard, RoleGuard)
+  @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Get()
   async findAll() {
@@ -29,7 +30,6 @@ export class OrdersController {
   /**
    * Endpoint para obtener todas las ordenes de un usuario autenticado
    */
-  @UseGuards(JwtAccessGuard)
   @Get('/myorders')
   async findAllForUser(@User('sub') userId: number) {
     return await this.ordersService.findAllForUser(userId);
@@ -41,7 +41,7 @@ export class OrdersController {
    * @param id 
    * @returns 
    */
-  @UseGuards(JwtAccessGuard, RoleGuard)
+  @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -55,7 +55,7 @@ export class OrdersController {
    * @param updateOrderDto 
    * @returns 
    */
-  @UseGuards(JwtAccessGuard, RoleGuard)
+  @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
@@ -68,14 +68,12 @@ export class OrdersController {
    * @param id 
    * @returns 
    */
-  @UseGuards(JwtAccessGuard, RoleGuard)
+  @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.ordersService.remove(+id);
   }
-
-  
 
   /**
    * Endpoint para obtener una orden por su id para un usuario autenticado
@@ -83,11 +81,17 @@ export class OrdersController {
    * @param userId 
    * @returns 
    */
-  @UseGuards(JwtAccessGuard)
   @Get('/myorders/:id')
   async findOneForUser(@Param('id') id: string, @User('sub') userId: number) {
     return await this.ordersService.findOneForUser(+id, userId);
   }
 
+  /**
+   * Endpoint para eliminar una orden por su id para un usuario autenticado
+   */
+  @Delete('/myorders/:id')
+  async removeOneForUser(@Param('id') id: string, @User('sub') userId: number) {
+    return await this.ordersService.removeOneForUser(+id, userId);
+  }
 
 }

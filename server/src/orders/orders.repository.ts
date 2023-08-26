@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { OrderStatus } from "./constants/order-status";
 
 @Injectable()
 export class OrdersRepository {
@@ -107,6 +108,9 @@ export class OrdersRepository {
         return await this.prisma.order.delete({
             where: {
                 id: id,
+                status: {
+                    not: OrderStatus.PAID
+                }
             }
         })
     }
@@ -142,7 +146,10 @@ export class OrdersRepository {
                         }
                     }
                 }
-            }
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
         })
     }
 
@@ -157,6 +164,28 @@ export class OrdersRepository {
             where: {
                 id: id,
                 userId: userId,
+            }
+        })
+    }
+
+    async removeOneForUser(id: number, userId: number) {
+        return await this.prisma.order.delete({
+            where: {
+                id: id,
+                userId: userId,
+                status: {
+                    not: OrderStatus.PAID
+                }
+            }
+        })
+    }
+
+    async findByPaymentIntent(paymentIntent: string) {
+        return await this.prisma.order.findFirst({
+            where: {
+                stripeClientSecret: {
+                    contains: paymentIntent,
+                }
             }
         })
     }

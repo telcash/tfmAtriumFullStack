@@ -7,6 +7,7 @@ import { OrdersUserComponent } from './orders-user/orders-user.component';
 import { OrderCardComponent } from './order-card/order-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { OrderCheckoutComponent } from './order-checkout/order-checkout.component';
 
 
 
@@ -14,7 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
   declarations: [
     OrdersTableComponent,
     OrdersUserComponent,
-    OrderCardComponent
+    OrderCardComponent,
+    OrderCheckoutComponent
   ],
   imports: [
     CommonModule,

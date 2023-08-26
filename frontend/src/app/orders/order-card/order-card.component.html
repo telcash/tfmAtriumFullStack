@@ -31,14 +31,14 @@
                     <mat-card-title>{{item.product.name}}</mat-card-title>
                     <mat-card-subtitle>Cantidad: {{item.quantity}}</mat-card-subtitle>
                 </div>
-                <mat-card-actions >
-                    <div class="order-card-actions">
-                        <button mat-raised-button color="primary">PAGAR</button>
-                        <button mat-raised-button color="primary">CANCELAR</button>
-                        <button mat-raised-button color="primary">ELIMINAR</button>
-                    </div>
-                </mat-card-actions>
             </div>
         </mat-card-content>
+        <mat-card-actions >
+            <div class="order-card-actions">
+                <button *ngIf="paymentEnabled" (click)="payOrder()" mat-raised-button color="primary">PAGAR</button>
+                <button *ngIf="cancelEnabled" (click)="cancelOrder()" mat-raised-button color="primary">CANCELAR</button>
+                <button *ngIf="deleteEnabled" mat-raised-button color="primary">ELIMINAR</button>
+            </div>
+        </mat-card-actions>
     </mat-card>
 </div>
