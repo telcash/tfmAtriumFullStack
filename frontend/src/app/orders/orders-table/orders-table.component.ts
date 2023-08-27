@@ -21,10 +21,7 @@ export class OrdersTableComponent {
 
   getOrdersList() {
     this.ordersService.getAllOrders().subscribe(
-      orders => {
-        console.log(orders);
-        this.orders = orders;
-      }
+      orders => this.orders = orders,
     )
   }
 }

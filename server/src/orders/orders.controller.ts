@@ -30,6 +30,8 @@ export class OrdersController {
 
   /**
    * Endpoint para obtener todas las ordenes de un usuario autenticado
+   * @param {number} userId - Id del usuario
+   * @returns - Listado de ordenes del usuario
    */
   @Get('/myorders')
   async findAllForUser(@User('sub') userId: number) {
@@ -87,6 +89,13 @@ export class OrdersController {
     return await this.ordersService.findOneForUser(+id, userId);
   }
   
+  /**
+   * Endpoint para actualizar una orden por su id para un usuario autenticado
+   * @param id 
+   * @param userId 
+   * @param updateOrderDto 
+   * @returns 
+   */
   @UseInterceptors(OrdersInterceptor)
   @Patch('/myorders/:id')
   async updateOneForUser(@Param('id') id: string, @User('sub') userId: number, @Body() updateOrderDto: UpdateOrderDto) {
