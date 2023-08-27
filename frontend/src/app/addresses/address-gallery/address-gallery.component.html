@@ -2,10 +2,22 @@
     <span>Mis direcciones</span>
 </mat-toolbar>
 <div class="address-gallery-container">
-    <mat-toolbar>
+    <mat-toolbar *ngIf="addresses.length > 0">
         <button mat-raised-button routerLink="add-address">Agregar dirección</button>
     </mat-toolbar>
     <div class="address-gallery">
+        <div *ngIf="addresses.length === 0" class="empty-addresses">
+            <mat-card *ngIf="addresses.length === 0">
+                <mat-card-header>
+                    <mat-card-title>
+                        No tiene ninguna dirección registrada
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" routerLink="add-address">Agregar dirección</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
         <div *ngFor="let address of addresses">
             <app-address-card [address]="address" (addressDeleted)="addressDeleted()"></app-address-card>
         </div>

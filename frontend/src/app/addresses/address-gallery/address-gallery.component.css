@@ -9,3 +9,17 @@
     flex-flow: wrap row;
     gap: 10px;
 }
+
+.empty-addresses {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.empty-addresses mat-card-actions {
+    display: flex;
+    justify-content: center;
+}

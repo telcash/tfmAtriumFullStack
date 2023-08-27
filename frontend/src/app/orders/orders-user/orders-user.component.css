@@ -1,8 +1,10 @@
 .orders-container {
     width: 100%;
     display: flex;
+    flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+    padding-top: 10px;
 }
 
 .orders {
@@ -10,4 +12,18 @@
     max-width: 800px;
     display: flex;
     flex-flow: column nowrap;
+}
+
+.empty-orders {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.empty-orders mat-card-actions {
+    display: flex;
+    justify-content: center;
 }

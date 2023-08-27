@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { OrdersService } from './orders.service';
 import { MatDividerModule } from '@angular/material/divider';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -25,6 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCardModule,
     MatButtonModule,
     MatDividerModule,
+    AppRoutingModule,
   ],
   exports: [
     OrderCardComponent,

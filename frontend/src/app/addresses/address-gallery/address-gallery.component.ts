@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AddressGalleryComponent implements OnInit {
 
-  addresses!: Address[];
+  addresses: Address[] = [];
 
   constructor(
     private addressesService: AddressesService,

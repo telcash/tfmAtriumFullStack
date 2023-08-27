@@ -2,6 +2,18 @@
     <span>Mis órdenes</span>
 </mat-toolbar>
 <div class="orders-container" >
+    <div *ngIf="orders.length === 0" class="empty-orders">
+        <mat-card >
+            <mat-card-header>
+                <mat-card-title>
+                    No tiene ninguna orden registrada
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" routerLink="/">Comprar</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
     <div class="orders">
         <mat-card *ngFor="let order of orders">
             <mat-card-content>

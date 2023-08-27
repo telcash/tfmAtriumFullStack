@@ -36,9 +36,16 @@
 
 .empty-cart {
     width: 100%;
+    max-width: 360px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.empty-cart mat-card-actions {
+    display: flex;
+    justify-content: center;
 }
 
 .main-info {
