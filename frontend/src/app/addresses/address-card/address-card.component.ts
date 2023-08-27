@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Address } from '../models/address';
 import { AddressesService } from '../addresses.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddressDeleteDialogComponent } from '../address-delete-dialog/address-delete-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { confirmDialogOptions } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-address-card',
@@ -25,11 +26,13 @@ export class AddressCardComponent {
   }
 
   openDeleteDialog() {
-    const dialogRef = this.dialog.open(AddressDeleteDialogComponent, {
-      width: '250px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
-    });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Eliminar dirección',
+        question: '¿Desea eliminar la dirección?',
+      },
+      ...confirmDialogOptions,
+    })
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {

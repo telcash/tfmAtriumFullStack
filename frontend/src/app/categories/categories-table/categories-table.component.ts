@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CategoriesService } from '../categories.service';
 import { Category } from '../models/category';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryDeleteDialogComponent } from '../category-delete-dialog/category-delete-dialog.component';
+import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-categories-table',
@@ -40,11 +40,13 @@ export class CategoriesTableComponent {
   }
 
   openDeleteDialog(categoryId: number) {
-    const dialogRef = this.dialog.open(CategoryDeleteDialogComponent, {
-      width: '250px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
-    });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Eliminar categoría',
+        question: '¿Desea eliminar la categoría?',
+      },
+      ...confirmDialogOptions,
+    })
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {

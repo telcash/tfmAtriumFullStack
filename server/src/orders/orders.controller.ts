@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -6,6 +6,7 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
+import { OrdersInterceptor } from './interceptor/orders/orders.interceptor';
 
 /**
  * Controlador del modulo {@link OrdersModule}
@@ -84,6 +85,12 @@ export class OrdersController {
   @Get('/myorders/:id')
   async findOneForUser(@Param('id') id: string, @User('sub') userId: number) {
     return await this.ordersService.findOneForUser(+id, userId);
+  }
+  
+  @UseInterceptors(OrdersInterceptor)
+  @Patch('/myorders/:id')
+  async updateOneForUser(@Param('id') id: string, @User('sub') userId: number, @Body() updateOrderDto: UpdateOrderDto) {
+    return await this.ordersService.updateOneForUser(+id, userId, updateOrderDto);
   }
 
   /**

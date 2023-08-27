@@ -1,7 +1,12 @@
-<div class="orders-container" *ngFor="let order of orders">
-    <mat-card>
-        <mat-card-content>
-            <app-order-card [order]="order"></app-order-card>
-        </mat-card-content>
-    </mat-card>
+<mat-toolbar>
+    <span>Mis órdenes</span>
+</mat-toolbar>
+<div class="orders-container" >
+    <div class="orders">
+        <mat-card *ngFor="let order of orders">
+            <mat-card-content>
+                <app-order-card [order]="order" (payment)="payment($event)"></app-order-card>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>

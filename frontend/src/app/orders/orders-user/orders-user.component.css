@@ -1,0 +1,13 @@
+.orders-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orders {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-flow: column nowrap;
+}

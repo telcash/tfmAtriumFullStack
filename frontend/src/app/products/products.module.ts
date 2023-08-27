@@ -17,7 +17,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductsTableComponent } from './products-table/products-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ProductDeleteDialogComponent } from './product-delete-dialog/product-delete-dialog.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
 
@@ -32,7 +31,6 @@ import { AppRoutingModule } from '../app-routing.module';
     ProductGalleryComponent,
     ProductCreateComponent,
     ProductsTableComponent,
-    ProductDeleteDialogComponent,
     ProductEditComponent,
     ProductCategoriesComponent,
   ],
@@ -52,7 +50,6 @@ import { AppRoutingModule } from '../app-routing.module';
     MatToolbarModule,
     MatTooltipModule,
     MatTableModule,
-    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,

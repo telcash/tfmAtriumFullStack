@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/auth/models/user';
 import { UsersService } from '../users.service';
 import { MatDialog } from '@angular/material/dialog';
-import { UserDeleteDialogComponent } from '../user-delete-dialog/user-delete-dialog.component';
+import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-users-table',
@@ -37,11 +37,13 @@ export class UsersTableComponent implements OnInit {
   }
 
   openDeleteDialog(userId: number) {
-    const dialogRef = this.dialog.open(UserDeleteDialogComponent, {
-      width: '250px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
-    });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Eliminar usuario',
+        question: '¿Desea eliminar el usuario?',
+      },
+      ...confirmDialogOptions,
+    })
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if(confirmed) {

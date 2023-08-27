@@ -1,3 +1,30 @@
+.checkout-container {
+  padding-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.checkout {
+  width:100%;
+  max-width: 800px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-order h1 {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  text-align: center;
+}
+
+
 /* Variables */
 * {
     box-sizing: border-box;

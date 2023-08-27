@@ -82,6 +82,10 @@ export class OrdersService {
     return await this.ordersRepository.findOneForUser(id, userId);
   }
 
+  async updateOneForUser(id: number, userId: number, updateOrderDto: UpdateOrderDto) {
+    return await this.ordersRepository.updateOneForUser(id, userId, updateOrderDto);
+  }
+
   async removeOneForUser(id: number, userId: number) {
     return await this.ordersRepository.removeOneForUser(id, userId)
   }

@@ -55,7 +55,6 @@ export class CheckoutPipe implements PipeTransform {
       userId: checkoutCartDto.userId,
       total: checkoutCartDto.cart.total,
       status: OrderStatus.STARTED,
-      stripeClientSecret: '',
       addressId: checkoutCartDto.addressId,
     }
 

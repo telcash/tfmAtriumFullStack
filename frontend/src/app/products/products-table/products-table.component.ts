@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import { ProductsService } from '../products.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductDeleteDialogComponent } from '../product-delete-dialog/product-delete-dialog.component';
 import { GlobalConstants } from 'src/app/config/global-constants';
+import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-products-table',
@@ -39,11 +39,13 @@ export class ProductsTableComponent implements OnInit {
   }
 
   openDeleteDialog(productId: number) {
-    const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
-      width: '250px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
-    });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Eliminar producto',
+        question: '¿Desea eliminar el producto?',
+      },
+      ...confirmDialogOptions,
+    })
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {

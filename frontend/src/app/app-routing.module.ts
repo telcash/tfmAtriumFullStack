@@ -66,7 +66,7 @@ const routes: Routes = [
     component: CartComponent,
   },
   {
-    path: 'stripe-checkout',
+    path: 'checkout/:id',
     component: StripeCheckoutComponent,
   },
   {

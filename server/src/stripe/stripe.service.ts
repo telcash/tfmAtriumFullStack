@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { OrderStatus } from "src/orders/constants/order-status";
 import { OrdersService } from "src/orders/orders.service";
 import Stripe from "stripe";
@@ -8,20 +8,43 @@ const stripe: Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 @Injectable()
 export class StripeService {
 
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(
+    private readonly ordersService: OrdersService,
+    ) {}
 
   /**
    * Crea un paymentintent en Stripe
-   * @param {number} orderAmount - Cantidad a pagar 
    * @returns - Objeto con la clave única para el cliente realizar el pago
    */
-  async createPaymentIntent(orderAmount: number) {
-    console.log('intento de pago')
-    return await stripe.paymentIntents.create({
+  async createPaymentIntent(orderId: number, userId: number) {
+    const order = await this.ordersService.findOneForUser(orderId, userId)
+
+    if(order.status === OrderStatus.PAID || order.status === OrderStatus.COMPLETED) {
+      throw new BadRequestException('The order is already paid')
+    }
+
+    if(order.status === OrderStatus.CANCELLED) {
+      throw new BadRequestException('The order was cancelled')
+    }
+
+    if(order.paymentIntent) {
+      await this.cancelPaymentIntent(order.paymentIntent);
+    }
+
+    const orderAmount = order.total * 100;
+    const paymentIntent = await stripe.paymentIntents.create({
       amount: orderAmount,
       currency: 'eur',
       payment_method_types: ['card'],
     });
+    
+    await this.ordersService.update(orderId, 
+      { 
+        paymentIntent: paymentIntent.id,
+        status: OrderStatus.PROCESSING_PAYMENT,
+      }
+    );
+    return { clientSecret: paymentIntent.client_secret };
   }
 
   async handleStripeRequest(request: any, response: any) {
@@ -71,6 +94,10 @@ export class StripeService {
   async handlePaymentIntentSucceeded(paymentIntent: string) {
     const id =(await this.ordersService.findByPaymentIntent(paymentIntent)).id;
     await this.ordersService.update(id, { status: OrderStatus.PAID })
+  }
+
+  async cancelPaymentIntent(paymentIntent: string) {
+    return await stripe.paymentIntents.cancel(paymentIntent);
   }
 
 }

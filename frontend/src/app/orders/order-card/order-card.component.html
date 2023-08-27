@@ -22,6 +22,7 @@
                 </ul>
             </div>
         </mat-card-header>
+        <mat-divider></mat-divider>
         <mat-card-content class="order-card-content">
             <div class="order-item-container" *ngFor="let item of order.items">
                 <div>
@@ -33,11 +34,13 @@
                 </div>
             </div>
         </mat-card-content>
+        <mat-divider></mat-divider>
         <mat-card-actions >
             <div class="order-card-actions">
                 <button *ngIf="paymentEnabled" (click)="payOrder()" mat-raised-button color="primary">PAGAR</button>
-                <button *ngIf="cancelEnabled" (click)="cancelOrder()" mat-raised-button color="primary">CANCELAR</button>
-                <button *ngIf="deleteEnabled" mat-raised-button color="primary">ELIMINAR</button>
+                <button *ngIf="cancelEnabled" (click)="openCancelDialog()" mat-raised-button color="primary">CANCELAR</button>
+                <button *ngIf="deleteEnabled" mat-raised-button color="primary">BORRAR</button>
+                <button *ngIf="goToOrdersEnabled" (click)="goToOrders()" mat-raised-button color="primary">IR A MIS ORDENES</button>
             </div>
         </mat-card-actions>
     </mat-card>

@@ -3,6 +3,7 @@
  */
 export const OrderStatus = {
     STARTED: "INICIADA",
+    PROCESSING_PAYMENT: "PROCESANDO PAGO",
     CANCELLED: "CANCELADA",
     PAID: "PAGADA",
     COMPLETED: "COMPLETADA",

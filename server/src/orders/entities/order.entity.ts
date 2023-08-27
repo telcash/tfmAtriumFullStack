@@ -9,7 +9,7 @@ export class OrderEntity implements Order{
     userId: number;
     total: number;
     status: string;
-    stripeClientSecret: string;
+    paymentIntent: string;
     addressId: number;
     createdAt: Date;
     updatedAt: Date;

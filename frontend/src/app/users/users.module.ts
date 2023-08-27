@@ -13,8 +13,6 @@ import { UserUpdateComponent } from './user-update/user-update.component';
 import { AuthModule } from '../auth/auth.module';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialogModule } from '@angular/material/dialog';
-import { UserDeleteDialogComponent } from './user-delete-dialog/user-delete-dialog.component';
 import { AppRoutingModule } from '../app-routing.module';
 
 
@@ -24,7 +22,6 @@ import { AppRoutingModule } from '../app-routing.module';
     UserProfileComponent,
     UserUpdateComponent,
     UsersTableComponent,
-    UserDeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +33,6 @@ import { AppRoutingModule } from '../app-routing.module';
     MatToolbarModule,
     MatButtonModule,
     MatTableModule,
-    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,

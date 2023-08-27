@@ -7,6 +7,8 @@ import { AddressesService } from 'src/app/addresses/addresses.service';
 import { Address } from 'src/app/addresses/models/address';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-carts',
@@ -30,6 +32,7 @@ export class CartComponent implements OnInit {
     private cartsService: CartsService,
     private addressesService: AddressesService,
     private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -93,11 +96,26 @@ export class CartComponent implements OnInit {
   checkout() {
     this.cartsService.checkout(this.selectAddress.value!.id).subscribe(
       (data) => {
-        const clientSecret = data.clientSecret;
-        localStorage.setItem('client_secret',clientSecret);
-        this.router.navigateByUrl('stripe-checkout');
+        const orderId = data.orderId;
+        this.router.navigateByUrl(`checkout/${orderId}`);
       }
     );
+  }
+
+  openCheckoutDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Tramitar',
+        question: '¿Desea tramitar el pedido?. Ya no podra realizar cambios en la orden.',
+      },
+      ...confirmDialogOptions,
+    })
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if(confirmed) {
+        this.checkout();
+      }
+    })
   }
 
   setSelectedAddressToNull() {

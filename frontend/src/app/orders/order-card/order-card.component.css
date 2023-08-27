@@ -1,9 +1,9 @@
 .order-card-container {
-    width: 100%;
+    max-width: 800px;
 }
 
 .order-card-header {
-    width: 95%;
+    max-width: 100%;
     display: flex;
     flex-flow: row nowrap;
     gap: 10px;
@@ -29,6 +29,7 @@
     display: flex;
     flex-flow: column nowrap;
     gap: 10px;
+    padding: 20px;
 }
 
 img {
@@ -50,7 +51,9 @@ img {
 }
 
 .order-card-actions {
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
     gap: 20px;
 }

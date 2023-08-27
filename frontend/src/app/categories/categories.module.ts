@@ -10,8 +10,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CategoryDeleteDialogComponent } from './category-delete-dialog/category-delete-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
 import { AppRoutingModule } from '../app-routing.module';
 
@@ -21,7 +19,6 @@ import { AppRoutingModule } from '../app-routing.module';
   declarations: [
     CategoriesTableComponent,
     CategoryCreateComponent,
-    CategoryDeleteDialogComponent,
     CategoryEditComponent
   ],
   providers: [
@@ -35,7 +32,6 @@ import { AppRoutingModule } from '../app-routing.module';
     MatToolbarModule,
     MatCardModule,
     MatInputModule,
-    MatDialogModule,
     ReactiveFormsModule,
     AppRoutingModule,
   ]

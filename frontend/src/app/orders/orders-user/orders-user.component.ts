@@ -3,6 +3,8 @@ import { Order } from '../models/order';
 import { OrdersService } from '../orders.service';
 import { tap } from 'rxjs';
 import { GlobalConstants } from 'src/app/config/global-constants';
+import { Router } from '@angular/router';
+import { OrderStatus } from '../constants/order-status';
 
 @Component({
   selector: 'app-orders-user',
@@ -13,9 +15,10 @@ export class OrdersUserComponent implements OnInit {
 
   orders: Order[] = [];
 
-  constructor(private ordersService: OrdersService) {}
-
-
+  constructor(
+    private ordersService: OrdersService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.ordersService.getAllUserOrders().pipe(
@@ -29,5 +32,8 @@ export class OrdersUserComponent implements OnInit {
     )
   }
 
-
+  payment(orderId: number) {
+    this.router.navigateByUrl(`checkout/${orderId}`)
+  }
+  
 }

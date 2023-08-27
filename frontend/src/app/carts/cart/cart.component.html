@@ -1,3 +1,6 @@
+<mat-toolbar>
+    <span>Cesta</span>
+</mat-toolbar>
 <div class="cart-container">
     <div class="cart-payment-container" [class.payment-handset]="(isSmall | async)">
         <mat-card>
@@ -6,7 +9,7 @@
                 <mat-card-title>{{total | currency: 'EUR':'symbol'}}</mat-card-title>
             </mat-card-header>
             <mat-card-actions>
-                <button mat-raised-button color="primary" type="button" (click)="checkout()" [disabled]="!(selectAddress.value?.id !== null && cartItems.length > 0)">PAGAR</button>
+                <button mat-raised-button color="primary" type="button" (click)="openCheckoutDialog()" [disabled]="!(selectAddress.value?.id !== null && cartItems.length > 0)">TRAMITAR PEDIDO</button>
             </mat-card-actions>
         </mat-card>
     </div>

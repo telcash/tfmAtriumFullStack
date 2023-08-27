@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { AppRoutingModule } from '../app-routing.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -29,6 +30,7 @@ import { AppRoutingModule } from '../app-routing.module';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,

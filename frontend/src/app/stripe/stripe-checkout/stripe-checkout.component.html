@@ -1,13 +1,23 @@
-<form id="payment-form">
-    <div id="link-authentication-element">
-      <!--Stripe.js injects the Link Authentication Element-->
+<div class="checkout-container">
+  <div class="checkout">
+    <div *ngIf="!onCheckout" class="check-order">
+      <h1>Confirme los datos de su orden antes de proceder al pago</h1>
+      <app-order-card *ngIf="order" [order]="order" (payment)="initialize()" (cancel)="cancel()"></app-order-card>
     </div>
-    <div id="payment-element">
-      <!--Stripe.js injects the Payment Element-->
+    <div *ngIf="onCheckout">
+      <form id="payment-form">
+          <div id="link-authentication-element">
+            <!--Stripe.js injects the Link Authentication Element-->
+          </div>
+          <div id="payment-element">
+            <!--Stripe.js injects the Payment Element-->
+          </div>
+          <button id="submit" (click)="handleSubmit()">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Pay now</span>
+          </button>
+          <div id="payment-message" class="hidden"></div>
+      </form>
     </div>
-    <button id="submit" (click)="handleSubmit()">
-      <div class="spinner hidden" id="spinner"></div>
-      <span id="button-text">Pay now</span>
-    </button>
-    <div id="payment-message" class="hidden"></div>
-</form>
+  </div>
+</div>

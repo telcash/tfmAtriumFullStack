@@ -7,7 +7,8 @@ import { OrdersUserComponent } from './orders-user/orders-user.component';
 import { OrderCardComponent } from './order-card/order-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { OrderCheckoutComponent } from './order-checkout/order-checkout.component';
+import { OrdersService } from './orders.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 
@@ -16,7 +17,6 @@ import { OrderCheckoutComponent } from './order-checkout/order-checkout.componen
     OrdersTableComponent,
     OrdersUserComponent,
     OrderCardComponent,
-    OrderCheckoutComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +24,13 @@ import { OrderCheckoutComponent } from './order-checkout/order-checkout.componen
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatDividerModule,
+  ],
+  exports: [
+    OrderCardComponent,
+  ],
+  providers: [
+    OrdersService,
   ]
 })
 export class OrdersModule { }

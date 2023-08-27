@@ -15,14 +15,12 @@ export class OrdersRepository {
      * @returns - Orden creda
      */
     async create(createOrderDto: CreateOrderDto, items) {
-        console.log(createOrderDto)
-        console.log(items)
         return await this.prisma.order.create({
             data: {
                 userId: createOrderDto.userId,
                 total: createOrderDto.total,
                 status: createOrderDto.status,
-                stripeClientSecret: createOrderDto.stripeClientSecret,
+                paymentIntent: createOrderDto.paymentIntent,
                 addressId: createOrderDto.addressId,
                 items: {
                     create: items,
@@ -164,7 +162,40 @@ export class OrdersRepository {
             where: {
                 id: id,
                 userId: userId,
-            }
+            },
+            include: {
+                address: {
+                    select: {
+                        street: true,
+                        city: true,
+                        postalCode: true,
+                        country: true,
+                    }
+                },
+                items: {
+                    select: {
+                        quantity: true,
+                        price: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                image: true,
+                            }
+                        }
+                    }
+                }
+            },
+        })
+    }
+
+    async updateOneForUser(id: number, userId: number, updateOrderDto: UpdateOrderDto) {
+        return await this.prisma.order.update({
+            where: {
+                id: id,
+                userId: userId,
+            },
+            data: updateOrderDto,
         })
     }
 
@@ -183,7 +214,7 @@ export class OrdersRepository {
     async findByPaymentIntent(paymentIntent: string) {
         return await this.prisma.order.findFirst({
             where: {
-                stripeClientSecret: {
+                paymentIntent: {
                     contains: paymentIntent,
                 }
             }
