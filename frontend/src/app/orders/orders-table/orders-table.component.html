@@ -17,7 +17,7 @@
 
             <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef> Total </th>
-                <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.total | currency: 'EUR':'symbol'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">

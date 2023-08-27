@@ -105,6 +105,7 @@ export class OrdersController {
   /**
    * Endpoint para eliminar una orden por su id para un usuario autenticado
    */
+  @UseInterceptors(OrdersInterceptor)
   @Delete('/myorders/:id')
   async removeOneForUser(@Param('id') id: string, @User('sub') userId: number) {
     return await this.ordersService.removeOneForUser(+id, userId);

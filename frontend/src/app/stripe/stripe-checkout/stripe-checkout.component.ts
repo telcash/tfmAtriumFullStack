@@ -121,10 +121,6 @@ export class StripeCheckoutComponent implements OnInit {
       } 
     }
   }
-
-  cancel() {
-    this.router.navigateByUrl('users/orders')
-  }
 }
 
 function showMessage(messageText: string) {

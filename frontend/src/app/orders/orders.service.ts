@@ -28,4 +28,8 @@ export class OrdersService {
     return this.http.patch<Order>(`${this.url}/myorders/${orderId}`, order)
   }
 
+  deleteUserOrder(orderId: number) {
+    return this.http.delete<Order>(`${this.url}/myorders/${orderId}`)
+  }
+
 }

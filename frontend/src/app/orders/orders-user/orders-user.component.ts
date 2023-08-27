@@ -4,7 +4,6 @@ import { OrdersService } from '../orders.service';
 import { tap } from 'rxjs';
 import { GlobalConstants } from 'src/app/config/global-constants';
 import { Router } from '@angular/router';
-import { OrderStatus } from '../constants/order-status';
 
 @Component({
   selector: 'app-orders-user',
@@ -34,6 +33,10 @@ export class OrdersUserComponent implements OnInit {
 
   payment(orderId: number) {
     this.router.navigateByUrl(`checkout/${orderId}`)
+  }
+
+  delete(orderId: number) {
+    this.orders.splice(this.orders.findIndex(order => order.id === orderId), 1);
   }
   
 }

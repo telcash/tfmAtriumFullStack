@@ -41,7 +41,7 @@ export class StripeService {
     await this.ordersService.update(orderId, 
       { 
         paymentIntent: paymentIntent.id,
-        status: OrderStatus.PROCESSING_PAYMENT,
+        status: OrderStatus.WAITING_PAYMENT,
       }
     );
     return { clientSecret: paymentIntent.client_secret };

@@ -9,7 +9,7 @@
                 <mat-card-title>{{total | currency: 'EUR':'symbol'}}</mat-card-title>
             </mat-card-header>
             <mat-card-actions>
-                <button mat-raised-button color="primary" type="button" (click)="openCheckoutDialog()" [disabled]="!(selectAddress.value?.id !== null && cartItems.length > 0)">TRAMITAR PEDIDO</button>
+                <button mat-raised-button color="primary" type="button" (click)="openCheckoutDialog()" [disabled]="!(selectAddress.value?.id !== null && cartItems.length > 0)">Tramitar pedido</button>
             </mat-card-actions>
         </mat-card>
     </div>

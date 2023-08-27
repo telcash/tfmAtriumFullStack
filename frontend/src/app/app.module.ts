@@ -25,7 +25,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SharedModule } from './shared/shared.module';
 import { OrdersModule } from './orders/orders.module';
-import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+
 
  
 @NgModule({

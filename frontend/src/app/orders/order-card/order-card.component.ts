@@ -15,7 +15,6 @@ export class OrderCardComponent implements OnInit {
   
   @Input() order!: Order;
   @Output() payment = new EventEmitter<number>();
-  @Output() cancel = new EventEmitter<Order>();
   @Output() delete = new EventEmitter<number>();
   paymentEnabled: boolean = false;
   cancelEnabled: boolean = false;
@@ -30,8 +29,8 @@ export class OrderCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paymentEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.PROCESSING_PAYMENT)
-    this.cancelEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.PROCESSING_PAYMENT) && this.route.snapshot.url[0].path !== 'checkout';
+    this.paymentEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT)
+    this.cancelEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT) && this.route.snapshot.url[0].path !== 'checkout';
     this.deleteEnabled = (this.order.status !== OrderStatus.PAID) && this.route.snapshot.url[0].path !== 'checkout';
     this.goToOrdersEnabled = this.route.snapshot.url[0].path === 'checkout'
   }
@@ -48,7 +47,6 @@ export class OrderCardComponent implements OnInit {
         this.order.status = OrderStatus.CANCELLED;
         this.paymentEnabled = false;
         this.cancelEnabled = false;
-        this.cancel.emit(this.order);
       }
     )     
   }
@@ -70,7 +68,25 @@ export class OrderCardComponent implements OnInit {
   }
 
   deleteOrder() {
-    this.delete.emit(this.order.id);
+    this.ordersService.deleteUserOrder(this.order.id).subscribe(
+      () => this.delete.emit(this.order.id)
+    )
+  }
+
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Borrar orden',
+        question: '¿Desea borrar la orden? Una vez borrada ya no podrá verla en su listado',
+      },
+      ...confirmDialogOptions,
+    })
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteOrder();
+      }
+    })
   }
 
   goToOrders() {

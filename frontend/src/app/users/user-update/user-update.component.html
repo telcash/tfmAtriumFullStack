@@ -4,27 +4,31 @@
         <mat-card>
             <form class="form-main" [formGroup]="userUpdateForm" (ngSubmit)="onSubmit()">
                 <mat-form-field>
+                    <mat-label>Nombres</mat-label>
                     <mat-icon matPrefix>person</mat-icon>
                     <input type="text" matInput formControlName="firstName">
                     <mat-error *ngIf="userUpdateForm.controls.firstName.invalid">{{getFirstNameErrors()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Apellidos</mat-label>
                     <mat-icon matPrefix>person</mat-icon>
                     <input type="text" matInput formControlName="lastName">
                     <mat-error *ngIf="userUpdateForm.controls.lastName.invalid">{{getLastNameErrors()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="form-field">
+                    <mat-label>email</mat-label>
                     <mat-icon matPrefix>email</mat-icon>
                     <input type="text" matInput  formControlName="email">
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Teléfono de contacto</mat-label>
                     <mat-icon matPrefix>contact_phone</mat-icon>
                     <input type="text" matInput formControlName="mobile">
                 </mat-form-field>
                 <mat-card-actions>
-                    <button *ngIf="!isEditable" (click)="enableEdit()" mat-raised-button color="primary">EDITAR DATOS</button>
-                    <button *ngIf="isEditable" type="submit" mat-raised-button color="primary" [disabled]="userUpdateForm.invalid">ACTUALIZAR DATOS</button>
-                    <button *ngIf="isEditable" (click)="cancelEdit()"  mat-raised-button color="primary">CANCELAR</button>
+                    <button *ngIf="!isEditable" (click)="enableEdit()" mat-raised-button color="primary">Editar datos</button>
+                    <button *ngIf="isEditable" type="submit" mat-raised-button color="primary" [disabled]="userUpdateForm.invalid">Actualizar datos</button>
+                    <button *ngIf="isEditable" (click)="cancelEdit()"  mat-raised-button color="primary">Cancelar</button>
                 </mat-card-actions>
             </form>
         </mat-card>

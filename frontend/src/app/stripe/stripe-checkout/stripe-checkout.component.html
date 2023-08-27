@@ -2,7 +2,7 @@
   <div class="checkout">
     <div *ngIf="!onCheckout" class="check-order">
       <h1>Confirme los datos de su orden antes de proceder al pago</h1>
-      <app-order-card *ngIf="order" [order]="order" (payment)="initialize()" (cancel)="cancel()"></app-order-card>
+      <app-order-card *ngIf="order" [order]="order" (payment)="initialize()"></app-order-card>
     </div>
     <div *ngIf="onCheckout">
       <form id="payment-form">
