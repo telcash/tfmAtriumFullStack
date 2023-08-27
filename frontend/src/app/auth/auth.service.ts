@@ -35,7 +35,9 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.get(this.url + '/logout');
+    return this.http.get(this.url + '/logout', {
+      withCredentials: true,
+    });
   }
 
   refresh(): Observable<JwtTokens> {

@@ -56,10 +56,9 @@ export class HomeComponent implements OnInit, OnDestroy{
     this.authService.logout().subscribe(
       () => {
         this.authService.deleteTokens();
-        this.cookieService.delete('role');
         this.isUserLogged = false;
         this.isUserAdmin = false;
-        this.router.navigate(['/']);
+        this.router.navigateByUrl('/');
       }
     )
   }

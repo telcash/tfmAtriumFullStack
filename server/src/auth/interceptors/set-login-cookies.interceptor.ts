@@ -23,17 +23,26 @@ export class SetLoginCookiesInterceptor implements NestInterceptor {
       // Extrae el request de la solicitud
       const req = context.switchToHttp().getRequest();
 
-      // Extrae el rol del request
-      const role = req.user.role;
-
       // Extrae el objeto response de la solicitud
       const res = context.switchToHttp().getResponse();
       
-      // Agrega cookie con el valor del rol a la respuesta
-      res.cookie('role', role, {
-        expires: new Date(Date.now() + 3600 * 1000 ),
-        sameSite: true,
-      });
+      // Extrae el rol del request
+      const role = req.user.role;
+
+      // Si la petición es de inicio de sesión agregamos cookie con el rol del usuario
+      if(req.url.includes('auth/login')) {
+        res.cookie('role', role, {
+          expires: new Date(Date.now() + 3600 * 1000 ),
+          sameSite: true,
+        });
+      
+      // Si la petición es de cierre de sesión eliminamos cookie con el rol de usuario
+      } else if(req.url.includes('auth/login')) {
+        res.cookie('role', role, {
+          expires: new Date(Date.now() - 1 ),
+          sameSite: true,
+        });
+      }
 
       // Retorna la respuesta
       return data;

@@ -47,6 +47,7 @@ export class AuthController {
      * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario que cierra sesión
      */
+    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(JwtAccessGuard)
     @Get('logout')
     async logout(@User('sub') id): Promise<UserEntity> {

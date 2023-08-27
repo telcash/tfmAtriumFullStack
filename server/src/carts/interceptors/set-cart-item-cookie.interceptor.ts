@@ -38,7 +38,7 @@ export class SetCartItemCookieInterceptor implements NestInterceptor {
       if(isArray(data)) {
         for(const item of data) {
           res.cookie(`pId_${item.productId}`, item.quantity, {
-            expires: new Date(Date.now() + 3600*1000),
+            expires: new Date(Date.now() + 3600 * 1000),
             sameSite: true,
           });
         }
@@ -46,7 +46,7 @@ export class SetCartItemCookieInterceptor implements NestInterceptor {
 
         // Si el request es un item para crearse, crea una cookie para el item
         res.cookie(`pId_${data.productId}`, data.quantity, {
-          expires: new Date(Date.now() + 3600*1000),
+          expires: new Date(Date.now() + 3600 * 1000),
           sameSite: true,
         });
       }
