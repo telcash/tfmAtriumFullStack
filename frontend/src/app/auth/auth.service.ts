@@ -78,14 +78,12 @@ export class AuthService {
     localStorage.removeItem('refreshToken');
   }
 
-  userHasRole(role: string): boolean {
+  getUserRole(): string {
     const token = localStorage.getItem('refreshToken');
     if(token) {
       const tokenPayload: any = decode(token);
-      if(tokenPayload.role === role) {
-        return true;
-      }
+      return tokenPayload.role;
     }
-    return false;
+    return '';
   }
 }

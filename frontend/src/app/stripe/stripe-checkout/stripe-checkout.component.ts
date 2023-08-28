@@ -94,33 +94,6 @@ export class StripeCheckoutComponent implements OnInit {
     }
     setLoading(false);
   }
-
-  async checkStatus() {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    );
-    if(!clientSecret) {
-      return;
-    }
-    if(this.stripe) {
-      const { paymentIntent } = await this.stripe.retrievePaymentIntent(clientSecret);
-      
-      switch (paymentIntent?.status) {
-        case 'succeeded':
-          showMessage('Pago realizado con éxito.');
-          break;
-        case 'processing':
-          showMessage('El pago se está procesando.');
-          break;
-        case 'requires_payment_method':
-          showMessage('El pago no se pudo procesar, por favor intente de nuevo.');
-          break;
-        default:
-          showMessage('Ha ocurrido un error.');
-          break;
-      } 
-    }
-  }
 }
 
 function showMessage(messageText: string) {

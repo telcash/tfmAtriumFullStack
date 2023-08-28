@@ -14,4 +14,5 @@ export class StripeService {
   getPaymentIntent(orderId: number) {
     return this.http.get<any>(`${this.url}/${orderId}`);
   }
+
 }

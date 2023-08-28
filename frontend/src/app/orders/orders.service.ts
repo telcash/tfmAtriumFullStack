@@ -20,6 +20,14 @@ export class OrdersService {
     return this.http.get<Order[]>(`${this.url}/myorders`)
   }
 
+  getOrder(orderId: number) {
+    return this.http.get<Order>(`${this.url}/${orderId}`)
+  }
+
+  updateOrder(orderId: number, order: any) {
+    return this.http.patch<Order>(`${this.url}/${orderId}`, order)
+  } 
+
   getUserOrder(orderId: number) {
     return this.http.get<Order>(`${this.url}/myorders/${orderId}`)
   }

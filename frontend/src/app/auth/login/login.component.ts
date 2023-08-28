@@ -38,7 +38,7 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (data: JwtTokens) => {
         this.authService.setTokens(data);
-        const role = this.cookieService.get('role') ?? '';
+        const role = this.authService.getUserRole();
         this.authService.userLoggedIn.next(role);
         this.cartsService.findAllItems().subscribe();
         if(role === 'ADMIN') {
@@ -47,7 +47,7 @@ export class LoginComponent {
           this.router.navigateByUrl('/');
         }
       },
-      error: (error) => this.loginErrorMessage = 'Email o contraseña incorrecta'
+      error: () => this.loginErrorMessage = 'Email o contraseña incorrecta'
     }
     )
   }

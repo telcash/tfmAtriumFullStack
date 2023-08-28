@@ -1,1 +1,11 @@
-<p>stripe-completion works!</p>
+<div class="stripe-completion-container">
+    <mat-card>
+        <mat-card-content>
+            {{status}}
+        </mat-card-content>
+    </mat-card>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="goHome()">Seguir comprando</button>
+        <button mat-raised-button color="primary" (click)="goToOrders()">Ir a mis órdenes</button>
+    </mat-card-actions>
+</div>

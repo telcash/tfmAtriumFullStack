@@ -39,7 +39,7 @@
             <div class="order-card-actions">
                 <button *ngIf="paymentEnabled" (click)="payOrder()" mat-raised-button color="primary">Pagar</button>
                 <button *ngIf="cancelEnabled" (click)="openCancelDialog()" mat-raised-button color="primary">Cancelar</button>
-                <button *ngIf="deleteEnabled" mat-raised-button color="secondary" (click)="openDeleteDialog()">Borrar</button>
+                <button *ngIf="deleteEnabled" mat-raised-button color="primary" (click)="openDeleteDialog()">Borrar</button>
                 <button *ngIf="goToOrdersEnabled" (click)="goToOrders()" mat-raised-button color="warn">Ir a mis órdenes</button>
             </div>
         </mat-card-actions>

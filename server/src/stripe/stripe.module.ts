@@ -10,7 +10,9 @@ import { OrdersModule } from 'src/orders/orders.module';
 @Module({
   controllers: [StripeController],
   providers: [StripeService],
-  imports: [forwardRef(() => OrdersModule) ],
+  imports: [
+    forwardRef(() => OrdersModule),
+  ],
   exports: [StripeService],
 })
 export class StripeModule {}

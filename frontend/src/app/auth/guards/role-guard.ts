@@ -6,7 +6,7 @@ export function roleGuard(role: string, redirectRoute: string): CanActivateFn {
     return () => {
         const authService: AuthService = inject(AuthService);
         const router: Router = inject(Router);
-        const userHasRole = authService.userHasRole(role);
+        const userHasRole = authService.getUserRole() === role;
         return userHasRole || router.createUrlTree([redirectRoute]);
     }
 }

@@ -3,7 +3,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/auth/auth.service';
 
 
@@ -29,18 +28,11 @@ export class HomeComponent implements OnInit, OnDestroy{
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService,
   ) {}
 
   ngOnInit(): void {
-    
-    if(this.authService.isUserLogged()) {
-      this.isUserLogged = true;
-    }
-    
-    if(this.authService.isUserAdmin()) {
-      this.isUserAdmin = true;
-    }
+    this.isUserLogged = this.authService.isUserLogged();
+    this.isUserAdmin = this.authService.getUserRole() === 'ADMIN';
 
     this.userLoggedSubscription = this.authService.getUserLoggedIn().subscribe(
       (data) => {

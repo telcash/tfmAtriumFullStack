@@ -8,7 +8,7 @@ import { OrdersService } from '../orders.service';
   styleUrls: ['./orders-table.component.css']
 })
 export class OrdersTableComponent {
-  displayedColumns = ['id', 'userId', 'total', 'status', 'addressId', 'createdAt'];
+  displayedColumns = ['id', 'user', 'email', 'mobile', 'total', 'status', 'createdAt', 'view'];
   orders!: Order[];
 
   constructor(

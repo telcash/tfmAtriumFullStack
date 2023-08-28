@@ -10,9 +10,19 @@
                 <td mat-cell *matCellDef="let element"> {{element.id}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="userId">
-                <th mat-header-cell *matHeaderCellDef> Id. Usuario </th>
-                <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                <td mat-cell *matCellDef="let element"> {{element.user.firstName}} {{element.user.lastName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>email</th>
+                <td mat-cell *matCellDef="let element"> {{element.user.email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+                <td mat-cell *matCellDef="let element"> {{element.user.mobile}}</td>
             </ng-container>
 
             <ng-container matColumnDef="total">
@@ -25,14 +35,19 @@
                 <td mat-cell *matCellDef="let element"> {{element.status}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="addressId">
-                <th mat-header-cell *matHeaderCellDef> Id. Dirección </th>
-                <td mat-cell *matCellDef="let element"> {{element.addressId}} </td>
-            </ng-container>
 
             <ng-container matColumnDef="createdAt">
                 <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
-                <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'dd/MM/yy, hh:mm'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="view">
+                <th mat-header-cell *matHeaderCellDef> Ver detalles </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button [routerLink]="['/admin/orders/', element.id]">
+                        <mat-icon class="mat-18">info</mat-icon>
+                    </button>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

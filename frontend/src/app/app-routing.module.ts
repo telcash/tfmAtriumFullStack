@@ -23,6 +23,7 @@ import { StripeCompletionComponent } from './stripe/stripe-completion/stripe-com
 import { AddAdminComponent } from './admin/add-admin/add-admin.component';
 import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
 import { OrdersUserComponent } from './orders/orders-user/orders-user.component';
+import { OrderComponent } from './orders/order/order.component';
 
 const routes: Routes = [
   {
@@ -113,6 +114,10 @@ const routes: Routes = [
       {
         path: 'orders',
         component: OrdersTableComponent,
+      },
+      {
+        path: 'orders/:id',
+        component: OrderComponent,
       },
     ]
   }

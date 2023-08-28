@@ -4,7 +4,7 @@ import { OrderStatus } from '../constants/order-status';
 import { OrdersService } from '../orders.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-card',
@@ -24,15 +24,14 @@ export class OrderCardComponent implements OnInit {
   constructor(
     private ordersService: OrdersService,
     private dialog: MatDialog,
-    private route : ActivatedRoute,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.paymentEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT)
-    this.cancelEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT) && this.route.snapshot.url[0].path !== 'checkout';
-    this.deleteEnabled = (this.order.status !== OrderStatus.PAID) && this.route.snapshot.url[0].path !== 'checkout';
-    this.goToOrdersEnabled = this.route.snapshot.url[0].path === 'checkout'
+    this.paymentEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT) && (this.router.url === '/users/orders' || this.router.url.includes('checkout'));
+    this.cancelEnabled = (this.order.status === OrderStatus.STARTED || this.order.status === OrderStatus.WAITING_PAYMENT) && this.router.url === '/users/orders';
+    this.deleteEnabled = (this.order.status !== OrderStatus.PAID) && this.router.url === '/users/orders';
+    this.goToOrdersEnabled = this.router.url.includes('checkout');
   }
 
   payOrder() {
@@ -55,7 +54,7 @@ export class OrderCardComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Cancelar orden',
-        question: '¿Desea cancelar la orden? Una vez cancelada ya no podrá proceder con el pago',
+        question: '¿Desea cancelar la orden? Una vez cancelada ya no se podrá proceder con el pago',
       },
       ...confirmDialogOptions,
     })

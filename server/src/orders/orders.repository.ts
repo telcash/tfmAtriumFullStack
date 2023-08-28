@@ -78,7 +78,38 @@ export class OrdersRepository {
         return await this.prisma.order.findUnique({
             where: {
                 id: id,
-            }
+            },
+            include: {
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        mobile: true,
+                    }
+                },
+                address: {
+                    select: {
+                        street: true,
+                        city: true,
+                        postalCode: true,
+                        country: true,
+                    }
+                },
+                items: {
+                    select: {
+                        quantity: true,
+                        price: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                image: true,
+                            }
+                        }
+                    }
+                }
+            },
         })
     }
 

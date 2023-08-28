@@ -1,5 +1,6 @@
 import { Address } from "src/app/addresses/models/address";
 import { OrderItem } from "./order-item";
+import { User } from "src/app/auth/models/user";
 
 export interface Order {
     id: number;
@@ -10,4 +11,5 @@ export interface Order {
     createdAt: Date;
     address?: Address,
     items?: OrderItem[];
+    user?: User;
 }
