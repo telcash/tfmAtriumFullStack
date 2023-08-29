@@ -1,6 +1,9 @@
 import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
 import { OrderStatus } from "../constants/order-status";
 
+/**
+ * Dto para la creación de una orden
+ */
 export class CreateOrderDto {
     @IsOptional()
     @IsNumber()

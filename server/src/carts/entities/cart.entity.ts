@@ -8,11 +8,10 @@ export class CartEntity implements Cart{
     constructor(partial: Partial<CartEntity>) {
         Object.assign(this, partial)
     }
+
     id: number;
     userId: number;
-
     total: number;
-
     addressId: number;
 
     @Exclude()

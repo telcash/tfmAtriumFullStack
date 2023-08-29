@@ -220,6 +220,13 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Actualiza en la base de datos una orden de un usuario identificado
+     * @param {number} id - Id de la orden
+     * @param {number} userId - Id del usuario
+     * @param {UpdateOrderDto} updateOrderDto - Dto con los datos de actualización
+     * @returns - Orden actualizada
+     */
     async updateOneForUser(id: number, userId: number, updateOrderDto: UpdateOrderDto) {
         return await this.prisma.order.update({
             where: {
@@ -229,7 +236,12 @@ export class OrdersRepository {
             data: updateOrderDto,
         })
     }
-
+    /**
+     * Elimina en la base de datos una orden de un usuario identificado
+     * @param {number} id - Id de la orden
+     * @param {number} userId - Id del usuario
+     * @returns - Orden eliminada
+     */
     async removeOneForUser(id: number, userId: number) {
         return await this.prisma.order.delete({
             where: {
@@ -242,6 +254,11 @@ export class OrdersRepository {
         })
     }
 
+    /**
+     * Busca el base de datos una orden según su paymentIntent de Stripe
+     * @param {string} paymentIntent 
+     * @returns - Orden buscada
+     */
     async findByPaymentIntent(paymentIntent: string) {
         return await this.prisma.order.findFirst({
             where: {

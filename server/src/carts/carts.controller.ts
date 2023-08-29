@@ -8,7 +8,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/constants/user-role';
 import { CartEntity } from './entities/cart.entity';
 import { User } from 'src/users/decorators/user.decorator';
-import { CheckoutPipe } from './pipes/checkout/checkout.pipe';
+import { CheckoutPipe } from './pipes/checkout.pipe';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 
@@ -44,6 +44,12 @@ export class CartsController {
     return new CartEntity(cart);
   }
 
+  /**
+   * Endpoint pra la solicitud de actualización de un carrito para un usuario
+   * @param cart - Carrito asignado por {@link SetRequestUserCartInterceptor}
+   * @param {UpdateCartDto} updateCartDto - Dto con los datos de actualización
+   * @returns - Carrito de compras
+   */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Patch('/mycart')
   async updateMyCart(@User('cart') cart, @Body() updateCartDto: UpdateCartDto): Promise<CartEntity> {

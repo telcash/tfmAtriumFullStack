@@ -82,14 +82,34 @@ export class OrdersService {
     return await this.ordersRepository.findOneForUser(id, userId);
   }
 
+  /**
+   * Gestiona la actualización de una orden para un usuario
+   * Invoca el metodo updateOneForUser de {@link OrdersRepository} para gestionar la actualización
+   * @param {number} id - Id de la orden
+   * @param {number} userId - Id del usuario
+   * @param {number} updateOrderDto - Dto con los datos a actualizar
+   * @returns - Orden actualizada
+   */
   async updateOneForUser(id: number, userId: number, updateOrderDto: UpdateOrderDto) {
     return await this.ordersRepository.updateOneForUser(id, userId, updateOrderDto);
   }
 
+  /**
+   * Gestiona la eliminación de una orden para un usuario
+   * Invoca el metodo removeOneForUser de {@link OrdersRepository} para gestionar la actualización
+   * @param {number} id 
+   * @param {number} userId 
+   * @returns - Orden eliminada 
+   */
   async removeOneForUser(id: number, userId: number) {
     return await this.ordersRepository.removeOneForUser(id, userId)
   }
 
+  /**
+   * Gestiona la busqueda de una orden según su paymentIntent de Stripe
+   * @param {string} paymentIntent - paymentIntent de Stripe
+   * @returns - Orden buscada
+   */
   async findByPaymentIntent(paymentIntent: string) {
     return await this.ordersRepository.findByPaymentIntent(paymentIntent);
   }
