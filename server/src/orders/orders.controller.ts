@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -6,7 +6,9 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
-import { OrdersInterceptor } from './interceptor/orders/orders.interceptor';
+import { UpdateOrderInterceptor } from './interceptors/update-order.interceptor';
+import { DeleteOrderInterceptor } from './interceptors/delete-order.interceptor';
+import { UpdateOrderPipe } from './pipes/update-order.pipe';
 
 /**
  * Controlador del modulo {@link OrdersModule}
@@ -58,10 +60,11 @@ export class OrdersController {
    * @param updateOrderDto 
    * @returns 
    */
+  @UseInterceptors(UpdateOrderInterceptor)
   @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+  async update(@Param('id') id: string, @Body(UpdateOrderPipe) updateOrderDto: UpdateOrderDto) {
     return await this.ordersService.update(+id, updateOrderDto);
   }
 
@@ -71,6 +74,7 @@ export class OrdersController {
    * @param id 
    * @returns 
    */
+  @UseInterceptors(DeleteOrderInterceptor)
   @UseGuards(RoleGuard)
   @Roles(UserRole.ADMIN)
   @Delete(':id')
@@ -96,16 +100,16 @@ export class OrdersController {
    * @param updateOrderDto 
    * @returns 
    */
-  @UseInterceptors(OrdersInterceptor)
+  @UseInterceptors(UpdateOrderInterceptor)
   @Patch('/myorders/:id')
-  async updateOneForUser(@Param('id') id: string, @User('sub') userId: number, @Body() updateOrderDto: UpdateOrderDto) {
+  async updateOneForUser(@Param('id') id: string, @User('sub') userId: number, @Body(UpdateOrderPipe) updateOrderDto: UpdateOrderDto) {
     return await this.ordersService.updateOneForUser(+id, userId, updateOrderDto);
   }
 
   /**
    * Endpoint para eliminar una orden por su id para un usuario autenticado
    */
-  @UseInterceptors(OrdersInterceptor)
+  @UseInterceptors(DeleteOrderInterceptor)
   @Delete('/myorders/:id')
   async removeOneForUser(@Param('id') id: string, @User('sub') userId: number) {
     return await this.ordersService.removeOneForUser(+id, userId);

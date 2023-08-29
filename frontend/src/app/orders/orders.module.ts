@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatIconModule } from '@angular/material/icon';
-import { OrderComponent } from './order/order.component';
+import { OrderAdminComponent } from './order-admin/order-admin.component';
 
 
 
@@ -20,7 +20,7 @@ import { OrderComponent } from './order/order.component';
     OrdersTableComponent,
     OrdersUserComponent,
     OrderCardComponent,
-    OrderComponent,
+    OrderAdminComponent,
   ],
   imports: [
     CommonModule,

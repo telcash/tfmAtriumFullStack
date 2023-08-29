@@ -29,7 +29,6 @@ export class LoginComponent {
     private cookieService: CookieService,
     private router: Router
   ) {}
-  
 
   onSubmit() {
     this.cookieService.deleteAll();

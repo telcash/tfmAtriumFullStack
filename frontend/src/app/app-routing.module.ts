@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ProductCardComponent } from './products/product-card/product-card.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -23,7 +23,7 @@ import { StripeCompletionComponent } from './stripe/stripe-completion/stripe-com
 import { AddAdminComponent } from './admin/add-admin/add-admin.component';
 import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
 import { OrdersUserComponent } from './orders/orders-user/orders-user.component';
-import { OrderComponent } from './orders/order/order.component';
+import { OrderAdminComponent } from './orders/order-admin/order-admin.component';
 import { PrivacyPolicyComponent } from './core/privacy-policy/privacy-policy.component';
 import { LegalWarningComponent } from './core/legal-warning/legal-warning.component';
 
@@ -127,7 +127,7 @@ const routes: Routes = [
       },
       {
         path: 'orders/:id',
-        component: OrderComponent,
+        component: OrderAdminComponent,
       },
     ]
   }

@@ -8,7 +8,7 @@
             <app-order-card [order]="order"></app-order-card>
         </mat-card-content>
         <mat-card-actions>
-            <button *ngIf="finishEnabled" mat-raised-button color="primary">Finalizar</button>
+            <button *ngIf="finishEnabled" mat-raised-button color="primary" (click)="openFinishDialog()">Finalizar</button>
             <button *ngIf="cancelEnabled" mat-raised-button color="primary" (click)="openCancelDialog()">Cancelar</button>
             <button mat-raised-button color="primary" routerLink="..">Volver al listado</button>
         </mat-card-actions>

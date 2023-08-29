@@ -9,11 +9,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrderStatus } from '../constants/order-status';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  selector: 'app-order-admin',
+  templateUrl: './order-admin.component.html',
+  styleUrls: ['./order-admin.component.css']
 })
-export class OrderComponent implements OnInit{
+export class OrderAdminComponent implements OnInit{
 
   order!: Order;
   cancelEnabled: boolean = false;
@@ -42,7 +42,10 @@ export class OrderComponent implements OnInit{
 
   cancelOrder() {
     this.ordersService.updateOrder(this.order.id, {status: OrderStatus.CANCELLED}).subscribe(
-      () => this.order.status = OrderStatus.CANCELLED,
+      () => {
+        this.order.status = OrderStatus.CANCELLED,
+        this.cancelEnabled = false;
+      }
     )
   }
 
@@ -64,7 +67,10 @@ export class OrderComponent implements OnInit{
 
   finishOrder() {
     this.ordersService.updateOrder(this.order.id, {status: OrderStatus.COMPLETED}).subscribe(
-      () => this.order.status = OrderStatus.COMPLETED,
+      () => {
+        this.order.status = OrderStatus.COMPLETED,
+        this.finishEnabled = false;
+      }
     )
   }
 
