@@ -2,6 +2,11 @@
     display: flex;
     flex-flow: row wrap;
     gap: 10px;
+    padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 5px;
+}
+
+.admin-content {
+    padding-top: 10px;
 }

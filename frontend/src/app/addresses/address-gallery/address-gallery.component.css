@@ -4,7 +4,6 @@
 
 .address-gallery {
     width: 100%;
-    padding: 10px;
     display: flex;
     flex-flow: wrap row;
     gap: 10px;

@@ -24,6 +24,8 @@ import { AddAdminComponent } from './admin/add-admin/add-admin.component';
 import { OrdersTableComponent } from './orders/orders-table/orders-table.component';
 import { OrdersUserComponent } from './orders/orders-user/orders-user.component';
 import { OrderComponent } from './orders/order/order.component';
+import { PrivacyPolicyComponent } from './core/privacy-policy/privacy-policy.component';
+import { LegalWarningComponent } from './core/legal-warning/legal-warning.component';
 
 const routes: Routes = [
   {
@@ -73,6 +75,14 @@ const routes: Routes = [
   {
     path: 'stripe-completion',
     component: StripeCompletionComponent,
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+  },
+  {
+    path: 'legal-warning',
+    component: LegalWarningComponent,
   },
   {
     path: 'admin',

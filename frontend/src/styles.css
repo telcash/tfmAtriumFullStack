@@ -5,7 +5,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Forms global styles */
 .form-container{
-    margin-top: 50px;
     height: 100%;
     width: 100%;
     justify-content: center;

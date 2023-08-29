@@ -1,8 +1,3 @@
-/* .table-container {
-    white-space: nowrap;
-    overflow-x: scroll;
-} */
-
 .categories-table-container {
     height: 600px;
     overflow: auto;

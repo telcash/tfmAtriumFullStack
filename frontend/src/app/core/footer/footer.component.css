@@ -1,0 +1,27 @@
+.footer-container {
+    width: 100%;
+}
+
+.social-icons-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+}
+
+img {
+    width: 45px;
+    height: 45px;
+}
+
+.footer-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    column-gap: 40px;
+}
+
+.link-button-container {
+    width: 100px;
+    text-align: center;
+}

@@ -1,69 +1,81 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="56"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <div class="sidemenu">
-        <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
-          <mat-menu #admin yPosition="below">
-            <div class="mat-menu-items">
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/products">Productos</button>
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/categories">Categorías</button>
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/users">Usuarios</button>
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/orders">Órdenes</button>
+<div>
+  <div class="home-container">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="56"
+          [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+          [mode]="(isHandset$ | async) ? 'over' : 'side'">
+        <mat-toolbar>Menu</mat-toolbar>
+        <mat-nav-list>
+          <div class="sidemenu">
+            <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
+              <mat-menu #admin yPosition="below">
+                <div class="mat-menu-items">
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/products">Productos</button>
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/categories">Categorías</button>
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/users">Usuarios</button>
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/admin/orders">Órdenes</button>
+                </div>
+              </mat-menu>
+            <button *ngIf="!isUserLogged" mat-raised-button (click)="drawer.toggle()" routerLink="/auth/signup">Registrarse</button>
+            <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+              <mat-menu #account yPosition="below" xPosition="after">
+                <div class="mat-menu-items">
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile">Mi Perfil</button>
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/orders">Mis órdenes</button>
+                  <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile/addresses">Mis Direcciones</button>
+                  <button mat-menu-item (click)="drawer.toggle()" (click)="logout()">Cerrar Sesión</button>
+                </div>
+              </mat-menu>
+            <button *ngIf="!isUserLogged" (click)="drawer.toggle()" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
+          </div>
+        </mat-nav-list>
+      </mat-sidenav>
+        <mat-sidenav-content class="sidenav-content">
+          <mat-toolbar class="home-toolbar" color="primary">
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <div class="home-link" routerLink="/">
+              <div class="logo-container">
+                <img src="../../../assets/icons/main_logo.png" alt="">
+              </div>
+              <span>Charlie Sabores</span>
             </div>
-          </mat-menu>
-        <button *ngIf="!isUserLogged" mat-raised-button (click)="drawer.toggle()" routerLink="/auth/signup">Registrarse</button>
-        <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
-          <mat-menu #account yPosition="below" xPosition="after">
-            <div class="mat-menu-items">
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile">Mi Perfil</button>
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/orders">Mis órdenes</button>
-              <button mat-menu-item (click)="drawer.toggle()" routerLink="/users/myprofile/addresses">Mis Direcciones</button>
-              <button mat-menu-item (click)="drawer.toggle()" (click)="logout()">Cerrar Sesión</button>
+            <span class="spacer"></span>
+            <div class="home-toolbar-menu" *ngIf="!(isHandset$ | async)">
+              <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
+              <mat-menu #admin yPosition="below">
+                <button mat-menu-item routerLink="/admin/products">Productos</button>
+                <button mat-menu-item routerLink="/admin/categories">Categorías</button>
+                <button mat-menu-item routerLink="/admin/users">Usuarios</button>
+                <button mat-menu-item routerLink="/admin/orders">Órdenes</button>
+              </mat-menu>
+              <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
+              <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
+              <mat-menu #account yPosition="below">
+                <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
+                <button mat-menu-item routerLink="/users/orders">Mis órdenes</button>
+                <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
+                <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+              </mat-menu>
+              <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
             </div>
-          </mat-menu>
-        <button *ngIf="!isUserLogged" (click)="drawer.toggle()" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
-      </div>
-    </mat-nav-list>
-  </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content">
-      <mat-toolbar class="home-toolbar" color="primary">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-          *ngIf="isHandset$ | async">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <span routerLink="">Charlie Sabores</span>
-        <span class="spacer"></span>
-        <div class="home-toolbar-menu" *ngIf="!(isHandset$ | async)">
-          <button *ngIf="isUserAdmin" mat-raised-button [mat-menu-trigger-for]="admin">Admin</button>
-          <mat-menu #admin yPosition="below">
-            <button mat-menu-item routerLink="/admin/products">Productos</button>
-            <button mat-menu-item routerLink="/admin/categories">Categorías</button>
-            <button mat-menu-item routerLink="/admin/users">Usuarios</button>
-            <button mat-menu-item routerLink="/admin/orders">Órdenes</button>
-          </mat-menu>
-          <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/signup">Registrarse</button>
-          <button *ngIf="isUserLogged"  mat-raised-button [matMenuTriggerFor]="account">Mi cuenta</button>
-          <mat-menu #account yPosition="below">
-            <button mat-menu-item routerLink="/users/myprofile">Mi Perfil</button>
-            <button mat-menu-item routerLink="/users/orders">Mis órdenes</button>
-            <button mat-menu-item routerLink="/users/myprofile/addresses">Mis Direcciones</button>
-            <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
-          </mat-menu>
-          <button *ngIf="!isUserLogged" mat-raised-button routerLink="/auth/login">Iniciar sesión</button>
-        </div>
-        <button mat-icon-button routerLink="/mycart">
-          <mat-icon>shopping_cart</mat-icon>
-        </button>
-      </mat-toolbar>
-      <div>
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+            <button mat-icon-button routerLink="/mycart">
+              <mat-icon>shopping_cart</mat-icon>
+            </button>
+          </mat-toolbar>
+          <div class="router-outlet-home">
+            <router-outlet></router-outlet>
+          </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  <div class="footer-container">
+    <app-footer></app-footer>
+  </div>
+</div>

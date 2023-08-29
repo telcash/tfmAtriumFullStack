@@ -1,0 +1,8 @@
+.orders-table-container {
+    height: 600px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}

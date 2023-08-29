@@ -1,15 +1,8 @@
-/* .table-container {
-    white-space: nowrap;
-    overflow-x: scroll;
-} */
-
-/* .products-table-container {
-    height: 800px;
-    width: 100%;
-    overflow: visible;
-} */
 
 .products-table-container {
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
     height: 600px;
     overflow: auto;
 }
@@ -19,12 +12,15 @@ table {
 }
 
 .img-container {
-    max-width: 80px;
-    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 80px;
 }
 
 img {
-    max-width: 60px;
-    aspect-ratio: 1/1;
+    width: 60px;
+    height: 60px;
 }
 

@@ -11,11 +11,15 @@ import { MatListModule } from '@angular/material/list';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { FooterComponent } from './footer/footer.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { LegalWarningComponent } from './legal-warning/legal-warning.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     FooterComponent,
+    PrivacyPolicyComponent,
+    LegalWarningComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +35,7 @@ import { FooterComponent } from './footer/footer.component';
   ],
   exports: [
     HomeComponent,
+    FooterComponent,
   ]
 })
 export class CoreModule { }

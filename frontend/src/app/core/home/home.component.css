@@ -1,10 +1,11 @@
-.sidenav-container {
+.home-container {
   height: 100%;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 5px;
-  padding-right: 5px;
+}
+
+.sidenav-container {
+  width: 100%;
+  height: 100%;
 }
 
 .sidenav {
@@ -26,6 +27,7 @@
 }
 
 .sidenav-content {
+  height: 100%;
   width: 100%;
 }
 
@@ -43,11 +45,29 @@
   justify-content: space-evenly;
 }
 
-main {
-  height: 100%;
-  width: 100%;
+.home-link {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  column-gap: 10px;
+  cursor: pointer;
+}
+
+.logo-container img{
+  padding-top: 10px;
+  width: 50px;
+  height: 50px;
 }
 
 .spacer {
   flex: 10 1 auto;
+}
+
+.router-outlet-home {
+  min-height: 600px;
+}
+
+.footer-container {
+  width: 100%;
+  position:relative
 }
