@@ -1,3 +1,7 @@
+<!-- 
+    Documento HTML que muestra una galería con todas las direcciones de un usuario
+ -->
+
 <mat-toolbar>
     <span>Mis direcciones</span>
 </mat-toolbar>
@@ -19,7 +23,7 @@
             </mat-card>
         </div>
         <div *ngFor="let address of addresses">
-            <app-address-card [address]="address" (addressDeleted)="addressDeleted()"></app-address-card>
+            <app-address-card [address]="address" (addressDeleted)="addressDeleted($event)"></app-address-card>
         </div>
     </div>
 </div>

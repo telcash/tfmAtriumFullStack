@@ -10,9 +10,12 @@ import { AddressCardComponent } from './address-card/address-card.component';
 import { AddressGalleryComponent } from './address-gallery/address-gallery.component';
 import { AddressEditComponent } from './address-edit/address-edit.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { AddressesService } from './addresses.service';
 
 
-
+/**
+ * Modulo encargado de las funciones relacionadas con las direcciones de usuarios
+ */
 @NgModule({
   declarations: [
     AddressCreateComponent,
@@ -28,6 +31,8 @@ import { AppRoutingModule } from '../app-routing.module';
     MatInputModule,
     ReactiveFormsModule,
     AppRoutingModule,
+  ], providers: [
+    AddressesService,
   ]
 })
 export class AddressesModule { }

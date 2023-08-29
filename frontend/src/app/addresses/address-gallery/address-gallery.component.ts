@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AddressesService } from '../addresses.service';
 import { Address } from '../models/address';
-import { Router } from '@angular/router';
 
+/**
+ * Componente que gestiona la galería de direcciones de un usuario
+ */
 @Component({
   selector: 'app-address-gallery',
   templateUrl: './address-gallery.component.html',
@@ -14,21 +16,24 @@ export class AddressGalleryComponent implements OnInit {
 
   constructor(
     private addressesService: AddressesService,
-    private router: Router,
   ) {}
 
-  ngOnInit() {
+  /**
+   * Invoca al servicio para la solicitud al API de las direcciones del usuario
+   * Inicializa el atributo addresses del componente
+   */
+  ngOnInit(): void {
+
     this.addressesService.getAddresses().subscribe(
-      (data) => {
-        this.addresses = data;
-      }
+      data => this.addresses = data,
     )
   }
 
-  addressDeleted() {
-    const url = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true}).then(() => {
-      this.router.navigate([`/${url}`])
-    })
+  /**
+   * Elimina una dirección del atributo addresses
+   * @param {number} addressId - Id de la dirección a eliminar
+   */
+  addressDeleted(addressId: number): void {
+    this.addresses.splice(this.addresses.findIndex(address => address.id === addressId), 1);
   }
 }

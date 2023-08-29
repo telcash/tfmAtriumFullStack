@@ -1,5 +1,8 @@
+/**
+ * Interface que modela una dirección de usuario
+ */
 export interface Address {
-    id: number;
+    id?: number;
     street: string;
     postalCode: string;
     city: string;

@@ -94,7 +94,7 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    this.cartsService.checkout(this.selectAddress.value!.id).subscribe(
+    this.cartsService.checkout(this.selectAddress.value!.id!).subscribe(
       (data) => {
         const orderId = data.orderId;
         this.router.navigateByUrl(`checkout/${orderId}`);

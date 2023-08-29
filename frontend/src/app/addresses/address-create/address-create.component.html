@@ -1,29 +1,34 @@
-<div class="form-container">
-    <div class="form-content">
-        <mat-toolbar class="form-toolbar" color="primary">AGREGAR DIRECCIÓN</mat-toolbar>
-        <mat-card class="form-card">
-            <form class="form-main" [formGroup]="addressCreateForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
-                    <mat-label>Calle</mat-label>
-                    <input type="text" matInput formControlName="street"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Código Postal</mat-label>
-                    <input type="text" matInput formControlName="postalCode"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Ciudad</mat-label>
-                    <input type="text" matInput formControlName="city"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Pais</mat-label>
-                    <input type="text" matInput formControlName="country"> 
-                </mat-form-field>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="addressCreateForm.invalid">Agregar dirección</button>
-                    <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
-                </mat-card-actions>
-            </form>
-        </mat-card>
+<!-- 
+    Documento HTML con el formulario para la creación de una dirección de usuario
+ -->
+<div class="address-create-container">
+    <div class="form-container">
+        <div class="form-content">
+            <mat-toolbar class="form-toolbar" color="primary">Agregar dirección</mat-toolbar>
+            <mat-card class="form-card">
+                <form class="form-main" [formGroup]="addressCreateForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field>
+                        <mat-label>Calle</mat-label>
+                        <input type="text" matInput formControlName="street"> 
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Código Postal</mat-label>
+                        <input type="text" matInput formControlName="postalCode"> 
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Ciudad</mat-label>
+                        <input type="text" matInput formControlName="city"> 
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Pais</mat-label>
+                        <input type="text" matInput formControlName="country"> 
+                    </mat-form-field>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="addressCreateForm.invalid">Agregar dirección</button>
+                        <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
+                    </mat-card-actions>
+                </form>
+            </mat-card>
+        </div>
     </div>
 </div>

@@ -13,9 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-
-
-
+/**
+ * Módulo encargado de funciones y vistas de administrador
+ */
 @NgModule({
   declarations: [
     AdminHomeComponent,

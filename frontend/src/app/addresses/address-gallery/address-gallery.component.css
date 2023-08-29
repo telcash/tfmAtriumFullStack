@@ -3,11 +3,13 @@
 }
 
 .address-gallery {
-    width: 100%;
+    max-width: 100%;
     display: flex;
     flex-flow: wrap row;
     gap: 10px;
+    margin: 10px;
 }
+
 
 .empty-addresses {
     width: 100%;
