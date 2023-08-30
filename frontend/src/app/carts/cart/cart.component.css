@@ -24,10 +24,17 @@
 
 .cart-payment-container mat-card-actions {
     display: flex;
+    flex-flow: column wrap;
     align-items: center;
     justify-content: center;
+    row-gap: 10px;
 }
 
+.user-auth{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
 
 .cart-info-container {
     width: 100%;
@@ -35,6 +42,8 @@
 }
 
 .empty-cart {
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     max-width: 360px;
     display: flex;

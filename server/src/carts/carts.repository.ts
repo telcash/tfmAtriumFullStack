@@ -90,4 +90,17 @@ export class CartsRepository {
             }
         })
     }
+
+    /**
+     * Elimina un carrito de la base de datos
+     * @param {number} cartId - Id del carrito
+     * @returns - Carrito eliminado
+     */
+    async remove(cartId: number) {
+        return await this.prisma.cart.delete({
+            where: {
+                id: cartId,
+            }
+        })
+    }
 }

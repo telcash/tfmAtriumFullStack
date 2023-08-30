@@ -20,7 +20,9 @@ export class CartsService {
   }
 
   updateCart(cart: any): Observable<Cart> {
-    return this.http.patch<Cart>(this.myCartUrl, cart)
+    return this.http.patch<Cart>(this.myCartUrl, cart, {
+      withCredentials: true,
+    })
   }
 
   findAllItems(): Observable<CartItem[]> {

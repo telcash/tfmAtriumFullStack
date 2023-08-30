@@ -4,7 +4,6 @@ import { AuthService } from '../auth.service';
 import { JwtTokens } from '../models/jwt-tokens';
 import { Router } from '@angular/router';
 import { CartsService } from 'src/app/carts/carts.service';
-import { CookieService } from 'ngx-cookie-service';
 
 /**
  * Componente que gestiona el formulario de inicio de sesión de un usuario
@@ -29,8 +28,6 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private cartsService: CartsService,
-    private cookieService: CookieService,
     private router: Router
   ) {}
 
@@ -39,8 +36,6 @@ export class LoginComponent {
    */
   onSubmit(): void {
 
-    this.cookieService.deleteAll();
-
     // Extrae del formulario las credenciales para inicio de sesión
     const email: string = this.loginForm.value.email!;
     const password: string = this.loginForm.value.password!;
@@ -48,20 +43,19 @@ export class LoginComponent {
     // LLamada al servicio para la solicitud al API de inicio de sesión
     this.authService.login(email, password).subscribe({
 
-      // Si el inicio de sesión no es exitoso obtenemos los tokens de acceso y de refrescamiento
+      // Si el inicio de sesión es exitoso se obtienen los tokens de acceso y de refrescamiento
       next: (data: JwtTokens) => {
 
-        // Almacenamos los tokens
+        // Almacena los tokens
         this.authService.setTokens(data);
 
-        // Obtenemos el rol del usuario que inicia sesión
+        // Obtiene el rol del usuario que inicia sesión
         const role = this.authService.getUserRole();
 
-        // Enviamos un evento de inicio de sesión de un usuario
+        // Envia un evento de inicio de sesión de un usuario
         this.authService.userLoggedIn.next(role);
 
-        // 
-        this.cartsService.findAllItems().subscribe();
+        // Redirige a otra página dependiendo del tipo de usuario que inicia sesión
         if(role === 'ADMIN') {
           this.router.navigateByUrl('admin/products')
         } else {
@@ -69,7 +63,7 @@ export class LoginComponent {
         }
       },
 
-      // Si el inicio de sesión es exitoso
+      // Si el inicio de sesión no es exitoso imprime un mensaje de error
       error: () => this.loginErrorMessage = 'Email o contraseña incorrecta'
     }
     )

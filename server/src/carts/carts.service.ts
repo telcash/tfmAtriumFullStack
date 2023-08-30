@@ -1,12 +1,12 @@
-import { Injectable, ServiceUnavailableException} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { CartsRepository } from './carts.repository';
 import { CartItemsService } from './cart-items/cart-items.service';
-import { StripeService } from 'src/stripe/stripe.service';
 import { ProductsService } from 'src/products/products.service';
 import { OrdersService } from 'src/orders/orders.service';
 import { CheckoutCartDto } from './dto/checkout-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { CreateCartItemDto } from './cart-items/dto/create-cart-item.dto';
 
 @Injectable()
 export class CartsService {
@@ -15,7 +15,6 @@ export class CartsService {
     private readonly cartItemsService: CartItemsService,
     private readonly productsService: ProductsService,
     private readonly ordersService: OrdersService,
-    private readonly stripeService: StripeService,
   ) {}
 
   /**
@@ -41,7 +40,7 @@ export class CartsService {
   /**
    * Realiza la busqueda de un carrito por su id
    * Invoca al método findOneById() de {@link CartsRepository} para buscar el carrito en la base de datos
-   * @param cartId - Id del carrito
+   * @param {number} cartId - Id del carrito
    * @returns - Carrito buscado
    */
   async findOne(id: number) {
@@ -51,11 +50,21 @@ export class CartsService {
   /**
    * Realiza la busqueda de un carrito asociado a un id de usuario registrado
    * Invoca al método findOneByUserId() de {@link CartsRepository} para realizar la busqueda en la base de datos
-   * @param userId - Id del usuario
+   * @param {number} userId - Id del usuario
    * @returns - Carrito buscado
    */
   async findOneByUserId(userId: number) {
     return await this.cartsRepository.findOneByUserId(userId)
+  }
+
+  /**
+   * Gestiona la eliminación de un carrito por su id
+   * Invoca al método remove() de {@link CartsRepository} para realizar la eliminación de la base de datos
+   * @param {number} id - Id del carrito 
+   * @returns - Carrito eliminado
+   */
+  async remove(id: number) {
+    return await this.cartsRepository.remove(id);
   }
 
   /**
@@ -76,8 +85,8 @@ export class CartsService {
    * Actualiza la propiedad total del carrito
    * Calcula el total del carrito iterando en todos los productos que contiene
    * Invoca el método update() de {@link CartsRepository} para actualizar el carrito con su nuevo total en la base de datos
-   * @param cartId - Id del carrito
-   * @returns - Nuevo total actualizado
+   * @param {number} cartId - Id del carrito
+   * @returns {number} - Nuevo total actualizado
    */
   async updateTotal(cartId: number): Promise<number> {
     // Busca el carrito por su id
@@ -98,8 +107,14 @@ export class CartsService {
     return total;
   }
 
+  /**
+   * Gestiona la actualización de un carrito de un usuario
+   * Invoca al método updateMyCart() de {@link CartsRepository} para realizar la actualización en la base de datos
+   * @param {number} cartId - Id del carrito 
+   * @param {UpdateCartDto} updateCartDto - Dto para actualización
+   * @returns - Carrito actualizado
+   */
   async updateMyCart(cartId: number, updateCartDto: UpdateCartDto) {
-    //Actualiza el carrito en la base de datos
     return await this.cartsRepository.update(cartId, updateCartDto)
   }
 
@@ -111,27 +126,34 @@ export class CartsService {
   async checkout(checkoutCartDto: CheckoutCartDto) {
     // Actualiza el stock de todos los productos comprados
     await this.productsService.updateOnCartCheckout(checkoutCartDto.cart.items);
-    
-    /* // Envía a Stripe la solicitud de intento de pago
-    const amount = checkoutCartDto.cart.total * 100;
-    const paymentIntent = await this.stripeService.createPaymentIntent(amount)
-      
-      // Si hay un error en la solicitud revertimos el stock de los productos
-      // Devolvemos un error
-      .catch(async () => {
-        await this.productsService.rollbackCartCheckout(checkoutCartDto.cart.items);
-        throw new ServiceUnavailableException("Can't connect to payment gateway")
-    }) */
 
     // Creamos una nueva orden para el cliente
-    //checkoutCartDto.createOrderDto.stripeClientSecret = paymentIntent.client_secret;
     const order = await this.ordersService.create(checkoutCartDto.createOrderDto, checkoutCartDto.items);
+    
     // Vaciamos el carrito
     await this.emptyCart(checkoutCartDto.cart.id);
-    
-    // Enviamos al cliente el secreto del paymentIntent
+
     // Enviamos al cliente el id de la orden
     return { orderId: order.id }
   }
+
+  /**
+   * Fusiona un carrito de invitado con un carrito de cliente
+   * Crea los items del carrito de invitado en el carrito de cliente si este último no los contiene
+   * Actualiza los items del carrito de cliente con los del carrito de invitado si el item está en ambos
+   * @param {number} userCartId - Id del carrito de usuario
+   * @param {number} guestCartId - Id del carrito de invitado
+   */
+  async mergeCarts(userCartId: number, guestCartId: number) {
+
+    // Busca los items del carrito de invitado
+    const guestCartItems: CreateCartItemDto[] = await this.cartItemsService.findAll(guestCartId);
+    
+    // Copia o actualiza el el carrito de usuario cada uno de los items del carrito de invitado
+    guestCartItems.forEach( async item => {
+      item.cartId = userCartId;
+      await this.cartItemsService.upsert(item);
+    })
+  } 
 }
 

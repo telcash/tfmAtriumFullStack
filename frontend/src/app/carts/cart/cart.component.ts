@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ConfirmDialogComponent, confirmDialogOptions } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-carts',
@@ -22,6 +23,7 @@ export class CartComponent implements OnInit {
   total?: number;
   selectAddress = new FormControl<Address | null>(null);
   addresses: Address[] = [];
+  isUserLogged = false;
 
   isSmall: Observable<boolean> = this.breakpointObserver.observe('(max-width: 1024px)').pipe(
     map(result => result.matches),
@@ -31,11 +33,14 @@ export class CartComponent implements OnInit {
   constructor(
     private cartsService: CartsService,
     private addressesService: AddressesService,
+    private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+
+    this.isUserLogged = this.authService.isUserLogged();
 
     const cartObs = this.cartsService.findCart().pipe(
       tap(

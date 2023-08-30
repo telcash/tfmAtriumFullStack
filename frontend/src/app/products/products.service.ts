@@ -33,6 +33,7 @@ export class ProductsService {
   getProductsByCategory(categoryId: number): Observable<Product[]> {
     return this.http.get<Product[]>(this.url, {
       params: new HttpParams().set('category', categoryId),
+      withCredentials: true,
     });
   }
   

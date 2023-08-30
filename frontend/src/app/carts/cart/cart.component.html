@@ -10,6 +10,10 @@
             </mat-card-header>
             <mat-card-actions>
                 <button mat-raised-button color="primary" type="button" (click)="openCheckoutDialog()" [disabled]="!(selectAddress.value?.id !== null && cartItems.length > 0)">Tramitar pedido</button>
+                <div *ngIf="!isUserLogged" class="user-auth">
+                    <button mat-button type="button" routerLink="../auth/login">¿Ya tienes cuenta? Iniciar sesión</button>
+                    <button mat-button type="button" routerLink="../auth/signup">Registrarse</button>
+                </div>
             </mat-card-actions>
         </mat-card>
     </div>
@@ -29,7 +33,7 @@
         <div class="main-info">
             <mat-card *ngIf="cartItems.length > 0">
                     <mat-card-content>
-                        <div *ngIf="!selectAddress.value" class="select-address-container">
+                        <div *ngIf="!selectAddress.value && isUserLogged" class="select-address-container">
                             <form>
                                 <mat-form-field>
                                     <mat-label>Seleccione una dirección de envío</mat-label>

@@ -13,7 +13,6 @@ import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
 import { SetRequestUserCartInterceptor } from 'src/carts/interceptors/set-request-user-cart.interceptor';
-import { CartEntity } from 'src/carts/entities/cart.entity';
 
 /**
  * Controlador del Módulo {@link ProductsModule}

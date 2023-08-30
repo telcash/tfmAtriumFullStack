@@ -55,7 +55,20 @@ export class AuthService {
   }
 
   isUserLogged(): boolean {
-    return localStorage.getItem('accessToken') ? true : false;
+    let isUserLogged = false;
+    const token = localStorage.getItem('accessToken') ?? '';
+    
+    if(token) {
+      try {
+        decode(token);
+        isUserLogged = true
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+    
+    return isUserLogged;
+
   }
 
   setTokens(tokens: JwtTokens) {

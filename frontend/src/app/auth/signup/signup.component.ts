@@ -5,7 +5,6 @@ import { User } from '../models/user';
 import { concatMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtTokens } from '../models/jwt-tokens';
-import { CookieService } from 'ngx-cookie-service';
 import { CartsService } from 'src/app/carts/carts.service';
 
 @Component({
@@ -45,7 +44,6 @@ export class SignupComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService,
     private cartsService: CartsService,
   ) {}
 
@@ -63,7 +61,6 @@ export class SignupComponent {
       )
     ).subscribe({
       next: (data: JwtTokens) => {
-        this.cookieService.deleteAll();
         this.authService.setTokens(data);
         const role = this.authService.getUserRole();
         this.authService.userLoggedIn.next(role);

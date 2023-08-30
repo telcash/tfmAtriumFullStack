@@ -8,7 +8,6 @@ import { CartItemPipe } from './pipes/cart-item.pipe';
 import { CartItemEntity } from './entities/cart-item.entity';
 import { User } from 'src/users/decorators/user.decorator';
 import { UpdateTotalInterceptor } from '../interceptors/update-total.interceptor';
-import { SetCartItemCookieInterceptor } from '../interceptors/set-cart-item-cookie.interceptor';
 
 @Controller('carts/mycart/items')
 export class CartItemsController {
@@ -17,7 +16,7 @@ export class CartItemsController {
   /**
    * Endpoint para solicitar todos los items en un carrito
    */
-  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor, SetCartItemCookieInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Get()
   async findAllItems(@User('cart') cart): Promise<CartItemEntity[]> {
     const items = await this.cartItemsService.findAll(cart.id);
@@ -38,7 +37,7 @@ export class CartItemsController {
     SetRequestUserInterceptor,
     SetRequestUserCartInterceptor,
     UpdateTotalInterceptor,
-    SetCartItemCookieInterceptor,
+    //SetCartItemCookieInterceptor,
   )
   @Post()
   async upsert(@Body(CartItemPipe) createCartItemDto: CreateCartItemDto): Promise<CartItemEntity> {
@@ -59,7 +58,7 @@ export class CartItemsController {
     SetRequestUserInterceptor,
     SetRequestUserCartInterceptor,
     UpdateTotalInterceptor,
-    SetCartItemCookieInterceptor,
+    //SetCartItemCookieInterceptor,
   )
   @Patch()
   async update(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
@@ -79,7 +78,7 @@ export class CartItemsController {
     SetRequestUserInterceptor,
     SetRequestUserCartInterceptor,
     UpdateTotalInterceptor,
-    SetCartItemCookieInterceptor,
+    //SetCartItemCookieInterceptor,
   )
   @Delete()
   async remove(@Body(CartItemPipe) updateCartItemDto: UpdateCartItemDto): Promise<CartItemEntity> {
