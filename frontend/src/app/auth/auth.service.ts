@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { JwtTokens } from './models/jwt-tokens';
 import { User } from './models/user';
-import { CookieService } from 'ngx-cookie-service';
 import { GlobalConstants } from '../config/global-constants';
 import decode from 'jwt-decode';
 
@@ -12,7 +11,7 @@ export class AuthService {
 
   url = GlobalConstants.API_URL + '/auth';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient) {}
 
   userLoggedIn = new Subject<string>();
   
@@ -55,17 +54,8 @@ export class AuthService {
     })
   }
 
-
   isUserLogged(): boolean {
     return localStorage.getItem('accessToken') ? true : false;
-  }
-
-  isUserAdmin(): boolean {
-    const role = this.cookieService.get('role') ?? '';
-    if (role === 'ADMIN') {
-      return true
-    }
-    return false;
   }
 
   setTokens(tokens: JwtTokens) {

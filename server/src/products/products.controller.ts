@@ -12,6 +12,8 @@ import { ProductEntity } from './entities/product.entity';
 import { UserRole } from 'src/users/constants/user-role';
 import { User } from 'src/users/decorators/user.decorator';
 import { SetRequestUserInterceptor } from 'src/auth/interceptors/set-req-user.interceptor';
+import { SetRequestUserCartInterceptor } from 'src/carts/interceptors/set-request-user-cart.interceptor';
+import { CartEntity } from 'src/carts/entities/cart.entity';
 
 /**
  * Controlador del Módulo {@link ProductsModule}
@@ -44,16 +46,10 @@ export class ProductsController {
    * @param role - Rol del usuario que hace la petición
    * @returns {ProductEntity[]} - Listado de productos
    */
-  @UseInterceptors(SetRequestUserInterceptor)
+  @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Get()
-  async findAll(@User('role') role: UserRole, @Query('category') categoryId?): Promise<ProductEntity[]> {
-    /* let products;
-    if (categoryId) {
-      products = await this.productsService.findAll(role, +categoryId);
-    } else {
-      products = await this.productsService.findAll(role);
-    } */
-    const products = await this.productsService.findAll(role, +categoryId);
+  async findAll(@User('role') role: UserRole, @User('cart') cart, @Query('category') categoryId?): Promise<ProductEntity[]> {
+    const products = await this.productsService.findAll(role, +categoryId, cart.id);
     return products.map((product) => new ProductEntity(product));
   }
 

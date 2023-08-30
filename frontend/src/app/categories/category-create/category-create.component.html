@@ -1,18 +1,20 @@
-<div class="form-container">
-    <div class="form-content">
-        <mat-toolbar class="form-toolbar" color="primary">Crear categoría</mat-toolbar>
-        <mat-card class="form-card">
-            <form class="form-main" [formGroup]="categoryCreateForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
-                    <mat-label>Nombre</mat-label>
-                    <mat-icon matPrefix>title</mat-icon>
-                    <input type="text" matInput formControlName="name">
-                </mat-form-field>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="categoryCreateForm.invalid">Agregar categoría</button>
-                    <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
-                </mat-card-actions>
-            </form>
-        </mat-card>
+<div class="category-create-container">
+    <div class="form-container">
+        <div class="form-content">
+            <mat-toolbar class="form-toolbar" color="primary">Crear categoría</mat-toolbar>
+            <mat-card class="form-card">
+                <form class="form-main" [formGroup]="categoryCreateForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <mat-icon matPrefix>title</mat-icon>
+                        <input type="text" matInput formControlName="name">
+                    </mat-form-field>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="categoryCreateForm.invalid">Agregar categoría</button>
+                        <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
+                    </mat-card-actions>
+                </form>
+            </mat-card>
+        </div>
     </div>
 </div>

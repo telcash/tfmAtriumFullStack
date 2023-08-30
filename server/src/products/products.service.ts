@@ -36,7 +36,7 @@ export class ProductsService {
    * Invoca al método findAllForClients() de {@link ProductsRep≤ository} para generar el listado para los usuarios que no sean tipo Admin
    * @returns - Listado de productos
    */
-  async findAll(role: UserRole, categoryId?: number) {
+  async findAll(role: UserRole, categoryId?: number, cartId?: number) {
     // Si no hay categoryId lo convertimos a undefined
     // Prisma genera un error con NaN
     // Otra opcion es crear un Pipe que realice esta comprobación y el parsing a Int
@@ -46,7 +46,7 @@ export class ProductsService {
       return await this.productsRepository.findAll(categoryId);
     }
     // Retorna un listado de todos los productos con restricciones
-    return await this.productsRepository.findAllForClients(categoryId);
+    return await this.productsRepository.findAllForClients(categoryId, cartId);
   }
 
   /**

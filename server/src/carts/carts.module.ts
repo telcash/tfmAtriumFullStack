@@ -15,7 +15,13 @@ import { UsersModule } from 'src/users/users.module';
 @Module({
   controllers: [CartsController],
   providers: [CartsService, CartsRepository],
-  imports: [forwardRef(() => CartItemsModule), ProductsModule, OrdersModule, StripeModule, AddressesModule, UsersModule],
+  imports: [
+    forwardRef(() => CartItemsModule),
+    forwardRef(() => ProductsModule),
+    OrdersModule,
+    StripeModule,
+    AddressesModule,
+    UsersModule],
   exports: [CartsService]
 })
 export class CartsModule {}

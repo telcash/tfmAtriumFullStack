@@ -4,7 +4,7 @@
             <ng-template mat-tab-label>{{tab.label}}</ng-template>
             <mat-card class="product-gallery">
                 <div *ngFor="let product of tab.content">
-                    <app-product-card [product]="product"></app-product-card>
+                    <app-product-card (cartItemQuantityChange)="setCartItemQuantity($event)" [product]="product"></app-product-card>
                 </div>
             </mat-card>
         </mat-tab>

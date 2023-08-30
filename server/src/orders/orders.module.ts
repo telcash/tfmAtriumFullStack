@@ -11,7 +11,7 @@ import { ProductsModule } from 'src/products/products.module';
 @Module({
   controllers: [OrdersController],
   providers: [OrdersService, OrdersRepository],
-  imports: [forwardRef(() => StripeModule), ProductsModule],
+  imports: [forwardRef(() => StripeModule), forwardRef(() => ProductsModule) ],
   exports: [OrdersService],
 })
 export class OrdersModule {}

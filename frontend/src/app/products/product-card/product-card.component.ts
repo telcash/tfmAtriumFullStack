@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Product } from '../models/product';
 import { FormControl } from '@angular/forms';
 import { CartsService } from 'src/app/carts/carts.service';
-import { CookieService } from 'ngx-cookie-service';
 import { GlobalConstants } from 'src/app/config/global-constants';
 
 @Component({
@@ -13,37 +12,33 @@ import { GlobalConstants } from 'src/app/config/global-constants';
 export class ProductCardComponent implements OnInit{
 
   imgUrl: string = GlobalConstants.API_STATIC_PRODUCTS_IMG;
-  @Input() product?: Product;
+  @Input() product!: Product;
+  @Output() cartItemQuantityChange = new EventEmitter<Product>();
 
-  quantity = new FormControl(1);
-  maxItems?: number;
+  quantity = new FormControl<number>(1, {nonNullable: true});
+  maxItems: number = 0;
+  cartItemQuantity = 0;
 
-  constructor(private cartsService: CartsService, private cookieService: CookieService) {
+  constructor(private cartsService: CartsService) {
   }
   
   ngOnInit(): void {
-    this.imgUrl += `/${this.product?.image}`
-    this.maxItems = this.getMaxItems();
+    this.imgUrl += `/${this.product?.image}`;
+    if (this.product.cartsItem && this.product.cartsItem.length >0) {
+      this.cartItemQuantity = this.product.cartsItem[0].quantity
+    }
+    this.maxItems = this.product.stock - this.cartItemQuantity;
   }
 
   addToCart() {
-    const productId = this.product?.id ?? 0;
-    const qt = this.quantity.value ?? 0;
-    this.cartsService.addItemToCart(productId, qt).subscribe(
-      () => {
-        this.maxItems = this.getMaxItems();
+  this.cartsService.addItemToCart(this.product.id, this.quantity.value).subscribe(
+      cartItem => {
+        this.product.cartsItem = [cartItem]
+        this.maxItems = this.product.stock - cartItem.quantity;
         this.quantity.setValue(1);
+        this.cartItemQuantityChange.emit(this.product);
       }
     )
-  }
-
-  getMaxItems(): number {
-    const stock = this.product?.stock ?? 0;
-    const itemsOnCart = this.cookieService.get(`pId_${this.product?.id}`) 
-      ? parseInt(this.cookieService.get(`pId_${this.product?.id}`))
-      : 0;
-
-    return (stock - itemsOnCart);
   }
 
 }

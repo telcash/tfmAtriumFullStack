@@ -11,7 +11,7 @@ import { CartItemsRepository } from './cart-items.repository';
 @Module({
   controllers: [CartItemsController],
   providers: [CartItemsService, CartItemsRepository],
-  imports: [forwardRef(() => CartsModule), ProductsModule],
+  imports: [forwardRef(() => CartsModule), forwardRef(() => ProductsModule)],
   exports: [CartItemsService]
 })
 export class CartItemsModule {}

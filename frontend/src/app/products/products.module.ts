@@ -16,7 +16,6 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductsTableComponent } from './products-table/products-table.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
 

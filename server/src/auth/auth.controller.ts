@@ -9,7 +9,6 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { SignupPipe } from './pipes/signup.pipe';
 import { PasswordUpdatePipe } from './pipes/password-update.pipe';
 import { User } from 'src/users/decorators/user.decorator';
-import { SetLoginCookiesInterceptor } from './interceptors/set-login-cookies.interceptor';
 
 /**
  * Controlador del Módulo {@link AuthModule}
@@ -35,7 +34,6 @@ export class AuthController {
      * @param user - Usuario validado y agregado al request por {@link LocalAuthGuard}
      * @returns {JwtTokens} - JSON Web Tokens de acceso y de refrescamiento
      */
-    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@User() user: UserEntity): Promise<JwtTokens> {
@@ -47,7 +45,6 @@ export class AuthController {
      * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario que cierra sesión
      */
-    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(JwtAccessGuard)
     @Get('logout')
     async logout(@User('sub') id): Promise<UserEntity> {
@@ -72,7 +69,6 @@ export class AuthController {
      * @param refreshToken - Token de refrescamiento validado y agregado al request por {@link JwtRefreshGuard}
      * @returns {JwtTokens} - Nuevos JSON Web Tokens de acceso y de refrescamiento
      */
-    @UseInterceptors(SetLoginCookiesInterceptor)
     @UseGuards(JwtRefreshGuard)
     @Get('refresh')
     async refreshTokens(@User('sub') id, @User('refreshToken') refreshToken): Promise<JwtTokens> {

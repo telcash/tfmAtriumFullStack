@@ -1,56 +1,58 @@
-<div class="form-container">
-    <div class="form-content">
-        <mat-toolbar class="form-toolbar" color="primary">Agregar producto</mat-toolbar>
-        <mat-card class="form-card">
-            <form class="form-main" [formGroup]="productCreateForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
-                    <mat-label>Nombre</mat-label>
-                    <mat-icon matPrefix>title</mat-icon>
-                    <input type="text" matInput formControlName="name">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Descripción</mat-label>
-                    <mat-icon matPrefix>description</mat-icon>
-                    <textarea type="text" matInput formControlName="description"></textarea>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Precio de venta</mat-label>
-                    <mat-icon matPrefix>euro</mat-icon>
-                    <input type="text" matInput formControlName="price">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Inventario</mat-label>
-                    <mat-icon matPrefix>inventory</mat-icon>
-                    <input type="text" matInput formControlName="stock">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Disponibilidad</mat-label>
-                    <mat-icon matPrefix>sell</mat-icon>
-                    <mat-select formControlName="availability">
-                        <mat-option value="STOCK">INVENTARIO</mat-option>
-                        <mat-option value="ALWAYS">SIEMPRE</mat-option>
-                        <mat-option value="NEVER">NUNCA</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
-                    <input matInput formControlName="image" class="file-input">
-                    <div>
-                        <button type="button" mat-mini-fab color="primary" (click)="fileUpload.click()">
-                            <mat-icon>attach_file</mat-icon>
-                        </button>
-                        {{file?.name || "No file uploaded yet."}}
+<div class="product-create-container">
+    <div class="form-container">
+        <div class="form-content">
+            <mat-toolbar class="form-toolbar" color="primary">Agregar producto</mat-toolbar>
+            <mat-card class="form-card">
+                <form class="form-main" [formGroup]="productCreateForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <mat-icon matPrefix>title</mat-icon>
+                        <input type="text" matInput formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Descripción</mat-label>
+                        <mat-icon matPrefix>description</mat-icon>
+                        <textarea type="text" matInput formControlName="description"></textarea>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Precio de venta</mat-label>
+                        <mat-icon matPrefix>euro</mat-icon>
+                        <input type="text" matInput formControlName="price">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Inventario</mat-label>
+                        <mat-icon matPrefix>inventory</mat-icon>
+                        <input type="text" matInput formControlName="stock">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Disponibilidad</mat-label>
+                        <mat-icon matPrefix>sell</mat-icon>
+                        <mat-select formControlName="availability">
+                            <mat-option value="STOCK">INVENTARIO</mat-option>
+                            <mat-option value="ALWAYS">SIEMPRE</mat-option>
+                            <mat-option value="NEVER">NUNCA</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+                        <input matInput formControlName="image" class="file-input">
+                        <div>
+                            <button type="button" mat-mini-fab color="primary" (click)="fileUpload.click()">
+                                <mat-icon>attach_file</mat-icon>
+                            </button>
+                            {{file?.name || "No file uploaded yet."}}
+                        </div>
+                    </mat-form-field>
+                    <div class="categories-field">
+                        <app-product-categories [(categories)]="categories"></app-product-categories>
                     </div>
-                </mat-form-field>
-                <div class="categories-field">
-                    <app-product-categories [(categories)]="categories"></app-product-categories>
-                </div>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="productCreateForm.invalid">Agregar producto</button>
-                    <button mat-raised-button color="primary" type="button" (click)="goToProducts()">Cancelar</button>
-                </mat-card-actions>
-
-            </form>
-        </mat-card>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="productCreateForm.invalid">Agregar producto</button>
+                        <button mat-raised-button color="primary" type="button" (click)="goToProducts()">Cancelar</button>
+                    </mat-card-actions>
+    
+                </form>
+            </mat-card>
+        </div>
     </div>
 </div>

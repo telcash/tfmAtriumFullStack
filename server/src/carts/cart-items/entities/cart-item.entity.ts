@@ -1,4 +1,5 @@
 import { CartItem } from "@prisma/client";
+import { Exclude } from "class-transformer";
 
 /**
  * CartItemEntity para retornar
@@ -11,7 +12,11 @@ export class CartItemEntity implements CartItem{
     cartId: number;
     quantity: number;
     price: number;
+
+    @Exclude()
     createdAt: Date;
+
+    @Exclude()
     updatedAt: Date;
 
 }

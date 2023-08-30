@@ -22,7 +22,7 @@ export class ProductEditComponent implements OnInit {
   productEditForm = new FormGroup({
     'name': new FormControl('', [
       Validators.minLength(2),
-      Validators.maxLength(20),
+      Validators.maxLength(40),
     ]),
     'description': new FormControl('', [
       Validators.minLength(2),

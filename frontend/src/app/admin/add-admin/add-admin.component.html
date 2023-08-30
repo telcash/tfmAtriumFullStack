@@ -2,47 +2,49 @@
     Documento HTML con el formulario para agregar a un usuario de tipo administrador
  -->
 
-<div class="form-container">
-    <div class="form-content">
-        <mat-toolbar class="form-toolbar" color="primary">Crear nuevo administrador</mat-toolbar>
-        <mat-card class="form-card">
-            <form class="form-main" [formGroup]="addAdminForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
-                    <mat-label>Nombres</mat-label>
-                    <mat-icon matPrefix>person</mat-icon>
-                    <input type="text" matInput formControlName="firstName">
-                    <mat-error *ngIf="addAdminForm.controls.firstName.invalid">{{getFirstNameErrors()}}</mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Apellidos</mat-label>
-                    <mat-icon matPrefix>person</mat-icon>
-                    <input type="text" matInput formControlName="lastName">
-                    <mat-error *ngIf="addAdminForm.controls.lastName.invalid">{{getLastNameErrors()}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="form-field">
-                    <mat-label>email</mat-label>
-                    <mat-icon matPrefix>email</mat-icon>
-                    <input type="text" matInput formControlName="email">
-                    <mat-error *ngIf="addAdminForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="form-field">
-                    <mat-label>Contraseña</mat-label>
-                    <mat-icon matPrefix>lock_outline</mat-icon>
-                    <input type="password" autocomplete="false" matInput formControlName="password">
-                    <mat-error *ngIf="addAdminForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Teléfono de contacto</mat-label>
-                    <mat-icon matPrefix>contact_phone</mat-icon>
-                    <input type="text" matInput formControlName="mobile">
-                </mat-form-field>
-                <mat-card-actions>
-                    <button type="submit" mat-raised-button color="primary" [disabled]="addAdminForm.invalid">Crear administrador</button>
-                </mat-card-actions>
-                <div *ngIf="addAdminErrorMessage" class="form-error-response">
-                    {{addAdminErrorMessage}}
-                </div>
-            </form>
-        </mat-card>
-    </div>
-</div>
+ <div class="add-admin-container">
+     <div class="form-container">
+         <div class="form-content">
+             <mat-toolbar class="form-toolbar" color="primary">Crear nuevo administrador</mat-toolbar>
+             <mat-card class="form-card">
+                 <form class="form-main" [formGroup]="addAdminForm" (ngSubmit)="onSubmit()">
+                     <mat-form-field>
+                         <mat-label>Nombres</mat-label>
+                         <mat-icon matPrefix>person</mat-icon>
+                         <input type="text" matInput formControlName="firstName">
+                         <mat-error *ngIf="addAdminForm.controls.firstName.invalid">{{getFirstNameErrors()}}</mat-error>
+                     </mat-form-field>
+                     <mat-form-field>
+                         <mat-label>Apellidos</mat-label>
+                         <mat-icon matPrefix>person</mat-icon>
+                         <input type="text" matInput formControlName="lastName">
+                         <mat-error *ngIf="addAdminForm.controls.lastName.invalid">{{getLastNameErrors()}}</mat-error>
+                     </mat-form-field>
+                     <mat-form-field class="form-field">
+                         <mat-label>email</mat-label>
+                         <mat-icon matPrefix>email</mat-icon>
+                         <input type="text" matInput formControlName="email">
+                         <mat-error *ngIf="addAdminForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
+                     </mat-form-field>
+                     <mat-form-field class="form-field">
+                         <mat-label>Contraseña</mat-label>
+                         <mat-icon matPrefix>lock_outline</mat-icon>
+                         <input type="password" autocomplete="false" matInput formControlName="password">
+                         <mat-error *ngIf="addAdminForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
+                     </mat-form-field>
+                     <mat-form-field>
+                         <mat-label>Teléfono de contacto</mat-label>
+                         <mat-icon matPrefix>contact_phone</mat-icon>
+                         <input type="text" matInput formControlName="mobile">
+                     </mat-form-field>
+                     <mat-card-actions>
+                         <button type="submit" mat-raised-button color="primary" [disabled]="addAdminForm.invalid">Crear administrador</button>
+                     </mat-card-actions>
+                     <div *ngIf="addAdminErrorMessage" class="form-error-response">
+                         {{addAdminErrorMessage}}
+                     </div>
+                 </form>
+             </mat-card>
+         </div>
+     </div>
+ </div>

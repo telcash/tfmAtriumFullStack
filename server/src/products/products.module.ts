@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { ProductsRepository } from './products.repository';
 import { ProductCategoriesModule } from './product-categories/product-categories.module';
+import { CartsModule } from 'src/carts/carts.module';
 
 
 /**
@@ -12,6 +13,6 @@ import { ProductCategoriesModule } from './product-categories/product-categories
   controllers: [ProductsController],
   providers: [ProductsService, ProductsRepository],
   exports: [ProductsService],
-  imports: [ProductCategoriesModule],
+  imports: [forwardRef(() => CartsModule), ProductCategoriesModule],
 })
 export class ProductsModule {}

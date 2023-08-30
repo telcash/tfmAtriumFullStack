@@ -71,7 +71,7 @@ export class ProductsRepository {
         const products = await this.prisma.product.findMany({
             where: {
                 categories: {
-                    every: {
+                    some: {
                         categoryId: categoryId,
                     }
                 }
@@ -86,7 +86,7 @@ export class ProductsRepository {
                             }
                         },
                     }
-                }
+                },
             }
         })
         const result = products.map((product) => {
@@ -99,19 +99,38 @@ export class ProductsRepository {
      * Busca todos los productos en la base de datos, filtrado con las condiciones para clientes
      * @returns - Listado de productos
      */
-    async findAllForClients(categoryId?: number) {
+    async findAllForClients(categoryId?: number, cartId?: number) {
         return await this.prisma.product.findMany({
             where: {
                 AND: [
                     this.productConditionsForClients,
                     {
                         categories: {
-                            every: {
+                            some: {
                                 categoryId: categoryId,
                             }
                         }
                     }
                 ]
+            },
+            include: {
+                cartsItem: {
+                    where: {
+                        cartId: cartId
+                    },
+                    select: {
+                        quantity: true,
+                    }
+                },
+                categories: {
+                    select: {
+                        category: {
+                            select: {
+                                name: true,
+                            }
+                        }
+                    }
+                }
             }
         })
     }
