@@ -10,7 +10,6 @@ import { CoreModule } from './core/core.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CookieService } from 'ngx-cookie-service';
 import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
@@ -61,7 +60,6 @@ import { OrdersModule } from './orders/orders.module';
       useClass: AuthInterceptor,
       multi: true,
     },
-    CookieService,
   ],
   bootstrap: [AppComponent]
 })

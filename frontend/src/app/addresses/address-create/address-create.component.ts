@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address } from '../models/address';
 import { AddressesService } from '../addresses.service';
 import { Router } from '@angular/router';
 
@@ -32,28 +31,16 @@ export class AddressCreateComponent {
    */
   onSubmit(): void {
 
-    // Objeto con los datos del formulario para el envío al API
-    const address: Address = {
-      street: this.addressCreateForm.value.street!,
-      postalCode: this.addressCreateForm.value.postalCode!,
-      city: this.addressCreateForm.value.city!,
-      country: this.addressCreateForm.value.country!,
+    if (this.addressCreateForm.valid) {
+      // LLamada al servicio para la solicitud al API de la creación de la dirección
+      this.addressesService.createAddress(this.addressCreateForm.getRawValue()).subscribe(
+        
+        // Una vez creada la dirección navega al listado de las direcciones del usuario
+        () => this.router.navigateByUrl('users/myprofile/addresses'),
+  
+      );
     }
 
-    // LLamada al servicio para la solicitud al API de la creación de la dirección
-    this.addressesService.createAddress(address).subscribe(
-      
-      // Una vez creada la dirección navega al listado de las direcciones del usuario
-      () => this.goToAddresses(),
-
-    );
-  }
-
-  /**
-   * Navega al listado de las direcciones del usuario
-   */
-  goToAddresses() {
-    this.router.navigateByUrl('users/myprofile/addresses');
   }
 
 }

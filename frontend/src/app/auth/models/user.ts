@@ -1,3 +1,6 @@
+/**
+ * Interface que modelo a un usuario
+ */
 export interface User {
     firstName: string;
     lastName: string;

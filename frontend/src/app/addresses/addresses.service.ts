@@ -5,12 +5,13 @@ import { Address } from './models/address';
 import { Observable } from 'rxjs';
 
 /**
- * Servicio encargado de las peticiones al API relacionadas con las direcciones de usuario
+ * Servicio encargado de las peticiones a los endpoints '/addresses'  del API,
+ * Peticiones relacionadas con las direcciones de usuario
  */
 @Injectable()
 export class AddressesService {
 
-  // URL para peticiones
+  // URL base para peticiones
   url = GlobalConstants.API_URL + '/addresses'
 
   constructor(private http: HttpClient) { }

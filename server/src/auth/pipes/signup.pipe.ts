@@ -31,11 +31,10 @@ export class SignupPipe implements PipeTransform {
     const hashedPassword: string = await this.hashService.hashData(createUserDto.password);
 
     // Verificamos que no se esté intentando registrar como Admin un usuario
-    console.log(this.req.user.role);
-    if(this.req.user.role !== UserRole.ADMIN && createUserDto.role === UserRole.ADMIN) {
+    if(!this.req.user || (this.req.user && this.req.user.role !== UserRole.ADMIN)) {
       createUserDto.role = UserRole.CLIENT;
     }
-
+    
     // Actualizamos los datos en el DTO con los datos correspondientes a un nuevo usuario tipo CLIENT que se registra
     createUserDto = {
       ...createUserDto,

@@ -1,32 +1,34 @@
 <!-- 
     Documento HTML con el formulario para edición de una dirección
  -->
-<div class="form-container">
-    <div class="form-content">
-        <mat-toolbar class="form-toolbar" color="primary">Editar dirección</mat-toolbar>
-        <mat-card class="form-card">
-            <form class="form-main" [formGroup]="addressEditForm" (ngSubmit)="onSubmit()">
-                <mat-form-field>
-                    <mat-label>Calle</mat-label>
-                    <input type="text" matInput formControlName="street"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Código Postal</mat-label>
-                    <input type="text" matInput formControlName="postalCode"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Ciudad</mat-label>
-                    <input type="text" matInput formControlName="city"> 
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Pais</mat-label>
-                    <input type="text" matInput formControlName="country"> 
-                </mat-form-field>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="addressEditForm.invalid">Actualizar</button>
-                    <button mat-raised-button color="primary" type="button" (click)="goToAddresses()">Cancelar</button>
-                </mat-card-actions>
-            </form>
-        </mat-card>
-    </div>
-</div>
+ <div class="address-edit-container">
+     <div class="form-container">
+         <div class="form-content">
+             <mat-toolbar class="form-toolbar" color="primary">Editar dirección</mat-toolbar>
+             <mat-card class="form-card">
+                 <form class="form-main" [formGroup]="addressEditForm" (ngSubmit)="onSubmit()">
+                     <mat-form-field>
+                         <mat-label>Calle</mat-label>
+                         <input type="text" matInput formControlName="street"> 
+                     </mat-form-field>
+                     <mat-form-field>
+                         <mat-label>Código Postal</mat-label>
+                         <input type="text" matInput formControlName="postalCode"> 
+                     </mat-form-field>
+                     <mat-form-field>
+                         <mat-label>Ciudad</mat-label>
+                         <input type="text" matInput formControlName="city"> 
+                     </mat-form-field>
+                     <mat-form-field>
+                         <mat-label>Pais</mat-label>
+                         <input type="text" matInput formControlName="country"> 
+                     </mat-form-field>
+                     <mat-card-actions>
+                         <button mat-raised-button color="primary" type="submit" [disabled]="addressEditForm.invalid">Actualizar</button>
+                         <button mat-raised-button color="primary" type="button" routerLink="../../">Cancelar</button>
+                     </mat-card-actions>
+                 </form>
+             </mat-card>
+         </div>
+     </div>
+ </div>

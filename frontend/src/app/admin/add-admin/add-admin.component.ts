@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from '../../auth/models/user';
 import { UsersService } from 'src/app/users/users.service';
 import { Router } from '@angular/router';
 
@@ -18,28 +17,29 @@ export class AddAdminComponent {
 
   // Definición del formulario para agregar a un nuevo administrador al sistema
   addAdminForm = new FormGroup({
-    'firstName': new FormControl('', [
+    'firstName': new FormControl('', {nonNullable: true, validators:[
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(50)
-    ]),
-    'lastName': new FormControl('', [
+    ]}),
+    'lastName': new FormControl('', {nonNullable: true, validators:[
       Validators.required,
       Validators.minLength(2),
       Validators.maxLength(50)
-    ]),
-    'email': new FormControl('', [
+    ]}),
+    'email': new FormControl('', {nonNullable: true, validators:[
       Validators.required,
-      Validators.email]),
-    'password': new FormControl('',[
+      Validators.email
+    ]}),
+    'password': new FormControl('', {nonNullable: true, validators:[
       Validators.required,
       Validators.pattern(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*¿)([^\s]){8,16}$/)
-    ]),
-    'mobile': new FormControl('', [
+    ]}),
+    'mobile': new FormControl('', {nonNullable: true, validators:[
       Validators.required,
       Validators.minLength(9),
       Validators.maxLength(15)
-    ])
+    ]})
   });
 
   constructor(
@@ -52,31 +52,26 @@ export class AddAdminComponent {
    */
   onSubmit(): void {
 
-    // Objeto con los datos del formulario para el envío al API
-    const user: User = {
-      firstName: this.addAdminForm.value.firstName!,
-      lastName: this.addAdminForm.value.lastName!,
-      email: this.addAdminForm.value.email!,
-      password: this.addAdminForm.value.password!,
-      mobile: this.addAdminForm.value.mobile!,
-      role: 'ADMIN',
+    if(this.addAdminForm.valid) {
+      // Llamada al servicio para la solicitud al API de la creación del usuario
+      this.usersService.createUser({
+        ...this.addAdminForm.getRawValue(),
+        role: 'ADMIN'
+      }).subscribe({
+  
+        // Si la creación es exitosa navega al listado de usuarios
+        next: () => this.router.navigateByUrl('admin/users'),
+  
+        // Si hay un error en la creación del usuario generamos un mensaje de error para el cliente
+        error: error => {
+          if(error.error.response.code && error.error.response.code === 'P2002') {
+            this.addAdminErrorMessage = 'Ya existe un administrador registrado con ese correo electrónico';
+          } else {
+            this.addAdminErrorMessage = 'Ha ocurrido un error en el registro, intente nuevamente'
+          }
+        } 
+      });
     }
-
-    // Llamada al servicio para la solicitud al API de la creación del usuario
-    this.usersService.createUser(user).subscribe({
-
-      // Si la creación es exitosa navega al listado de usuarios
-      next: () => this.router.navigateByUrl('admin/users'),
-
-      // Si hay un error en la creación del usuario generamos un mensaje de error para el cliente
-      error: error => {
-        if(error.error.response.code && error.error.response.code === 'P2002') {
-          this.addAdminErrorMessage = 'Ya existe un administrador registrado con ese correo electrónico';
-        } else {
-          this.addAdminErrorMessage = 'Ha ocurrido un error en el registro, intente nuevamente'
-        }
-      } 
-    });
   }
 
   /**

@@ -35,26 +35,6 @@ export class AddressEditComponent implements OnInit {
    * Invoca el método para la carga de los valores iniciales del formulario
    */
   ngOnInit(): void {
-    this.loadInitialValues();
-  }
-
-  /**
-   * Envía los datos del formulario para la edición de una dirección
-   */
-  onSubmit(): void {
-
-    // Llamada al servicio para la solicitud al API de actualización de la dirección
-    this.addressesService.updateAddress(this.addressId, this.addressEditForm.value).subscribe(
-
-      // Una vez actualizada la dirección navega al listado de las direcciones del usuario
-      () => this.goToAddresses(),
-    );
-  }
-
-  /**
-   * Carga los valores iniciales del formulario
-   */
-  loadInitialValues(): void {
 
     // Invoca al servicio para la solicitud al API de los datos de la dirección a editar
     this.addressesService.getAddress(this.addressId).subscribe(
@@ -64,29 +44,22 @@ export class AddressEditComponent implements OnInit {
         this.address = data;
 
         // Inicializa los valores del formulario
-        this.setFormValues(this.address);
+        this.addressEditForm.patchValue(this.address);
       }
     )
   }
 
   /**
-   * Método para establecer los valores de los campos del formulario
-   * @param {Address} address 
+   * Envía los datos del formulario para la edición de una dirección
    */
-  setFormValues(address: Address) {
-    this.addressEditForm.setValue({
-      street: address.street,
-      postalCode: address.postalCode,
-      city: address.city,
-      country: address.country,
-    })
+  onSubmit(): void {
+    if(this.addressEditForm.valid) {
+      // Llamada al servicio para la solicitud al API de actualización de la dirección
+      this.addressesService.updateAddress(this.addressId, this.addressEditForm.value).subscribe(
+  
+        // Una vez actualizada la dirección navega al listado de las direcciones del usuario
+        () => this.router.navigateByUrl('users/myprofile/addresses'),
+      );
+    }
   }
-
-  /**
-   * Metodo para navegar al listado de direcciones del usuario
-   */
-  goToAddresses(): void {
-    this.router.navigateByUrl('users/myprofile/addresses');
-  }
-
 }

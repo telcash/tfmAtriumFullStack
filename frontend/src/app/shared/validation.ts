@@ -9,4 +9,11 @@ export default class Validation {
     }
     return null;
   }
+
+  passwordRelationsValidator : ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const newPassword = control.get('newPassword');
+    const confirmationPassword = control.get('confirmationPassword');
+    return newPassword && confirmationPassword && newPassword.value === confirmationPassword.value ? null : {passwordRelations: true}
+  
+  };
 }
