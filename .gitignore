@@ -1,6 +1,8 @@
 .env
 documentation
 uploads
+environments
+server/img
 
 # Compiled output
 dist
