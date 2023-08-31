@@ -1,6 +1,14 @@
-.stripe-completion-container {
-    padding-top: 20px;
+.container {
+    width: 100%;
     display: flex;
+    justify-content: center;
+}
+
+.stripe-completion-container {
+    width: 360px;
+    padding-top: 40px;
+    display: flex;
+    flex-flow: column wrap;
     align-items: center;
     justify-content: center;
 }

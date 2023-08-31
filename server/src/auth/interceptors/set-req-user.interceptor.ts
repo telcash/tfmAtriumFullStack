@@ -26,7 +26,6 @@ export class SetRequestUserInterceptor implements NestInterceptor {
 
     // Obtiene el bearer token del request si existe uno
     const token = req.headers.authorization ? req.headers.authorization.replace('Bearer','').trim() : null;
-    
     // Si existe un token se verifica si es válido
     if (token) {
       await this.jwtService.verifyAsync(token, {

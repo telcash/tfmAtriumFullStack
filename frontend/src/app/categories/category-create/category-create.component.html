@@ -1,3 +1,7 @@
+<!-- 
+    Documento HTML con el formulario de creación de una categoría de producto
+ -->
+
 <div class="category-create-container">
     <div class="form-container">
         <div class="form-content">
@@ -11,7 +15,7 @@
                     </mat-form-field>
                     <mat-card-actions>
                         <button mat-raised-button color="primary" type="submit" [disabled]="categoryCreateForm.invalid">Agregar categoría</button>
-                        <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
+                        <button mat-raised-button color="primary" type="button" routerLink="../categories">Cancelar</button>
                     </mat-card-actions>
                 </form>
             </mat-card>

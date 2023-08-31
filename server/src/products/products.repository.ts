@@ -4,6 +4,7 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { Prisma } from '@prisma/client';
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { UpdateCartItemDto } from "src/carts/cart-items/dto/update-cart-item.dto";
+import { CreateProductCategoryDto } from "./product-categories/dto/create-product-category.dto";
 
 /**
  * Repositorio para manejar entidades Product en la base de datos
@@ -70,11 +71,22 @@ export class ProductsRepository {
     async findAll(categoryId?: number) {
         const products = await this.prisma.product.findMany({
             where: {
-                categories: {
-                    some: {
-                        categoryId: categoryId,
+                OR: [
+                    {
+                        categories: {
+                            some: {
+                                categoryId: categoryId,
+                            }
+                        }
+                    },
+                    {
+                        categories: {
+                            every: {
+                                categoryId: categoryId,
+                            }
+                        }
                     }
-                }
+                ]
             },
             include: {
                 categories: {
@@ -89,8 +101,8 @@ export class ProductsRepository {
                 },
             }
         })
-        const result = products.map((product) => {
-            return {...product, categories: product.categories.map((category) => category.category)}
+        const result = products.map(product => {
+            return {...product, categories: product.categories.map(category => category.category)}
         })
         return result;
     }

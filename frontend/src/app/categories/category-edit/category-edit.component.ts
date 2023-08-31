@@ -11,13 +11,17 @@ import { Category } from '../models/category';
 })
 export class CategoryEditComponent implements OnInit {
 
+  // Definición del formulario de edición de una categoría
   categoryEditForm = new FormGroup({
-    'name': new FormControl('', [
+    'name': new FormControl('',{nonNullable: true, validators:[
       Validators.required,
-    ])
+    ]})
   });
 
   category!: Category;
+
+  // Obtiene el id de la categoría del parámetro de la url
+  categoryId = this.route.snapshot.params['id'];
 
   constructor(
     private categoriesService: CategoriesService,
@@ -25,37 +29,38 @@ export class CategoryEditComponent implements OnInit {
     private router: Router,
   ) {}
 
+
+  /**
+   * Inicialización del componente
+   */
   ngOnInit(): void {
-    this.loadInitialValues();
-  }
 
-  onSubmit() {
-    const categoryId = this.route.snapshot.params['id'];
-    this.categoriesService.editCategory(categoryId, this.categoryEditForm.value).subscribe(
-      () => {
-        this.goToCategories();
-      }
-    )
-  }
+    // LLamada al servicio para solicitud al API de la categoría correspondiente al id
+    this.categoriesService.getCategory(this.categoryId).subscribe(
+      data => {
 
-  loadInitialValues() {
-    const categoryId = this.route.snapshot.params['id'];
-    this.categoriesService.getCategory(categoryId).subscribe(
-      (data) => {
+        // Inicializa el atributo category
         this.category = data;
-        this.setFormValues(this.category);
+
+        // Inicializa el formulario
+        this.categoryEditForm.patchValue(this.category);
       }
     )
   }
 
-  setFormValues(category: Category) {
-    this.categoryEditForm.setValue({
-      name: category.name,
-    })
-  }
+  /**
+   * Envía el formulario de edición de categoría
+   */
+  onSubmit() {
 
-  goToCategories() {
-    this.router.navigateByUrl('admin/categories')
+    if(this.categoryEditForm.valid) {
+      
+      // LLamada al servicio para petición al API de actualización de categoría
+      this.categoriesService.editCategory(this.categoryId, this.categoryEditForm.getRawValue()).subscribe(
+  
+        // Una vez editada navega al listado de categorías
+        () => this.router.navigateByUrl('admin/categories'),
+      )
+    }
   }
-
 }

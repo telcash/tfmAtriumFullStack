@@ -1,3 +1,7 @@
+<!-- 
+    Documento HTML con el formulario de edición de una categoría
+ -->
+
 <div class="category-edit-container">
     <div class="form-container">
         <div class="form-content">
@@ -11,7 +15,7 @@
                     </mat-form-field>
                     <mat-card-actions>
                         <button mat-raised-button color="primary" type="submit" [disabled]="categoryEditForm.invalid">Actualizar categoría</button>
-                        <button mat-raised-button color="primary" type="button" (click)="goToCategories()">Cancelar</button>
+                        <button mat-raised-button color="primary" type="button" routerLink="../../categories">Cancelar</button>
                     </mat-card-actions>
                 </form>
             </mat-card>

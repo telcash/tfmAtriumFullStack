@@ -4,8 +4,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
-
-
+/**
+ * Módulo de funciones compartidas
+ */
 @NgModule({
   declarations: [
     ConfirmDialogComponent

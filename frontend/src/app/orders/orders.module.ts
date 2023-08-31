@@ -14,7 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { OrderAdminComponent } from './order-admin/order-admin.component';
 
 
-
+/**
+ * Modulo encargado de las funciones de ordenes de usuario
+ */
 @NgModule({
   declarations: [
     OrdersTableComponent,

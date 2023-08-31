@@ -47,7 +47,7 @@ export class ProductsController {
    */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Get()
-  async findAll(@User('role') role: UserRole, @User('cart') cart, @Query('category') categoryId?): Promise<ProductEntity[]> {
+  async findAll(@User('role') role, @User('cart') cart, @Query('category') categoryId?): Promise<ProductEntity[]> {
     const products = await this.productsService.findAll(role, +categoryId, cart.id);
     return products.map((product) => new ProductEntity(product));
   }

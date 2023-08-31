@@ -70,7 +70,7 @@ export class CategoriesController {
   @UseGuards(JwtAccessGuard, RoleGuard)
   @Roles(UserRole.ADMIN)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<CategoryEntity> {
     return new CategoryEntity(await this.categoriesService.remove(+id));
   }
 }

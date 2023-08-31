@@ -7,7 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
 
-
+/**
+ * Modulo encargado de la conexión a la pasarela de pagos Stripe
+ */
 @NgModule({
   declarations: [
     StripeCheckoutComponent,

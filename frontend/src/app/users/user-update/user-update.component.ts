@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/auth/models/user';
 import { UsersService } from '../users.service';
 
+/**
+ * Componente que gestiona el formulario de edición de datos de un usuario
+ */
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
@@ -10,6 +13,7 @@ import { UsersService } from '../users.service';
 })
 export class UserUpdateComponent implements OnInit {
 
+  // Definición del formulario de actualización de datos de un usuario
   userUpdateForm = new FormGroup({
     'firstName': new FormControl({value:'', disabled: true}, [
       Validators.required,
@@ -36,19 +40,38 @@ export class UserUpdateComponent implements OnInit {
   
   constructor(private usersService: UsersService) {}
   
+  /**
+   * Inicialización del componente
+   */
   ngOnInit(): void {
+
+    // Llamada al servicio para la solicitud al API de los datos del usuario
     this.usersService.getUser().subscribe(
-      (data) => {
-        this.user = data;
+      user => {
+
+        // Inicializa el atributo user
+        this.user = user;
+
+        // Inicializa los campos del formulario
         this.setFormValues(this.user);
       }
     )
   }
 
+  /**
+   * Envía los datos del formulario
+   */
   onSubmit() {
-    this.usersService.updateUser(this.userUpdateForm.value).subscribe();
+
+    if(this.userUpdateForm.valid) {
+      // LLamada al servicio para la solicitud al API de actualización del formulario
+      this.usersService.updateUser(this.userUpdateForm.value).subscribe();
+    } 
   }
 
+  /**
+   * Método que desbloquea los campos del formulario para su edición
+   */
   enableEdit() {
     this.isEditable = true;
     this.userUpdateForm.controls.firstName.enable();
@@ -56,6 +79,9 @@ export class UserUpdateComponent implements OnInit {
     this.userUpdateForm.controls.mobile.enable();
   }
 
+  /**
+   * Método que bloquea los campos del formulario y lo resetea a los valores originales del usuario
+   */
   cancelEdit() {
     this.isEditable = false;
     this.userUpdateForm.controls.firstName.disable();
@@ -64,6 +90,10 @@ export class UserUpdateComponent implements OnInit {
     this.setFormValues(this.user);
   }
 
+  /**
+   * Método que carga los campos del formulario con los datos del objeto user
+   * @param {User} user 
+   */
   setFormValues(user: User) {
     this.userUpdateForm.setValue({
       firstName: user.firstName,
@@ -73,6 +103,10 @@ export class UserUpdateComponent implements OnInit {
     })
   }
 
+  /**
+   * Método que genera mensajes de error en el campo 'firstName' del formulario 
+   * @returns 
+   */
   getFirstNameErrors() {
     if(this.userUpdateForm.controls.firstName.hasError('required')) {
       return 'Debe ingresar un nombre';
@@ -83,6 +117,10 @@ export class UserUpdateComponent implements OnInit {
     return this.userUpdateForm.controls.firstName.hasError('maxlength') ? 'El nombre no puede tener más de 50 caracteres' : '';
   }
 
+  /**
+   * Método que genera mensajes de error en el campo 'lastName' del formulario 
+   * @returns 
+   */
   getLastNameErrors() {
     if(this.userUpdateForm.controls.lastName.hasError('required')) {
       return 'Debe ingresar un apellido';

@@ -37,7 +37,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
 
     // Verifica si hay usuario autenticado
     if(req.user) {
-
+      
       // Busca el carrito del usuario
       let userCart = await this.cartsService.findOneByUserId(req.user.sub);
       
@@ -65,7 +65,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
       }
 
       // Anexa al request el carrito de usuario
-      req.user = { cart: userCart };
+      req.user.cart = userCart;
 
     // No hay usuario autenticado
     } else {

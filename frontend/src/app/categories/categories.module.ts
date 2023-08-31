@@ -14,7 +14,9 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
 import { AppRoutingModule } from '../app-routing.module';
 
 
-
+/**
+ * Modulo encargado de las funciones de categorías de productos
+ */
 @NgModule({
   declarations: [
     CategoriesTableComponent,

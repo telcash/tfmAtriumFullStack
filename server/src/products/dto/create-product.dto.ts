@@ -1,6 +1,7 @@
 import { Exclude, Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, Min, MinLength } from "class-validator";
 import { ProductAvailability } from "../constants/product-availability";
+import { CreateProductCategoryDto } from '../product-categories/dto/create-product-category.dto';
 
 /**
  * Data Transfer Object para creación de un producto
@@ -30,10 +31,10 @@ export class CreateProductDto {
 
     @IsOptional()
     @Type(() => Number)
-    //@IsNumber()
     stock?: number;
 
     @IsOptional()
     @IsEnum(ProductAvailability)
     availability?: ProductAvailability;
+
 }

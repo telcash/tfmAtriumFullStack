@@ -14,6 +14,10 @@ import { FooterComponent } from './footer/footer.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { LegalWarningComponent } from './legal-warning/legal-warning.component';
 
+
+/**
+ * Modulo encargado de funciones y vistas primarias de la aplicación
+ */
 @NgModule({
   declarations: [
     HomeComponent,

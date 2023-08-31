@@ -30,14 +30,22 @@ export class ProductGalleryComponent implements OnInit {
         categories => categories.forEach(category => this.tabs.push({ label: category.name }))
       ),
       map(
-        categories => categories.map(category => this.productsService.getProductsByCategory(category.id))
+        categories => categories.map(category => this.productsService.getProductsByCategory(category.id!))
       ),
       concatMap(
         contents => concat(...contents)
       ),
-    ).subscribe(
-      products => this.tabs[this.tabs.findIndex(tab => !tab.content)].content = products
-    )
+      tap(
+        products => {
+          const index = this.tabs.findIndex(tab => !tab.content);
+          if(products.length > 0) {
+            this.tabs[index].content = products;
+          } else {
+            this.tabs.splice(index, 1)
+          }
+        }
+      )
+    ).subscribe()
 
   }
 

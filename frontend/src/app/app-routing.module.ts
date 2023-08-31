@@ -27,6 +27,7 @@ import { OrderAdminComponent } from './orders/order-admin/order-admin.component'
 import { PrivacyPolicyComponent } from './core/privacy-policy/privacy-policy.component';
 import { LegalWarningComponent } from './core/legal-warning/legal-warning.component';
 
+// Rutas de la aplicación
 const routes: Routes = [
   {
     path: '',
@@ -133,6 +134,9 @@ const routes: Routes = [
   }
 ];
 
+/**
+ * Modulo que gestiona la navegación a las rutas de la aplicación
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: 'enabled',

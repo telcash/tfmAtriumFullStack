@@ -1,11 +1,17 @@
-<div class="stripe-completion-container">
-    <mat-card>
-        <mat-card-content>
-            {{status}}
-        </mat-card-content>
-    </mat-card>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="goHome()">Seguir comprando</button>
-        <button mat-raised-button color="primary" (click)="goToOrders()">Ir a mis órdenes</button>
-    </mat-card-actions>
+<!-- 
+    Documento HTML que contiene el diálogo de confirmación de pago de orden exitoso
+ -->
+
+<div class="container">
+    <div class="stripe-completion-container">
+        <mat-card>
+            <mat-card-content>
+                {{status}}
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="goHome()">Seguir comprando</button>
+                <button mat-raised-button color="primary" (click)="goToOrders()">Ir a mis órdenes</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

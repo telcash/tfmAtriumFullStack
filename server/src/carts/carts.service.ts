@@ -134,7 +134,7 @@ export class CartsService {
     await this.emptyCart(checkoutCartDto.cart.id);
 
     // Enviamos al cliente el id de la orden
-    return { orderId: order.id }
+    return order.id;
   }
 
   /**

@@ -70,11 +70,11 @@ export class CartsController {
   /**
    * Endpoint para solicitud de checkout de un carrito
    * @param {CheckoutCartDto} checkoutCartDto - Dto con los datos para el checkout
-   * @returns - Objecto con propiedad clientSecret con la clave de Stripe para el pago
+   * @returns {number} - Id de la orden creada
    */
   @UseInterceptors(SetRequestUserInterceptor, SetRequestUserCartInterceptor)
   @Post('/mycart/checkout')
-  async checkout(@Body(CheckoutPipe) checkoutCartDto: CheckoutCartDto) {
+  async checkout(@Body(CheckoutPipe) checkoutCartDto: CheckoutCartDto): Promise<number> {
     return await this.cartsService.checkout(checkoutCartDto);
   }
   

@@ -15,7 +15,9 @@ import { AppRoutingModule } from '../app-routing.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 
-
+/**
+ * Modulo encargado de las funciones de carritos de compras
+ */
 @NgModule({
   declarations: [
     CartComponent,

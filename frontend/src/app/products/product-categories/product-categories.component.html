@@ -1,3 +1,7 @@
+<!-- 
+  Documento HTML que muestra un campo de formulario con fichas (chips) para escoger las categorías de un producto
+ -->
+
 <form>
     <mat-form-field class="example-chip-list">
       <mat-label>Categorías</mat-label>
@@ -10,8 +14,7 @@
         </mat-chip-row>
       </mat-chip-grid>
       <input placeholder="Nueva categoría..." #categoryInput [formControl]="categoryCtrl"
-        [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"/>
+        [matChipInputFor]="chipGrid" [matAutocomplete]="auto"/>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
           {{category.name}}

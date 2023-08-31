@@ -53,7 +53,8 @@ export class LoginComponent {
           // Obtiene el rol del usuario que inicia sesión
           const role = this.authService.getUserRole();
   
-          // Envia un evento de inicio de sesión de un usuario
+          // Envia el valor del rol de usuario que acaba de iniciar sesión al Subject userLoogedIn.
+          // userLoggedIn lo emitira a sus Observers registrados
           this.authService.userLoggedIn.next(role);
   
           // Redirige a otra página dependiendo del tipo de usuario que inicia sesión

@@ -16,7 +16,9 @@ import { MatTableModule } from '@angular/material/table';
 import { AppRoutingModule } from '../app-routing.module';
 
 
-
+/**
+ * Modulo encargado de las funciones de usuarios
+ */
 @NgModule({
   declarations: [
     UserProfileComponent,

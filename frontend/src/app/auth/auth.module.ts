@@ -14,7 +14,9 @@ import { UpdatePasswordComponent } from './update-password/update-password.compo
 import { AppRoutingModule } from '../app-routing.module';
 
 
-
+/**
+ * Module encargado de funciones de autenticación
+ */
 @NgModule({
   declarations: [
     SignupComponent,
