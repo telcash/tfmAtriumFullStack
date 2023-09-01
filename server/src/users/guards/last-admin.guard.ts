@@ -19,12 +19,29 @@ export class LastAdminGuard implements CanActivate {
    */
   async canActivate(context: ExecutionContext,): Promise<boolean> {
 
-    // Determinamos el rol del usuario a eliminar
-    const id = context.switchToHttp().getRequest().params.id;
-    const role = (await this.usersService.findUserById(+id)).role;
+    let userId: number;
+    let role: string;
 
+    // Extrae el request del context
+    const req = context.switchToHttp().getRequest();
+
+    //Chequea si el url de la petición es '/users/profile'
+    if(req.url === '/users/profile') {
+
+      // Si es así el usuario a eliminar la cuenta es quien hace la petición
+      userId = req.user.sub;
+      role = req.user.role
+    } else {
+
+      // Si no es así, el id del usuario está en los parámetros del url
+      userId = +req.params['id'];
+      // Buscamos el rol del usuario a eliminar
+      role = (await this.usersService.findUserById(userId)).role;
+    }
+
+    
     // Si el usuario es el único Admin del sistema lanzamos un error
-    if (role === UserRole.ADMIN && await this.usersService.countUsersByRole(UserRole.ADMIN) === 1) {
+    if (role === UserRole.ADMIN && await this.usersService.countUsersByRole(UserRole.ADMIN) <= 1) {
       throw new ConflictException("Can't delete or modify the only admin");
     }
 

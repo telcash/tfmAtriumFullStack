@@ -91,12 +91,44 @@ export class UsersRepository {
      * @param {number} id - Correo del usuario
      * @returns - Usuario removido
      */
-    async remove(id: number) {
+    async remove2(id: number) {
         return await this.prisma.user.delete({
             where: {
                 id: id,
             },
         });
+    }
+
+    async remove(id: number) {
+
+        console.log('repo')
+        const deleteOrders = this.prisma.order.deleteMany({
+            where: {
+                userId: id,
+            }
+        });
+
+        const deleteCarts = this.prisma.cart.deleteMany({
+            where: {
+                userId: id,
+            }
+        })
+
+        const deleteAddresses = this.prisma.address.deleteMany({
+            where: {
+                userId: id,
+            }
+        })
+
+        const deleteUser = this.prisma.user.delete({
+            where: {
+                id: id,
+            }
+        })
+
+        const transaction = await this.prisma.$transaction([deleteOrders, deleteCarts, deleteAddresses, deleteUser]);
+
+        return transaction[3];
     }
 
     /**

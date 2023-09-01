@@ -54,7 +54,7 @@ export class DeleteOrderInterceptor implements NestInterceptor {
 
     // Si el estado de la orden es 'STARTED' o 'WAITING_PAYMENT' revierte el inventario de los productos que estaban en la orden
     if(order.status === OrderStatus.STARTED || order.status === OrderStatus.WAITING_PAYMENT) {
-      await this.productsService.rollbackCartCheckout(
+      await this.productsService.rollbackInventory(
         order.items.map((item): UpdateCartItemDto => {
           return {productId: item.product.id, quantity: item.quantity};
         }

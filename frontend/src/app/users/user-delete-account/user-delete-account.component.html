@@ -1,0 +1,22 @@
+<!-- 
+    Documento HTML que contiene el formulario de eliminación de una cuenta
+ -->
+
+ <div class="form-container">
+    <div class="form-content">
+        <mat-toolbar class="form-toolbar" color="primary">Eliminación de cuenta</mat-toolbar>
+        <mat-card class="form-card">
+            <form action="" class="form-main" [formGroup]="deleteAccountForm" (ngSubmit)="openOnSubmitDialog()">
+                <mat-form-field class="form-field">
+                    <mat-label>Contraseña</mat-label>
+                    <mat-icon matPrefix>lock_outline</mat-icon>
+                    <input type="password" autocomplete="false" matInput formControlName="password">
+                    <mat-error *ngIf="deleteAccountForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
+                </mat-form-field>
+                <mat-card-actions>
+                    <button type="submit" mat-raised-button color="primary">Eliminar cuenta</button>
+                </mat-card-actions>
+            </form>
+        </mat-card>
+    </div>
+ </div>

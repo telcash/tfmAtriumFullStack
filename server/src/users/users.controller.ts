@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, UseGuards, Delete, Post, Param } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Delete, Post, Param, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAccessGuard } from 'src/auth/guards/jwt-access.guard';
@@ -10,6 +10,7 @@ import { LastAdminGuard } from './guards/last-admin.guard';
 import { UserRole } from './constants/user-role';
 import { User } from './decorators/user.decorator';
 import { SignupPipe } from 'src/auth/pipes/signup.pipe';
+import { UserDeleteCheckOrdersInterceptor } from './interceptors/user-delete-check-orders.interceptor';
 
 /**
  * Controlador del modulo {@link UsersModule}
@@ -48,17 +49,7 @@ export class UsersController {
         return users.map((user) => new UserEntity(user));
     }
 
-    /**
-     * Endpoint para la eliminación de un usuario
-     * @param {string} id - Parámetro con el id del usuario a eliminar 
-     * @returns {UserEntity} - Usuario eliminado
-     */
-    @UseGuards(LastAdminGuard, RoleGuard)
-    @Roles(UserRole.ADMIN)
-    @Delete(':id')
-    async removeById(@Param('id') id: string): Promise<UserEntity> {
-        return new UserEntity(await this.usersService.remove(+id));
-    }
+    
 
     /**
      * Endpoint para solicitud de datos de un usuario con sesión iniciada
@@ -91,8 +82,24 @@ export class UsersController {
      * @returns {UserEntity} - Usuario eliminado
      */
     @UseGuards(LastAdminGuard)
+    @UseInterceptors(UserDeleteCheckOrdersInterceptor)
     @Delete('profile')
     async remove(@User('sub') id): Promise<UserEntity> {
+        console.log('controler delete endpoint')
         return new UserEntity(await this.usersService.remove(id));
+    }
+
+    /**
+     * Endpoint para la eliminación de un usuario
+     * Usa {@link LastAdminGuard} para evitar eliminar a un admin si es el único registrado
+     * @param {string} id - Parámetro con el id del usuario a eliminar 
+     * @returns {UserEntity} - Usuario eliminado
+     */
+    @UseGuards(LastAdminGuard, RoleGuard)
+    @Roles(UserRole.ADMIN)
+    @UseInterceptors(UserDeleteCheckOrdersInterceptor)
+    @Delete(':id')
+    async removeById(@Param('id') id: string): Promise<UserEntity> {
+        return new UserEntity(await this.usersService.remove(+id));
     }
 }

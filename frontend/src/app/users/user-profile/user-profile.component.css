@@ -4,12 +4,21 @@
     display: flex;
     flex-flow: row wrap;
     column-gap: 10px;
+    row-gap: 40px;
     justify-content: space-evenly;
     padding-top: 40px;
     padding-bottom: 20px;
 }
 
-.user-update-container, .update-password-container {
+.user-update-container, .user-auth-container {
     flex: 1;
     height: 100%;
+}
+
+.user-auth-container{
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    row-gap: 40px;
+    justify-content: center;
 }

@@ -65,7 +65,12 @@ export class UserUpdateComponent implements OnInit {
 
     if(this.userUpdateForm.valid) {
       // LLamada al servicio para la solicitud al API de actualización del formulario
-      this.usersService.updateUser(this.userUpdateForm.value).subscribe();
+      this.usersService.updateUser(this.userUpdateForm.value).subscribe(
+        user => {
+          this.user = user;
+          this.cancelEdit();
+        } 
+      );
     } 
   }
 

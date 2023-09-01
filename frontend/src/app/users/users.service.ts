@@ -24,22 +24,22 @@ export class UsersService {
   }
 
   /**
+   * Solicita al API la creación de un usuario
+   * @param {User} user - Datos para crear el usuario
+   * @returns {user} - Usuario creado
+  */
+ createUser(user: User): Observable<User> {
+   return this.http.post<User>(this.url, user);
+  }
+  
+  /**
    * Solicita al API, por parte de un usuario autenticado, su perfil
    * @returns {User}
    */
   getUser(): Observable<User> {
     return this.http.get<User>(this.url + '/profile');
   }
-
-  /**
-   * Solicita al API la creación de un usuario
-   * @param {User} user - Datos para crear el usuario
-   * @returns {user} - Usuario creado
-   */
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.url, user);
-  }
-
+  
   /**
    * Solicita al API, por parte de un usuario autenticado, actualizar sus datos
    * @param {User} user - Datos para actualizar el usuario 
@@ -47,6 +47,14 @@ export class UsersService {
    */
   updateUser(user: any): Observable<User> {
     return this.http.patch<User>(this.url + '/profile', user);
+  }
+
+  /**
+   * Solicita al API, por parte de un usuario autenticado, la eliminación de su cuenta
+   * @returns {User} - Usuario eliminado
+   */
+  deleteUserAuth(): Observable<User>{
+    return this.http.delete<User>(this.url + '/profile');
   }
 
   /**

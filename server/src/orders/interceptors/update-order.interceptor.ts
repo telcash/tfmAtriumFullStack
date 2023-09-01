@@ -58,7 +58,7 @@ export class UpdateOrderInterceptor implements NestInterceptor {
         }
 
         // Revierte al inventario los productos que estaban en la orden.
-        await this.productsService.rollbackCartCheckout(
+        await this.productsService.rollbackInventory(
           order.items.map((item): UpdateCartItemDto => {
             return {productId: item.product.id, quantity: item.quantity};
           }

@@ -248,7 +248,7 @@ export class ProductsRepository {
      * @param products 
      * @returns 
      */
-    async rollbackCartCheckout(products: UpdateCartItemDto[]) {
+    async rollbackInventory(products: UpdateCartItemDto[]) {
         let operations = [];
 
         for(const product of products) {

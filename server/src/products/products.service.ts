@@ -121,7 +121,7 @@ export class ProductsService {
    * @param {UpdateCartItemDto[]} updateCartItemDto - Listado de items en el carrito 
    * @returns 
    */
-  async rollbackCartCheckout(updateCartItemDto: UpdateCartItemDto[]) {
-    return await this.productsRepository.rollbackCartCheckout(updateCartItemDto);
+  async rollbackInventory(updateCartItemDto: UpdateCartItemDto[]) {
+    return await this.productsRepository.rollbackInventory(updateCartItemDto);
   }
 }

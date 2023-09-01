@@ -18,10 +18,11 @@ import { UsersModule } from 'src/users/users.module';
   imports: [
     forwardRef(() => CartItemsModule),
     forwardRef(() => ProductsModule),
-    OrdersModule,
+    forwardRef(() => OrdersModule),
     StripeModule,
     AddressesModule,
-    UsersModule],
+    forwardRef(() => UsersModule),
+  ],
   exports: [CartsService]
 })
 export class CartsModule {}

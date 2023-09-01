@@ -92,7 +92,7 @@ export class LoginComponent {
     if(this.loginForm.controls.password.hasError('required')) {
       return 'Debe ingresar una contraseña'
     }
-    return this.loginForm.controls.password.hasError('pattern') ? 'No es un password válido' : '';
+    return this.loginForm.controls.password.hasError('pattern') ? 'No es una contraseña válida' : '';
   }
 
 

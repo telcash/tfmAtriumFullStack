@@ -1,4 +1,7 @@
 .orders-table-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     height: 600px;
     overflow: auto;
 }

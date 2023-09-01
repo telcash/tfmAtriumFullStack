@@ -14,6 +14,7 @@ import { AuthModule } from '../auth/auth.module';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { AppRoutingModule } from '../app-routing.module';
+import { UserDeleteAccountComponent } from './user-delete-account/user-delete-account.component';
 
 
 /**
@@ -24,6 +25,7 @@ import { AppRoutingModule } from '../app-routing.module';
     UserProfileComponent,
     UserUpdateComponent,
     UsersTableComponent,
+    UserDeleteAccountComponent,
   ],
   imports: [
     CommonModule,

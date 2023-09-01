@@ -73,9 +73,9 @@ export class UpdatePasswordComponent {
       return 'Debe ingresar una contraseña'
     }
     if(formControl.hasError('confirmation')) {
-      return 'No coincide con el nuevo password'
+      return 'No coincide con la nueva contraseña'
     }
-    return formControl.hasError('pattern') ? 'No es un password válido' : '';
+    return formControl.hasError('pattern') ? 'No es una contraseña válida' : '';
   }
 
   /**

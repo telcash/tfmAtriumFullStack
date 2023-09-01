@@ -146,6 +146,6 @@ export class SignupComponent {
     if(this.signupForm.controls.password.hasError('required')) {
       return 'Debe ingresar una contraseña'
     }
-    return this.signupForm.controls.password.hasError('pattern') ? 'No es un password válido' : '';
+    return this.signupForm.controls.password.hasError('pattern') ? 'No es una contraseña válida' : '';
   }
 }
