@@ -18,9 +18,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // Subject para emitirse cuando un usuario inicie sesión
+  // Subjects para emitirse cuando un usuario inicie sesión
   // Emite el valor del rol del usuario que inicia sesión
   userLoggedIn = new Subject<string>();
+
+  // Subjects para emitirse cuando un usuario inicie sesión
+  userLoggedOut = new Subject();
   
   /**
    * Método que retorna un observable para registrarse como Observer de userLoggedIn
@@ -28,6 +31,14 @@ export class AuthService {
    */
   getUserLoggedIn() {
     return this.userLoggedIn.asObservable();
+  }
+
+  /**
+   * Método que retorna un observable para registrarse como Observer de userLoggedIn
+   * @returns {Onservable<string>} - Observable
+   */
+  getUserLoggedOut() {
+    return this.userLoggedOut.asObservable();
   }
 
   /**

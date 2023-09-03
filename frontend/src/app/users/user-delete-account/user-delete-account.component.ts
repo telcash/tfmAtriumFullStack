@@ -18,9 +18,12 @@ export class UserDeleteAccountComponent {
 
   // Definición del formulario de eliminación de cuenta de un usuario
   deleteAccountForm = new FormGroup({
+    'email': new FormControl('', [
+      Validators.required, Validators.email,
+    ]),
     'password': new FormControl('', [
       Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])(?!.*¿)([^\s]){8,16}$/)
-    ])
+    ]),
   })
 
   constructor(
@@ -35,13 +38,26 @@ export class UserDeleteAccountComponent {
    */
   onSubmit() {
 
-    this.usersService.deleteUserAuth().subscribe(
-      () => {
-        // Elimina los tokens de acceso y de refrescamiento de LocalStorage
-        this.authService.deleteTokens();
-        this.router.navigateByUrl('/');
-      }
-    )
+    if(this.deleteAccountForm.valid) {
+
+      // Extrae del formulario las credenciales para inicio de sesión
+      const email: string = this.deleteAccountForm.value.email!;
+      const password: string = this.deleteAccountForm.value.password!;
+
+      this.usersService.deleteUserAuth(email, password).subscribe(
+        () => {
+          // Elimina los tokens de acceso y de refrescamiento de LocalStorage
+          this.authService.deleteTokens();
+
+          // Emite un evento indicando que se cerró la sesuón de un usuario
+          this.authService.userLoggedOut.next(null);
+
+          // Navega al home de la aplicación
+          this.router.navigateByUrl('/');
+        }
+      )
+    }
+
     
 
   }
@@ -65,6 +81,18 @@ export class UserDeleteAccountComponent {
         this.onSubmit();
       }
     })
+  }
+
+  /**
+   * Método que genera mensajes de error para el formulario
+   * Genera mensajes en el campo 'email' cuando no cumple alguna validación
+   * @returns {string} - Mensaje de error
+   */
+  getEmailErrors() {
+    if(this.deleteAccountForm.controls.email.hasError('required')) {
+      return 'Debe ingresar un email';
+    }
+    return this.deleteAccountForm.controls.email.hasError('email') ? 'No es un email válido' : '';
   }
 
   /**

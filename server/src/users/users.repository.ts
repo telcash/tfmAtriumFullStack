@@ -87,21 +87,13 @@ export class UsersRepository {
     }
 
     /**
-     * Remueve un usuario identificado con su id de la base de datos
-     * @param {number} id - Correo del usuario
+     * Remueve un usuario de la base de datos
+     * Remueve las ordenes, carritos y direcciones asociadas al usuario
+     * @param {number} id - Id del usuario
      * @returns - Usuario removido
      */
-    async remove2(id: number) {
-        return await this.prisma.user.delete({
-            where: {
-                id: id,
-            },
-        });
-    }
-
     async remove(id: number) {
 
-        console.log('repo')
         const deleteOrders = this.prisma.order.deleteMany({
             where: {
                 userId: id,

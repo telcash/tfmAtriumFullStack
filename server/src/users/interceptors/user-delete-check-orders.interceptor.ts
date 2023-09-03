@@ -30,7 +30,6 @@ export class UserDeleteCheckOrdersInterceptor implements NestInterceptor {
    */
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
 
-    console.log('user-delete-checkorder-interceptor entrada')
     let userId: number;
     
     // Obtiene el request del context
@@ -50,7 +49,7 @@ export class UserDeleteCheckOrdersInterceptor implements NestInterceptor {
     
     // Obtiene un listado de las órdenes de la cuenta que se desea eliminar
     const orders = await this.ordersService.findAllForUser(userId);
-
+    
     // Verifica si el usuario tiene alguna orden pagada pendiente de finalizar
     if(orders.filter(order => order.status === OrderStatus.PAID).length > 0) {
 

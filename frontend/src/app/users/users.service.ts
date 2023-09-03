@@ -53,8 +53,13 @@ export class UsersService {
    * Solicita al API, por parte de un usuario autenticado, la eliminación de su cuenta
    * @returns {User} - Usuario eliminado
    */
-  deleteUserAuth(): Observable<User>{
-    return this.http.delete<User>(this.url + '/profile');
+  deleteUserAuth(email: string, password: string): Observable<User>{
+    return this.http.delete<User>(this.url + '/profile', {
+      body: {
+        email: email,
+        password: password,
+      },
+    });
   }
 
   /**

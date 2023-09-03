@@ -6,11 +6,12 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
-import { LastAdminGuard } from './guards/last-admin.guard';
+import { UserDeleteGuard } from './guards/user-delete.guard';
 import { UserRole } from './constants/user-role';
 import { User } from './decorators/user.decorator';
 import { SignupPipe } from 'src/auth/pipes/signup.pipe';
 import { UserDeleteCheckOrdersInterceptor } from './interceptors/user-delete-check-orders.interceptor';
+import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 
 /**
  * Controlador del modulo {@link UsersModule}
@@ -77,25 +78,24 @@ export class UsersController {
     /**
      * Endpoint para solicitud de eliminación de un usuario con sesión iniciada
      * La solicitud la hace el propio usuario
-     * Usa {@link LastAdminGuard} para evitar eliminar a un admin si es el único registrado
+     * Usa {@link UserDeleteGuard} para evitar eliminar a un admin si es el único registrado
      * @param id - Id del usuario validado y agregado al request por {@link JwtAccessGuard}
      * @returns {UserEntity} - Usuario eliminado
      */
-    @UseGuards(LastAdminGuard)
+    @UseGuards(UserDeleteGuard)
     @UseInterceptors(UserDeleteCheckOrdersInterceptor)
     @Delete('profile')
     async remove(@User('sub') id): Promise<UserEntity> {
-        console.log('controler delete endpoint')
         return new UserEntity(await this.usersService.remove(id));
     }
 
     /**
      * Endpoint para la eliminación de un usuario
-     * Usa {@link LastAdminGuard} para evitar eliminar a un admin si es el único registrado
+     * Usa {@link UserDeleteGuard} para evitar eliminar a un admin si es el único registrado
      * @param {string} id - Parámetro con el id del usuario a eliminar 
      * @returns {UserEntity} - Usuario eliminado
      */
-    @UseGuards(LastAdminGuard, RoleGuard)
+    @UseGuards(UserDeleteGuard, RoleGuard)
     @Roles(UserRole.ADMIN)
     @UseInterceptors(UserDeleteCheckOrdersInterceptor)
     @Delete(':id')

@@ -26,7 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy{
   // Atributos de control de los estados de usuario para gestionar la vista según usuario
   isUserLogged: boolean = false;
   isUserAdmin: boolean = false;
-  userLoggedSubscription?: Subscription;
+  userLoggedSubscription!: Subscription;
+  userLoggedOutSubscription!: Subscription;
   
   constructor(
     private authService: AuthService,
@@ -56,6 +57,13 @@ export class HomeComponent implements OnInit, OnDestroy{
           this.isUserAdmin = true;
         }
       }
+    )
+
+    // Se suscribe al Subject userLoggedOut para escuchar los valores que emita
+    this.userLoggedOutSubscription = this.authService.getUserLoggedOut().subscribe(
+
+      // Al llegar un valor, un usuario acaba de cerrar sesión
+      () => this.isUserLogged = false
     )
   }
 
