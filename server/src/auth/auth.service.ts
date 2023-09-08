@@ -49,7 +49,7 @@ export class AuthService {
      * @param {UserEntity} user - Usuario validado
      * @returns {JwtTokens} - JSON Web Tokens de acceso y de refrescamiento
     */
-   async login(user: UserEntity): Promise<JwtTokens> {
+    async login(user: UserEntity): Promise<JwtTokens> {
        // Genera los tokens para el usuario autenticado
        const tokens: JwtTokens = await this.getTokens(user);
        

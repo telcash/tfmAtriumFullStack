@@ -11,7 +11,6 @@ import { UserRole } from './constants/user-role';
 import { User } from './decorators/user.decorator';
 import { SignupPipe } from 'src/auth/pipes/signup.pipe';
 import { UserDeleteCheckOrdersInterceptor } from './interceptors/user-delete-check-orders.interceptor';
-import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 
 /**
  * Controlador del modulo {@link UsersModule}

@@ -11,13 +11,17 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { rawBody: true });
 
-  // Middleware para la configuración de CORS (Actualmente configuración por defecto)
+  // Middleware para la configuración de CORS
   app.enableCors({
     credentials: true,
     origin: "http://localhost:4200",
   });
 
-  // Validación de los datos en dto recibidos del cliente
+  
+  // Middleware para parseo de cookies
+  app.use(cookieParser(process.env.COOKIE_SECRET));
+  
+  // Validación de los datos en DTOs recibidos del cliente
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
     whitelist: true,
@@ -27,12 +31,10 @@ async function bootstrap() {
   // Filtrado de datos enviados como respuesta al cliente
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  // Middleware para parseo de cookies
-  app.use(cookieParser(process.env.COOKIE_SECRET));
   
 
   // Puerto de escucha del servidor
-  await app.listen(3000);
+  await app.listen(process.env.SERVER_PORT);
 
 }
 bootstrap();

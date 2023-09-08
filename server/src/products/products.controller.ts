@@ -34,9 +34,9 @@ export class ProductsController {
   @UseInterceptors(FileInterceptor('file', StorageService.saveImageOptions))
   @Post()
   async create(
-    @UploadedFile(ImageValidationPipe) file,
+    @UploadedFile(ImageValidationPipe) fileName,
     @Body() createProductDto: CreateProductDto): Promise<ProductEntity>{
-      return new ProductEntity (await this.productsService.create(createProductDto, file));
+      return new ProductEntity (await this.productsService.create(createProductDto, fileName));
   }
 
   /**

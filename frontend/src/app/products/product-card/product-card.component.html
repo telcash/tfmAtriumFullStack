@@ -1,22 +1,32 @@
 <!-- 
   Documento HTML con la vista de una tarjeta de un producto
  -->
-
 <mat-card class="product-card" *ngIf="product">
+
+    <!-- Contenedor de la imagen del producto -->
     <div class="product-image-container">
       <img mat-card-image src="{{imgUrl}}">
     </div>
+
+    <!-- 
+      Contenedor de la cabecera de la tarjeta de producto
+      Contiene el nombre y el precio del producto
+    -->
     <div class="product-header-container">
       <mat-card-header>
         <mat-card-title>{{product.name}}</mat-card-title>
         <mat-card-subtitle>{{product.price | currency: 'EUR':'symbol'}}</mat-card-subtitle>
       </mat-card-header>
     </div>
+
+    <!-- Contenedor de la descripción del producto -->
     <mat-card-content>
       <p>{{product.description}}</p>
     </mat-card-content>
     <mat-card-actions class="mat-card-actions">
       <div class="quantity-field-container">
+
+        <!-- Campo para elegir la cantidad del producto a agregar a un carrito -->
         <mat-form-field>
           <mat-label>Cantidad</mat-label>
           <mat-select [formControl]="quantity">
@@ -24,6 +34,8 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <!-- Botón para agregar el producto al carrito -->
       <div class="button-container">
         <button color="primary" mat-raised-button (click)="addToCart()">Agregar</button>
       </div>

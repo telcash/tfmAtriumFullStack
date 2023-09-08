@@ -93,7 +93,7 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
           sameSite: true,
         });
 
-        // Anexa al request el carrito de inivitado
+        // Anexa al request el carrito de invitado
         req.user = { cart: guestCart }
       }
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Appearance, Stripe, StripeElements, loadStripe } from '@stripe/stripe-js';
 import { Order } from 'src/app/orders/models/order';
 import { OrdersService } from 'src/app/orders/orders.service';

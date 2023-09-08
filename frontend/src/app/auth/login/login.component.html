@@ -5,24 +5,54 @@
 <div class="login-container">
     <div class="form-container">
         <div class="form-content">
-            <mat-toolbar class="form-toolbar" color="primary">Inicio de sesión</mat-toolbar>
+            <mat-toolbar class="form-toolbar" color="primary">
+                Inicio de sesión
+            </mat-toolbar>
             <mat-card class="form-card">
-                <form class="form-main" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                <!-- 
+                    Formulario para inicio de sesión.
+                    Cuando se solicita su envío invoca el método onSumbmit()
+                -->
+                <form class="form-main" [formGroup]="loginForm" 
+                    (ngSubmit)="onSubmit()">
+
+                    <!-- Campo email del formulario -->
                     <mat-form-field>
                         <mat-label>email</mat-label>
                         <mat-icon matPrefix>email</mat-icon>
                         <input type="text" matInput formControlName="email">
-                        <mat-error *ngIf="loginForm.controls.email.invalid">{{getEmailErrors()}}</mat-error>
+
+                        <!-- Mensaje de error si el valor del campo es inválido -->
+                        <mat-error *ngIf="loginForm.controls.email.invalid">
+                            {{getEmailErrors()}}
+                        </mat-error>
                     </mat-form-field>
+
+                    <!-- Campo password del formulario -->
                     <mat-form-field>
                         <mat-label>Contraseña</mat-label>
                         <mat-icon matPrefix>lock_outline</mat-icon>
-                        <input type="password" autocomplete="false" matInput formControlName="password">
-                        <mat-error *ngIf="loginForm.controls.password.invalid">{{getPasswordErrors()}}</mat-error>
+                        <input type="password" autocomplete="false" 
+                            matInput formControlName="password">
+                        
+                        <!-- Mensaje de error si el valor del campo es inválido -->  
+                        <mat-error *ngIf="loginForm.controls.password.invalid">
+                            {{getPasswordErrors()}}</mat-error>
                     </mat-form-field>
                     <div>
-                        <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Iniciar sesión</button>
+
+                        <!-- 
+                            Botón de envío del formulario.
+                            Dispara el evento ngSubmit
+                         -->
+                        <button type="submit" mat-raised-button 
+                            color="primary" [disabled]="loginForm.invalid">
+                            Iniciar sesión
+                        </button>
                     </div>
+
+                    <!-- Mensaje de error que se genera si falla el inicio de sesión -->
                     <div class="form-error-response" *ngIf="loginErrorMessage">
                         {{loginErrorMessage}}
                     </div>

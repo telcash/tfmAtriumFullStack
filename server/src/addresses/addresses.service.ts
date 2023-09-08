@@ -17,8 +17,7 @@ export class AddressesService {
    * @returns - Dirección creada
    */
   async create(userId: number, createAddressDto: CreateAddressDto) {
-    createAddressDto = {...createAddressDto, userId: userId}
-    return await this.addressesRepository.create(createAddressDto)
+    return await this.addressesRepository.create({...createAddressDto, userId: userId})
   }
 
   /**

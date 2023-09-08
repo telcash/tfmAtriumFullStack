@@ -12,6 +12,7 @@
     max-width: 800px;
     display: flex;
     flex-flow: column nowrap;
+    row-gap: 20px;
 }
 
 .empty-orders {
