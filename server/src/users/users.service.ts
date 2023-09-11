@@ -13,13 +13,23 @@ export class UsersService {
     constructor(private readonly userRepository: UsersRepository){}
 
     /**
-     * Crea un nuevo usuario.
+     * Crea un nuevo usuario. Si el usuario creado es el primero del sistema, actualiza su rol a ADMIN
      * Invoca el método create() de {@link UsersRepository} para crear un usuario en la base de datos
      * @param {CreateUserDto} createUserDto - DTO para la creación de usuario 
      * @returns  - Usuario creado
      */
     async create(createUserDto: CreateUserDto) {
-        return await this.userRepository.create(createUserDto);
+
+        // Solicita la creación de un usuario
+        let user = await this.userRepository.create(createUserDto);
+        
+        // Si el usuario creado es el primero del sistema, actualiza su rol a ADMIN
+        if(user.id === 1) {
+            user = await this.update(user.id, {role: UserRole.ADMIN})
+        }
+
+        // Retorna el usuario creado
+        return user;
     }
 
     /**
