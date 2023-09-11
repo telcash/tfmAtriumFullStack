@@ -83,8 +83,12 @@ export class HomeComponent implements OnInit, OnDestroy{
         this.isUserLogged = false;
         this.isUserAdmin = false;
 
-        // Navega a la página principal
-        this.router.navigateByUrl('/');
+        // Navega a la página principal, si está en la página principal la recarga.
+        if(this.router.url === '/') {
+          window.location.reload();
+        } else {
+          this.router.navigateByUrl('/');
+        }
       }
     )
   }

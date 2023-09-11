@@ -12,17 +12,18 @@
       Contenedor de la cabecera de la tarjeta de producto
       Contiene el nombre y el precio del producto
     -->
-    <div class="product-header-container">
-      <mat-card-header>
+    <mat-card-header>
+      <div class="product-header-container">
         <mat-card-title>{{product.name}}</mat-card-title>
         <mat-card-subtitle>{{product.price | currency: 'EUR':'symbol'}}</mat-card-subtitle>
-      </mat-card-header>
-    </div>
+      </div>
+    </mat-card-header>
 
     <!-- Contenedor de la descripción del producto -->
     <mat-card-content>
       <p>{{product.description}}</p>
     </mat-card-content>
+    
     <mat-card-actions class="mat-card-actions">
       <div class="quantity-field-container">
 

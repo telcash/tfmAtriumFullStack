@@ -17,6 +17,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoriesModule } from './categories/categories.module';
+import { PrismaExceptionFilter } from './prisma/prisma-exception.filter';
 
 /**
  * Modulo raiz de la app
@@ -44,6 +45,10 @@ import { CategoriesModule } from './categories/categories.module';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    {
+      provide: APP_FILTER,
+      useClass: PrismaExceptionFilter,
+    }
   ],
 })
 export class AppModule {}

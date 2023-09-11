@@ -84,7 +84,8 @@ export class SignupComponent {
 
         // Si el inicio de sesión no es exitoso imprime un mensaje de error
         error: error => {
-          if(error.error.response.code && error.error.response.code === 'P2002') {
+          console.log(error.status)
+          if(error.status === 400) {
             this.signupErrorMessage = 'El usuario ya se encuentra registrado';
           } else {
             this.signupErrorMessage = 'Ha ocurrido un error en el registro, intente nuevamente'
@@ -146,6 +147,6 @@ export class SignupComponent {
     if(this.signupForm.controls.password.hasError('required')) {
       return 'Debe ingresar una contraseña'
     }
-    return this.signupForm.controls.password.hasError('pattern') ? 'No es una contraseña válida' : '';
+    return this.signupForm.controls.password.hasError('pattern') ? 'Debe tener de 8 a 16 caracteres, una mayúscula, una minúscula, un número y un caractér especial' : '';
   }
 }

@@ -1,9 +1,10 @@
 .product-card {
     display: grid;
     max-width: 300px;
-    grid-template-rows: 300px 70px 100px 100px;
+    grid-template-rows: 300px 110px 60px 100px;
     grid-template-columns: 1fr;
 }
+
 
 .product-image-container {
     width: 100%;

@@ -92,7 +92,7 @@ export class LoginComponent {
     if(this.loginForm.controls.password.hasError('required')) {
       return 'Debe ingresar una contraseña'
     }
-    return this.loginForm.controls.password.hasError('pattern') ? 'No es una contraseña válida' : '';
+    return this.loginForm.controls.password.hasError('pattern') ? 'Debe tener de 8 a 16 caracteres, una mayúscula, una minúscula, un número y un caractér especial' : '';
   }
 
 

@@ -1,4 +1,5 @@
 import { Product } from "@prisma/client";
+import { Exclude } from "class-transformer";
 
 /**
  * Entidad producto para enviar como respuesta al cliente
@@ -20,6 +21,10 @@ export class ProductEntity implements Product {
     image: string;
     stock: number;
     availability: string;
+
+    @Exclude()
     createdAt: Date;
+
+    @Exclude()
     updatedAt: Date;
 }

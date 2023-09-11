@@ -75,7 +75,7 @@ export class UpdatePasswordComponent {
     if(formControl.hasError('confirmation')) {
       return 'No coincide con la nueva contraseña'
     }
-    return formControl.hasError('pattern') ? 'No es una contraseña válida' : '';
+    return formControl.hasError('pattern') ? 'Debe tener de 8 a 16 caracteres, una mayúscula, una minúscula, un número y un caractér especial' : '';
   }
 
   /**

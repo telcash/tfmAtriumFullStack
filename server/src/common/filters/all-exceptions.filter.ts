@@ -21,29 +21,33 @@ import {
   
       const ctx = host.switchToHttp();
       
-      const httpStatus =
-        exception instanceof HttpException
+      /* const response = exception instanceof HttpException
+        ? exception.getResponse()
+        : exception; */
+      
+      const httpStatus = exception instanceof HttpException
           ? exception.getStatus()
           : HttpStatus.INTERNAL_SERVER_ERROR;
 
-      const message = 
-        exception instanceof HttpException
+      /* const message = exception instanceof HttpException
           ? exception.message
-          : "Internal Server Error";
-
-      const response =
-        exception instanceof HttpException
-          ? exception.getResponse()
-          : exception;
-
-      const responseBody = {
+          : "Internal Server Error"; */
+      
+      const responseBody = exception instanceof HttpException
+        ? exception.getResponse()
+        : {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: "Internal Server Error",
+        }
+      
+      /* const responseBody = {
         statusCode: httpStatus,
         message: message,
         response: response,
         timestamp: new Date().toISOString(),
         path: httpAdapter.getRequestUrl(ctx.getRequest()),
         method: httpAdapter.getRequestMethod(ctx.getRequest()),
-      };
+      }; */
   
       httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
     }
