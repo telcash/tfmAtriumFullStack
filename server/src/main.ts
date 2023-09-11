@@ -14,7 +14,7 @@ async function bootstrap() {
   // Middleware para la configuración de CORS
   app.enableCors({
     credentials: true,
-    origin: "http://localhost:4200",
+    origin: process.env.CLIENT_URL,
   });
 
   
