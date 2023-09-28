@@ -11,7 +11,7 @@ import { UpdateCartItemDto } from 'src/carts/cart-items/dto/update-cart-item.dto
 export class ProductsService {
   constructor(
     private readonly productsRepository: ProductsRepository,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
   ) {}
 
   /**

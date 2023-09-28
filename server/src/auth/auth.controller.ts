@@ -36,7 +36,7 @@ export class AuthController {
      */
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@User() user: UserEntity): Promise<JwtTokens> {
+    async login(@User() user): Promise<JwtTokens> {
         return await this.authService.login(user);
     }
     

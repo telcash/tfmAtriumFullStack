@@ -40,15 +40,14 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
       
       // Busca el carrito del usuario
       let userCart = await this.cartsService.findOneByUserId(req.user.sub);
-      
+
       // Si el usuario no tiene carrito se crea un carrito para el usuario
       if(!userCart) {
         userCart = await this.cartsService.create( {userId: req.user.sub, total: 0} );
       }
       
       // Verifica si hay un carrito de invitado chequeando la cookie correspondiente
-      if(req.signedCookies['cartId']) {
-
+      if(req.signedCookies && req.signedCookies['cartId']) {
         // Si hay un carrito de invitado lo fusiona con el carrito de usuario
         await this.cartsService.mergeCarts(userCart.id, +req.signedCookies['cartId']);
         
@@ -63,7 +62,6 @@ export class SetRequestUserCartInterceptor implements NestInterceptor {
           sameSite: true,
         });
       }
-
       // Anexa al request el carrito de usuario
       req.user.cart = userCart;
 
