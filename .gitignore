@@ -5,7 +5,6 @@ environments
 server/img
 
 # Compiled output
-dist
 /tmp
 /out-tsc
 /bazel-out
