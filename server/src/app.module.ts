@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -18,6 +18,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoriesModule } from './categories/categories.module';
 import { PrismaExceptionFilter } from './prisma/prisma-exception.filter';
+import { LoggerMiddleware } from 'logger';
 
 /**
  * Modulo raiz de la app
@@ -51,4 +52,10 @@ import { PrismaExceptionFilter } from './prisma/prisma-exception.filter';
     }
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+      consumer
+        .apply(LoggerMiddleware)
+        .forRoutes({path: '*', method: RequestMethod.ALL});
+  }
+}
