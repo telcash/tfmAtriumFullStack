@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { rawBody: true });
+  app.setGlobalPrefix('api');
 
   // Middleware para la configuración de CORS
   app.enableCors({
