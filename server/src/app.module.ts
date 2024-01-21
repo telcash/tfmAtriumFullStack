@@ -18,7 +18,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoriesModule } from './categories/categories.module';
 import { PrismaExceptionFilter } from './prisma/prisma-exception.filter';
-import { LoggerMiddleware } from 'logger';
+import { LoggerMiddleware } from 'src/logger';
 
 /**
  * Modulo raiz de la app
